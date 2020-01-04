@@ -3,11 +3,8 @@
 
 using namespace StoneCold;
 
-Game::Game(std::string&& windowName, std::string&& resourcePath)
-	: _windowName(std::move(windowName)), _resourcePath(std::move(resourcePath)), _window(nullptr), _renderer(nullptr) {}
-
-Game::Game(const std::string& windowName, const std::string& resourcePath)
-	: _windowName(windowName), _resourcePath(resourcePath), _window(nullptr), _renderer(nullptr) {}
+Game::Game(std::string&& windowName) : _windowName(std::move(windowName)), _window(nullptr), _renderer(nullptr) {}
+Game::Game(const std::string& windowName) : _windowName(windowName), _window(nullptr), _renderer(nullptr) {}
 
 //
 // Initializes the SDL Ressources and 
@@ -21,8 +18,7 @@ bool Game::Initialize() {
 		SetupWindow();
 		SetupSDL();
 
-		_playerDest = { 100, 100, 30, 27 };
-		_playerTex = TextureManager::LoadTexture(_renderer, BASE_PATH + "test.png");
+		_player = std::make_unique<Entity>(_renderer.get(), BASE_PATH + "test.png", 90, 81);
 
 		return true;
 	}
@@ -39,11 +35,13 @@ void Game::SetupWindow() {
 	// Create and Show the main Window
 	const uint pos = SDL_WINDOWPOS_CENTERED;
 	const uint flags = 0;
-	_window = SDL_CreateWindow(_windowName.c_str(), pos, pos, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT, flags);
+
+	auto tmpWin = std::unique_ptr<SDL_Window, SDL_WindowDeleter>(SDL_CreateWindow(_windowName.c_str(), pos, pos, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT, flags));
+	_window.swap(tmpWin);
 
 	// Set the min. Window size, if creation was successful 
 	if (_window != nullptr)
-		SDL_SetWindowMinimumSize(_window, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT);
+		SDL_SetWindowMinimumSize(_window.get(), WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT);
 	else
 		throw GameException("SDL Error on window creation: " + std::string(SDL_GetError()));
 }
@@ -54,7 +52,9 @@ void Game::SetupWindow() {
 void Game::SetupSDL() {
 	// Create the Renderer to draw within the Window (-1 for default Window driver)
 	// Set only the SDL_RENDERER_ACCELERATED Flag and NO Vsync! (Managing Frame-Times is important)
-	_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
+	auto tmpRend = std::unique_ptr<SDL_Renderer, SDL_RendererDeleter>(SDL_CreateRenderer(_window.get(), -1, SDL_RENDERER_ACCELERATED));
+	_renderer.swap(tmpRend);
+
 	if (_renderer == nullptr)
 		throw GameException("SDL Error on renderer creation: " + std::string(SDL_GetError()));
 }
@@ -98,26 +98,26 @@ void Game::HandleEvent(const SDL_Event& event) {
 }
 
 void Game::Update() {
-
+	_player->Update();
 }
 
 void Game::Render() {
 	// Clear the Frame (white)
-	SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
-	SDL_RenderClear(_renderer);
+	SDL_SetRenderDrawColor(_renderer.get(), 255, 255, 255, 255);
+	SDL_RenderClear(_renderer.get());
 
-	SDL_RenderCopy(_renderer, _playerTex.get(), nullptr, &_playerDest);
+	_player->Render();
 
 	// Render to the Window
-	SDL_RenderPresent(_renderer);
+	SDL_RenderPresent(_renderer.get());
 }
 
 //
-// Cleanup all the SDL2 Ressources that couldn't 
-// be managed by smart-pointers automatically
+// Cleanup all the SDL2 Ressources
+// (Managed smart-pointers, because the order is important)
 // 
 Game::~Game() {
-	SDL_DestroyRenderer(_renderer);
-	SDL_DestroyWindow(_window);
+	_renderer.reset();
+	_window.reset();
 	SDL_Quit();
 }

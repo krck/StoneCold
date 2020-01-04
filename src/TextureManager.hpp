@@ -16,13 +16,6 @@ public:
 	static void Draw(SDL_Renderer* renderer, SDL_Texture* tex, const SDL_Rect& src, const SDL_Rect& dest, SDL_RendererFlip flip);
 };
 
-// Custom Deleter called on shared_ptr destruction to cleanup the SDL Texture 
-static void SDL_Deleter(SDL_Texture* p) { if (p != nullptr) SDL_DestroyTexture(p); }
-
-// SDL and KiwiGUI Shared Pointer creation functions globally in the Fourier namespace
-template <typename T>
-std::shared_ptr<T> sdl_make_shared(T* t) { return std::shared_ptr<T>(t, [](T* t) { SDL_Deleter(t); }); }
-
 }
 
 #endif

@@ -2,7 +2,7 @@
 #ifndef STONECOLD_GAME_H
 #define STONECOLD_GAME_H
 
-#include "TextureManager.hpp"
+#include "Entity.hpp"
 #include <iostream>
 #include <memory>
 #include <string>
@@ -11,8 +11,8 @@ namespace StoneCold {
 
 class Game {
 public:
-	Game(std::string&& appName, std::string&& resourcePath);
-	Game(const std::string& appName, const std::string& resourcePath);
+	Game(std::string&& appName);
+	Game(const std::string& appName);
 	Game(const Game&) = delete;
 	Game& operator=(const Game&) = delete;
 
@@ -31,12 +31,10 @@ private:
 
 private:
 	const std::string _windowName;
-	const std::string _resourcePath;
-	SDL_Window* _window;
-	SDL_Renderer* _renderer;
+	std::unique_ptr<SDL_Window, SDL_WindowDeleter> _window;
+	std::unique_ptr<SDL_Renderer, SDL_RendererDeleter> _renderer;
 
-	SDL_Rect _playerDest;
-	std::shared_ptr<SDL_Texture> _playerTex;
+	std::unique_ptr<Entity> _player;
 };
 
 }
