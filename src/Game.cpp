@@ -18,8 +18,6 @@ bool Game::Initialize() {
 		SetupWindow();
 		SetupSDL();
 
-		_player = std::make_unique<Entity>(_renderer.get(), BASE_PATH + "test.png", 90, 81);
-
 		return true;
 	}
 	catch (const std::exception& ex) {
@@ -65,20 +63,19 @@ void Game::SetupSDL() {
 int Game::Run() {
 	try {
 		SDL_Event event;
+		auto entityManager(EntityManager(_renderer.get()));
 		uint timeStamp_new = SDL_GetTicks(), timeStamp_old = SDL_GetTicks();
+
 		while (!SDL_QuitRequested()) {
 			// FPS Limiter (Nice, because it works without WAIT)
 			timeStamp_new = SDL_GetTicks();
 			if ((timeStamp_new - timeStamp_old) > (1000.0f / FPS)) {
 				timeStamp_old = timeStamp_new;
 
-				// Handle all Events in the queue
-				while (SDL_PollEvent(&event)) {
-					HandleEvent(event);
-				}
-
-				Update();
-				Render();
+				SDL_PollEvent(&event);
+				entityManager.HandleEvent(event);
+				entityManager.Update();
+				entityManager.Render();
 			}
 		}
 		return 0;
@@ -87,29 +84,6 @@ int Game::Run() {
 		std::cout << ex.what() << std::endl;
 		return -1;
 	}
-}
-
-void Game::HandleEvent(const SDL_Event& event) {
-	switch (event.type)
-	{
-	default:
-		break;
-	}
-}
-
-void Game::Update() {
-	_player->Update();
-}
-
-void Game::Render() {
-	// Clear the Frame (white)
-	SDL_SetRenderDrawColor(_renderer.get(), 255, 255, 255, 255);
-	SDL_RenderClear(_renderer.get());
-
-	_player->Render();
-
-	// Render to the Window
-	SDL_RenderPresent(_renderer.get());
 }
 
 //

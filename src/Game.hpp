@@ -2,7 +2,8 @@
 #ifndef STONECOLD_GAME_H
 #define STONECOLD_GAME_H
 
-#include "Entity.hpp"
+#include "EntityManager.hpp"
+#include "Map.hpp"
 #include <iostream>
 #include <memory>
 #include <string>
@@ -25,16 +26,10 @@ private:
 	void SetupWindow();
 	void SetupSDL();
 
-	void HandleEvent(const SDL_Event& event);
-	void Update();
-	void Render();
-
 private:
 	const std::string _windowName;
 	std::unique_ptr<SDL_Window, SDL_WindowDeleter> _window;
 	std::unique_ptr<SDL_Renderer, SDL_RendererDeleter> _renderer;
-
-	std::unique_ptr<Entity> _player;
 };
 
 }

@@ -10,7 +10,8 @@ Entity::Entity(SDL_Renderer* renderer, const std::string& textureFile, int texWi
 }
 
 void Entity::Update() {
-	_destRect.x = _destRect.x + 1;
+	_destRect.y += (velocity_Y * 3);
+	_destRect.x += (velocity_X * 3);
 }
 
 void Entity::Render() {

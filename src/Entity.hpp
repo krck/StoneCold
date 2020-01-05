@@ -16,12 +16,14 @@ public:
 	void Update();
 	void Render();
 
+	int velocity_X, velocity_Y;
+
 private:
-	uint _xPos, _yPos;
-	const int _width, _height;
-	SDL_Rect _srcRect, _destRect;
 	SDL_Renderer* _renderer;
 	std::shared_ptr<SDL_Texture> _texture;
+	const int _width, _height;
+	// Rectangles to specify the source (inside the texture) and the destination (on the screen)
+	SDL_Rect _srcRect, _destRect; 
 };
 
 }
