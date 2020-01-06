@@ -1,13 +1,15 @@
 
-#include "EntityManager.hpp"
+#include "GameManager.hpp"
 
 using namespace StoneCold;
 
-EntityManager::EntityManager(SDL_Renderer* renderer) : _renderer(renderer) {
-	_playerEntity = std::make_unique<Entity>(_renderer, BASE_PATH + "test.png", 90, 81);
+GameManager::GameManager(SDL_Renderer* renderer, ResourceManager& resourceManager) : _renderer(renderer), _resourceManager(resourceManager) {
+	auto tex = _resourceManager.LoadTexture(_renderer, BASE_PATH + "test.png");
+	_playerEntity = std::make_unique<Sprite>(_renderer, tex.get(), 90, 81);
+
 }
 
-void EntityManager::HandleEvent(const SDL_Event& event) {
+void GameManager::HandleEvent(const SDL_Event& event) {
 	// Check for KEY_DOWN
 	if (event.type == SDL_KEYDOWN) {
 		switch (event.key.keysym.sym) {
@@ -31,11 +33,11 @@ void EntityManager::HandleEvent(const SDL_Event& event) {
 	}
 }
 
-void EntityManager::Update() {
+void GameManager::Update() {
 	_playerEntity->Update();
 }
 
-void EntityManager::Render() {
+void GameManager::Render() {
 	// Clear the Frame (white)
 	SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
 	SDL_RenderClear(_renderer);

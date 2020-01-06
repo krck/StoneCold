@@ -1,8 +1,8 @@
 
-#include "Game.hpp"
+#include "EngineCore.hpp"
 
 int main(int argc, const char* argv[]) {
-	// Setup the Application and start the main game-loop
-	StoneCold::Game app("Stone Cold");
-	return (app.Initialize() ? app.Run() : -1);
+	// Setup the game engine and start the main loop
+	StoneCold::EngineCore engine("Stone Cold");
+	return (engine.Initialize() ? engine.Run() : -1);
 }

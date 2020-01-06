@@ -1,26 +1,25 @@
 
-#ifndef STONECOLD_GAME_H
-#define STONECOLD_GAME_H
+#ifndef STONECOLD_ENGINECORE_H
+#define STONECOLD_ENGINECORE_H
 
-#include "EntityManager.hpp"
-#include "Map.hpp"
+#include "GameManager.hpp"
 #include <iostream>
 #include <memory>
 #include <string>
 
 namespace StoneCold {
 
-class Game {
+class EngineCore {
 public:
-	Game(std::string&& appName);
-	Game(const std::string& appName);
-	Game(const Game&) = delete;
-	Game& operator=(const Game&) = delete;
+	EngineCore(std::string&& appName);
+	EngineCore(const std::string& appName);
+	EngineCore(const EngineCore&) = delete;
+	EngineCore& operator=(const EngineCore&) = delete;
 
 	bool Initialize();
 	int Run();
 
-	~Game();
+	~EngineCore();
 
 private:
 	void SetupWindow();

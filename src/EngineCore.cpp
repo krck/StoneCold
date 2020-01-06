@@ -1,16 +1,16 @@
 
-#include "Game.hpp"
+#include "EngineCore.hpp"
 
 using namespace StoneCold;
 
-Game::Game(std::string&& windowName) : _windowName(std::move(windowName)), _window(nullptr), _renderer(nullptr) {}
-Game::Game(const std::string& windowName) : _windowName(windowName), _window(nullptr), _renderer(nullptr) {}
+EngineCore::EngineCore(std::string&& windowName) : _windowName(std::move(windowName)), _window(nullptr), _renderer(nullptr) {}
+EngineCore::EngineCore(const std::string& windowName) : _windowName(windowName), _window(nullptr), _renderer(nullptr) {}
 
 //
 // Initializes the SDL Ressources and 
-// creats/show the Application Window
+// creats/show the EngineCore Window
 //
-bool Game::Initialize() {
+bool EngineCore::Initialize() {
 	try {
 		if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 			throw GameException("SDL Error on init: " + std::string(SDL_GetError()));
@@ -27,9 +27,9 @@ bool Game::Initialize() {
 }
 
 //
-// Create and Show the Application Window
+// Create and Show the EngineCore Window
 //
-void Game::SetupWindow() {
+void EngineCore::SetupWindow() {
 	// Create and Show the main Window
 	const uint pos = SDL_WINDOWPOS_CENTERED;
 	const uint flags = 0;
@@ -47,7 +47,7 @@ void Game::SetupWindow() {
 //
 // Create the SDL2 Renderer and a background Texture
 //
-void Game::SetupSDL() {
+void EngineCore::SetupSDL() {
 	// Create the Renderer to draw within the Window (-1 for default Window driver)
 	// Set only the SDL_RENDERER_ACCELERATED Flag and NO Vsync! (Managing Frame-Times is important)
 	auto tmpRend = std::unique_ptr<SDL_Renderer, SDL_RendererDeleter>(SDL_CreateRenderer(_window.get(), -1, SDL_RENDERER_ACCELERATED));
@@ -58,12 +58,13 @@ void Game::SetupSDL() {
 }
 
 //
-// Run the main game-loop
+// Run the main EngineCore-loop
 //
-int Game::Run() {
+int EngineCore::Run() {
 	try {
 		SDL_Event event;
-		auto entityManager(EntityManager(_renderer.get()));
+		ResourceManager resourceManager;
+		auto gameManager(GameManager(_renderer.get(), resourceManager));
 		uint timeStamp_new = SDL_GetTicks(), timeStamp_old = SDL_GetTicks();
 
 		while (!SDL_QuitRequested()) {
@@ -73,9 +74,9 @@ int Game::Run() {
 				timeStamp_old = timeStamp_new;
 
 				SDL_PollEvent(&event);
-				entityManager.HandleEvent(event);
-				entityManager.Update();
-				entityManager.Render();
+				gameManager.HandleEvent(event);
+				gameManager.Update();
+				gameManager.Render();
 			}
 		}
 		return 0;
@@ -90,7 +91,7 @@ int Game::Run() {
 // Cleanup all the SDL2 Ressources
 // (Managed smart-pointers, because the order is important)
 // 
-Game::~Game() {
+EngineCore::~EngineCore() {
 	_renderer.reset();
 	_window.reset();
 	SDL_Quit();
