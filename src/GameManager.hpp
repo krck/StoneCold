@@ -3,7 +3,7 @@
 #define STONECOLD_GAMEMANAGER_H
 
 #include "ResourceManager.hpp"
-#include "Sprite.hpp"
+#include "AnimatedSprite.hpp"
 #include <vector>
 
 namespace StoneCold {
@@ -18,13 +18,13 @@ public:
 	GameManager& operator=(const GameManager&) = delete;
 
 	void HandleEvent(const SDL_Event& event);
-	void Update();
+	void Update(uint timestampOld, uint timestampNew);
 	void Render();
 
 private:
 	SDL_Renderer* _renderer;
 	ResourceManager& _resourceManager;
-	std::unique_ptr<Sprite> _playerEntity;
+	std::unique_ptr<AnimatedSprite> _playerEntity;
 
 };
 

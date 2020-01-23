@@ -3,9 +3,32 @@
 
 using namespace StoneCold;
 
+auto animIdle = Animation("idle", {
+		{ 0, 0, 26, 20 },
+		{ 26, 0, 26, 20 },
+		{ 52, 0, 26, 20 },
+		{ 78, 0, 26, 20 },
+		{ 104, 0, 26, 20 }
+	});
+
+auto animWalk = Animation("walk", {
+		{ 0, 0, 27, 21 },
+		{ 27, 0, 27, 21 },
+		{ 54, 0, 27, 21 },
+		{ 81, 0, 27, 21 },
+		{ 108, 0, 27, 21 },
+		{ 135, 0, 27, 21 },
+		{ 162, 0, 27, 21 },
+		{ 189, 0, 27, 21 }
+	});
+
+
 GameManager::GameManager(SDL_Renderer* renderer, ResourceManager& resourceManager) : _renderer(renderer), _resourceManager(resourceManager) {
-	auto tex = _resourceManager.LoadTexture(_renderer, BASE_PATH + "test.png");
-	_playerEntity = std::make_unique<Sprite>(_renderer, tex.get(), 90, 81);
+
+	auto tex = _resourceManager.LoadTexture(_renderer, BASE_PATH + "walk.png");
+
+	// Player sprites are usually 26x20 but they will be rendered 3 times the size 78x60
+	_playerEntity = std::make_unique<AnimatedSprite>(_renderer, &animWalk, tex.get(), 78, 60, 100);
 
 }
 
@@ -33,8 +56,8 @@ void GameManager::HandleEvent(const SDL_Event& event) {
 	}
 }
 
-void GameManager::Update() {
-	_playerEntity->Update();
+void GameManager::Update(uint timestampOld, uint timestampNew) {
+	_playerEntity->Update(timestampOld, timestampNew);
 }
 
 void GameManager::Render() {

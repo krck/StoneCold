@@ -9,7 +9,7 @@ Sprite::Sprite(SDL_Renderer* renderer, SDL_Texture* texture, int width, int heig
 	_destRect = { 0, 0, width, height };
 }
 
-void Sprite::Update() {
+void Sprite::Update(uint timestampOld, uint timestampNew) {
 	_destRect.y += (velocity_Y * 5);
 	_destRect.x += (velocity_X * 5);
 }

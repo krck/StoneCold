@@ -71,12 +71,12 @@ int EngineCore::Run() {
 			// FPS Limiter (Nice, because it works without WAIT)
 			timeStamp_new = SDL_GetTicks();
 			if ((timeStamp_new - timeStamp_old) > (1000.0f / FPS)) {
-				timeStamp_old = timeStamp_new;
-
 				SDL_PollEvent(&event);
 				gameManager.HandleEvent(event);
-				gameManager.Update();
+				gameManager.Update(timeStamp_old, timeStamp_new);
 				gameManager.Render();
+
+				timeStamp_old = timeStamp_new;
 			}
 		}
 		return 0;

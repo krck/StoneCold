@@ -28,6 +28,12 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="AnimatedSprite.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager.hpp">
@@ -52,6 +58,12 @@
       <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.hpp">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedSprite.hpp">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.hpp">
       <Filter>header</Filter>
     </ClInclude>
   </ItemGroup>
