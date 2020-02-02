@@ -50,5 +50,8 @@
     <ClInclude Include="ResourceCore.hpp">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Resource.hpp">
+      <Filter>Resources</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

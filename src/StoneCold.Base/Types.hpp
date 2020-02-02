@@ -8,6 +8,7 @@ namespace StoneCold {
 typedef unsigned short		ushort;
 typedef unsigned int		uint;
 typedef unsigned char		byte;
+typedef unsigned __int64	hash64;
 
 }
 

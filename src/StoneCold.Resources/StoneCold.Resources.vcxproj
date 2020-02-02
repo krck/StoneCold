@@ -163,6 +163,7 @@
     <ClInclude Include="Animation.hpp" />
     <ClInclude Include="AnimationManager.hpp" />
     <ClInclude Include="IManager.hpp" />
+    <ClInclude Include="Resource.hpp" />
     <ClInclude Include="ResourceCore.hpp" />
     <ClInclude Include="Texture.hpp" />
     <ClInclude Include="TextureManager.hpp" />
@@ -170,6 +171,7 @@
   <ItemGroup>
     <ProjectReference Include="..\StoneCold.Base\StoneCold.Base.vcxproj">
       <Project>{40ddaeaf-1755-42e0-90c8-9bc81c9dfe22}</Project>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -3,6 +3,7 @@
 #define STONECOLD_TEXTUREMANAGER_H
 
 #include "Types.hpp"
+#include "IManager.hpp"
 #include "Exception.hpp"
 #include "Texture.hpp"
 #include <algorithm>
@@ -12,21 +13,23 @@
 
 namespace StoneCold::Resources {
 
-	class TextureManager {
-	public:
-		TextureManager() : _textures(std::unordered_map<uint, Texture>()) { }
-		TextureManager(const TextureManager&) = delete;
-		TextureManager& operator=(const TextureManager&) = delete;
+class TextureManager : public IManager {
+public:
+	TextureManager(SDL_Renderer* renderer) : _textures(std::unordered_map<hash64, Texture>()), _renderer(renderer) { }
+	TextureManager(const TextureManager&) = delete;
+	TextureManager& operator=(const TextureManager&) = delete;
 
-		Texture GetTexture();
+	virtual bool LoadResources(const std::vector<Resource>& resources) override;
+	virtual bool UnloadResources(const std::vector<uint>& resourceIds) override;
 
-	private:
-		void LoadTexture(SDL_Renderer* renderer, const std::string& fileName);
+private:
+	void LoadTexture(const Resource& resource);
 
-	private:
-		std::unordered_map<uint, Texture> _textures;
+private:
+	std::unordered_map<hash64, Texture> _textures;
+	SDL_Renderer* _renderer;
 
-	};
+};
 
 }
 

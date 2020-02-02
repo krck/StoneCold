@@ -1,9 +1,7 @@
 
-#include "EngineCore.hpp"
-#include "ResourceCore.hpp"
+#include "GameCore.hpp"
 
-using namespace StoneCold::Engine;
-using namespace StoneCold::Resources;
+using namespace StoneCold::Game;
 
 //
 // Referenced Projects
@@ -16,7 +14,7 @@ using namespace StoneCold::Resources;
 //
 
 int main(int argc, const char* argv[]) {
-	// Setup the game engine and start the main loop
-	StoneCold::Engine::EngineCore engine("Stone Cold");
-	return (engine.Initialize() ? engine.Run() : -1);
+	// Setup the game and start the main loop
+	GameCore game;
+	return (game.Initialize() ? game.Run() : -1);
 }
