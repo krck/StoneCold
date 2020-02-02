@@ -2,12 +2,13 @@
 #ifndef STONECOLD_ENGINECORE_H
 #define STONECOLD_ENGINECORE_H
 
-#include "GameManager.hpp"
+#include "SimulationManager.hpp"
+#include "Exception.hpp"
 #include <iostream>
 #include <memory>
 #include <string>
 
-namespace StoneCold {
+namespace StoneCold::Engine {
 
 class EngineCore {
 public:

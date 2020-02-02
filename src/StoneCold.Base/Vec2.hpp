@@ -2,7 +2,7 @@
 #ifndef STONECOLD_VEC2_H
 #define STONECOLD_VEC2_H
 
-#include "Settings.hpp"
+#include "Types.hpp"
 #include <utility>
 #include <cmath>
 

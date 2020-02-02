@@ -5,7 +5,7 @@
 #include "Entity.hpp"
 #include <string>
 
-namespace StoneCold {
+namespace StoneCold::Engine {
 
 class Sprite : public Entity {
 public:
@@ -13,7 +13,7 @@ public:
 
 	virtual void Update(uint timestampOld, uint timestampNew) override;
 	virtual void Render() override;
-	 
+
 	int velocity_X, velocity_Y;
 
 protected:

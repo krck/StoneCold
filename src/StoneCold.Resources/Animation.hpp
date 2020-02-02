@@ -2,11 +2,12 @@
 #ifndef STONECOLD_ANIMATION_H
 #define STONECOLD_ANIMATION_H
 
-#include "Settings.hpp"
+#include "SDL_Base.hpp"
+#include "Types.hpp"
 #include <string>
 #include <vector>
 
-namespace StoneCold {
+namespace StoneCold::Resources {
 
 class Animation {
 public:

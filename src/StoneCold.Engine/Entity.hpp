@@ -2,9 +2,10 @@
 #ifndef STONECOLD_ENTITY_H
 #define STONECOLD_ENTITY_H
 
-#include "Settings.hpp"
+#include "SDL_Base.hpp"
+#include "Types.hpp"
 
-namespace StoneCold {
+namespace StoneCold::Engine {
 
 //
 // Entity

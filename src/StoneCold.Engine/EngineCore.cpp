@@ -1,7 +1,7 @@
 
 #include "EngineCore.hpp"
 
-using namespace StoneCold;
+using namespace StoneCold::Engine;
 
 EngineCore::EngineCore(std::string&& windowName) : _windowName(std::move(windowName)), _window(nullptr), _renderer(nullptr) {}
 EngineCore::EngineCore(const std::string& windowName) : _windowName(windowName), _window(nullptr), _renderer(nullptr) {}
@@ -63,8 +63,8 @@ void EngineCore::SetupSDL() {
 int EngineCore::Run() {
 	try {
 		SDL_Event event;
-		ResourceManager resourceManager;
-		auto gameManager(GameManager(_renderer.get(), resourceManager));
+		TextureManager textureManager;
+		auto gameManager(SimulationManager(_renderer.get(), textureManager));
 		uint timeStamp_new = SDL_GetTicks(), timeStamp_old = SDL_GetTicks();
 
 		while (!SDL_QuitRequested()) {

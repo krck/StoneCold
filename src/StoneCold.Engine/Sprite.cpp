@@ -1,9 +1,9 @@
 
 #include "Sprite.hpp"
 
-using namespace StoneCold;
+using namespace StoneCold::Engine;
 
-Sprite::Sprite(SDL_Renderer* renderer, SDL_Texture* texture, int width, int height) 
+Sprite::Sprite(SDL_Renderer* renderer, SDL_Texture* texture, int width, int height)
 	: Entity(renderer), _texture(texture), _width(width), _height(height) {
 	_srcRect = { 0, 0, width, height };
 	_destRect = { 0, 0, width, height };

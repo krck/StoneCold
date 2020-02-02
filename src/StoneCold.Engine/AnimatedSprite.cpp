@@ -1,7 +1,8 @@
 
 #include "AnimatedSprite.hpp"
 
-using namespace StoneCold;
+using namespace StoneCold::Engine;
+using namespace StoneCold::Resources;
 
 AnimatedSprite::AnimatedSprite(SDL_Renderer* renderer, Animation* animation, SDL_Texture* texture, int width, int height, uint frameTime)
 	: Sprite(renderer, texture, width, height), _animation(animation), _frameTime(frameTime), _currentFrame(nullptr), _timeElapsed(0), _currentFrameIndex(0) { }

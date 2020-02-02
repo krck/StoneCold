@@ -24,7 +24,7 @@ protected:
 	mutable std::string _whatBuffer;
 };
 
-// Exception macro, to add LINE and FILE automatically
+	// Exception macro, to add LINE and FILE automatically
 #define GameException(message) Exception(__LINE__, __FILE__, message)
 
 }

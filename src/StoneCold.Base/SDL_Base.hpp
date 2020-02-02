@@ -1,28 +1,22 @@
 
-#ifndef STONECOLD_SETTINGS_H
-#define STONECOLD_SETTINGS_H
+#ifndef STONECOLD_SDLBASE_H
+#define STONECOLD_SDLBASE_H
 
 #include <SDL.h>
 #undef main
-
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include <memory>
 
-#define BASE_PATH			std::string("../assets/")
-#define FPS					60
-#define WINDOW_SIZE_WIDTH	1280
-#define WINDOW_SIZE_HEIGHT	720		// 720 does not divide by 32
+#include <memory>
 
 namespace StoneCold {
 
-typedef unsigned short		ushort;
-typedef unsigned int		uint;
-typedef unsigned char		byte;
-
-// Custom deleter functions (static for shared or struct for unique pointers) to cleanup the SDL Resources 
+// Custom deleter functions (struct) for unique pointers to cleanup the SDL Resources 
 struct SDL_WindowDeleter { void operator()(SDL_Window* p) { if (p != nullptr) SDL_DestroyWindow(p); } };
 struct SDL_RendererDeleter { void operator()(SDL_Renderer* p) { if (p != nullptr) SDL_DestroyRenderer(p); } };
+struct SDL_TextureDeleter { void operator()(SDL_Texture* p) { if (p != nullptr) SDL_DestroyTexture(p); } };
+
+// Custom deleter functions (static) for shared pointers to cleanup the SDL Resources 
 static void SDL_Deleter(SDL_Texture* p) { if (p != nullptr) SDL_DestroyTexture(p); }
 
 template <typename T>

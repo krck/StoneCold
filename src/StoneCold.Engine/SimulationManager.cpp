@@ -1,7 +1,8 @@
 
-#include "GameManager.hpp"
+#include "SimulationManager.hpp"
 
-using namespace StoneCold;
+using namespace StoneCold::Engine;
+using namespace StoneCold::Resources;
 
 auto animIdle = Animation("idle", {
 		{ 0, 0, 26, 20 },
@@ -23,16 +24,18 @@ auto animWalk = Animation("walk", {
 	});
 
 
-GameManager::GameManager(SDL_Renderer* renderer, ResourceManager& resourceManager) : _renderer(renderer), _resourceManager(resourceManager) {
+SimulationManager::SimulationManager(SDL_Renderer* renderer, TextureManager& textureManager) : _renderer(renderer), _textureManager(textureManager) {
 
-	auto tex = _resourceManager.LoadTexture(_renderer, BASE_PATH + "walk.png");
+	//std
+
+	auto tex = _textureManager.LoadTexture(_renderer, ASSET_PATH + "walk.png");
 
 	// Player sprites are usually 26x20 but they will be rendered 3 times the size 78x60
 	_playerEntity = std::make_unique<AnimatedSprite>(_renderer, &animWalk, tex.get(), 78, 60, 100);
 
 }
 
-void GameManager::HandleEvent(const SDL_Event& event) {
+void SimulationManager::HandleEvent(const SDL_Event& event) {
 	// Check for KEY_DOWN
 	if (event.type == SDL_KEYDOWN) {
 		switch (event.key.keysym.sym) {
@@ -56,11 +59,11 @@ void GameManager::HandleEvent(const SDL_Event& event) {
 	}
 }
 
-void GameManager::Update(uint timestampOld, uint timestampNew) {
+void SimulationManager::Update(uint timestampOld, uint timestampNew) {
 	_playerEntity->Update(timestampOld, timestampNew);
 }
 
-void GameManager::Render() {
+void SimulationManager::Render() {
 	// Clear the Frame (white)
 	SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
 	SDL_RenderClear(_renderer);
