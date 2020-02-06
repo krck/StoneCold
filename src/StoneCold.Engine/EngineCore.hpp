@@ -14,7 +14,7 @@ namespace StoneCold::Engine {
 
 class EngineCore {
 public:
-	EngineCore() : _sdlManager(SDLManager()), _renderer(nullptr), _gameObjects(std::vector<std::shared_ptr<GameObject>>()) { };
+	EngineCore() : _sdlManager(SDLManager()), _renderer(nullptr), _gameObjects(std::vector<std::unique_ptr<GameObject>>()) { };
 	EngineCore(const EngineCore&) = delete;
 	EngineCore& operator=(const EngineCore&) = delete;
 
@@ -25,7 +25,7 @@ public:
 	void Update(uint timestampOld, uint timestampNew);
 	void Render();
 
-	void AddNewGameObject(std::shared_ptr<GameObject>&& gameObject);
+	void AddNewGameObject(std::unique_ptr<GameObject>&& gameObject);
 
 	~EngineCore() = default;
 
@@ -39,7 +39,7 @@ private:
 	//
 	// Group (and render) this by SDL_Texture for better performance
 	//
-	std::vector<std::shared_ptr<GameObject>> _gameObjects;
+	std::vector<std::unique_ptr<GameObject>> _gameObjects;
 };
 
 }

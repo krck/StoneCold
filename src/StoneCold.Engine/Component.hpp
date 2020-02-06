@@ -37,10 +37,10 @@ public:
 //
 class GameObject {
 private:
-	std::unordered_map<std::type_index, std::shared_ptr<IComponent>> _components;
+	std::unordered_map<std::type_index, std::unique_ptr<IComponent>> _components;
 
 public:
-	GameObject() : _components(std::unordered_map<std::type_index, std::shared_ptr<IComponent>>()) { }
+	GameObject() : _components(std::unordered_map<std::type_index, std::unique_ptr<IComponent>>()) { }
 
 	// Pass on main-loop Events to all Components
 	void HandleEvent(const SDL_Event& event) { for (auto& iter : _components) iter.second->HandleEvent(event); }
@@ -53,9 +53,9 @@ public:
 	// (type_index is a wrapper class around a std::type_info object, that can be used as index)
 	//
 	template<typename T>
-	void AddComponent(std::shared_ptr<IComponent>&& component) {
+	void AddComponent(std::unique_ptr<IComponent>&& component) {
 		component->Init(this);
-		_components[std::type_index(typeid(T))].swap(component);
+		_components[std::type_index(typeid(T))] = std::move(component);
 	}
 
 	template<typename T>

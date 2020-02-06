@@ -24,7 +24,7 @@ bool GameCore::Initialize() {
 
 		auto pc = PlayerCharacter(rendererPtr, tex, Vec2i(), Vec2i(78, 60), 1, 3);
 
-		_engine.AddNewGameObject(std::make_shared<PlayerCharacter>(pc));
+		_engine.AddNewGameObject(std::make_unique<PlayerCharacter>(pc));
 
 		return true;
 	}

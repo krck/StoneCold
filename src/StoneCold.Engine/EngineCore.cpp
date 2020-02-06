@@ -37,6 +37,6 @@ void EngineCore::Render() {
 	SDL_RenderPresent(_renderer);
 }
 
-void EngineCore::AddNewGameObject(std::shared_ptr<GameObject>&& gameObject) {
-	_gameObjects.push_back(gameObject);
+void EngineCore::AddNewGameObject(std::unique_ptr<GameObject>&& gameObject) {
+	_gameObjects.push_back(std::move(gameObject));
 }
