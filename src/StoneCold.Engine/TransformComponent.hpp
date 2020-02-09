@@ -35,6 +35,12 @@ public:
 		// Add a simple form of numerical integration (Explicit Euler) to speeds at different FPSs
 		// (Explicit Euler works well as long as the speeds is constant or the frameTime is low)
 		float deltaSec = frameTime / 1000.0f;
+
+		// Normalize the velocity in case of diagonal movement
+		if(Velocity.X != 0 || Velocity.Y != 0)
+			Velocity.normalize();
+
+		// Update the position and round down to the next int
 		Position.X += (Velocity.X * deltaSec) * Speed;
 		Position.Y += (Velocity.Y * deltaSec) * Speed;
 	}

@@ -79,6 +79,8 @@ public:
 	T length() const { return std::sqrt((X * X) + (Y * Y)); }
 	T dot(const _Vec2& rhs) const { return (X * rhs.X) + (Y * rhs.Y); }
 	T cross(const _Vec2& rhs) const { return (X * rhs.Y) - (Y * rhs.X); }
+	void normalize() { X = (X / length()); Y = (Y / length()); }
+	_Vec2 normal() const { return _Vec2(X / length(), Y / length()); }
 
 	~_Vec2() = default;
 };

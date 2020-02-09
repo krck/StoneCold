@@ -19,9 +19,9 @@ public:
 		auto k = KeyboardComponent();
 
 		// Add the Components. The order is important!
-		AddComponent<TransformComponent>(std::make_unique<TransformComponent>(t));
-		AddComponent<KeyboardComponent>(std::make_unique<KeyboardComponent>(k));
-		AddComponent<SpriteComponent>(std::make_unique<SpriteComponent>(s));
+		AddComponent<TransformComponent>(std::make_shared<TransformComponent>(t));
+		AddComponent<KeyboardComponent>(std::make_shared<KeyboardComponent>(k));
+		AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(s));
 	}
 };
 
