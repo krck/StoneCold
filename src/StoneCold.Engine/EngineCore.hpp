@@ -21,8 +21,8 @@ public:
 	inline SDL_Renderer* GetSDLRenderer() { return _renderer; }
 
 	bool Initialize(const std::string& windowName);
-	void HandleEvent(const SDL_Event& event);
-	void Update(uint timestampOld, uint timestampNew);
+	void HandleEvent(const uint8* keyStates);
+	void Update(uint frameTime);
 	void Render();
 
 	void AddNewGameObject(std::unique_ptr<GameObject>&& gameObject);

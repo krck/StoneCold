@@ -16,14 +16,14 @@ namespace StoneCold::Engine {
 //
 class TransformComponent : public IComponent {
 public:
-	Vec2i Position;
-	Vec2i Velocity;
-	Vec2i Dimensions;
+	Vec2 Position;
+	Vec2 Velocity;
+	Vec2 Dimensions;
 	int Scale = 1;
-	int Speed = 3;
+	int Speed = 100;
 
-	TransformComponent(Vec2i pos, Vec2i dim, int scale, int speed)
-		: Position(pos), Velocity(Vec2i()), Dimensions(dim), Scale(scale), Speed(speed) { }
+	TransformComponent(Vec2 pos, Vec2 dim, int scale, int speed)
+		: Position(pos), Velocity(Vec2()), Dimensions(dim), Scale(scale), Speed(speed) { }
 
 	void Init(GameObject* gameObject) override {
 		IComponent::Init(gameObject);
@@ -31,9 +31,12 @@ public:
 		Velocity.Y = 0;
 	}
 
-	void Update(uint timestampOld, uint timestampNew) override {
-		Position.X += Velocity.X * Speed;
-		Position.Y += Velocity.Y * Speed;
+	void Update(uint frameTime) override {
+		// Add a simple form of numerical integration (Explicit Euler) to speeds at different FPSs
+		// (Explicit Euler works well as long as the speeds is constant or the frameTime is low)
+		float deltaSec = frameTime / 1000.0f;
+		Position.X += (Velocity.X * deltaSec) * Speed;
+		Position.Y += (Velocity.Y * deltaSec) * Speed;
 	}
 };
 

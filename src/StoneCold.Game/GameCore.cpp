@@ -22,7 +22,7 @@ bool GameCore::Initialize() {
 		tex = SDL_CreateTextureFromSurface(rendererPtr, tmpSurface);
 		SDL_FreeSurface(tmpSurface);
 
-		auto pc = PlayerCharacter(rendererPtr, tex, Vec2i(), Vec2i(78, 60), 1, 3);
+		auto pc = PlayerCharacter(rendererPtr, tex, Vec2(), Vec2(78.0f, 60.0f), 1, 200);
 
 		_engine.AddNewGameObject(std::make_unique<PlayerCharacter>(pc));
 
@@ -39,17 +39,25 @@ bool GameCore::Initialize() {
 //
 int GameCore::Run() {
 	try {
-		SDL_Event event;
-		uint timeStamp_new = SDL_GetTicks(), timeStamp_old = SDL_GetTicks();
+		uint timeStamp_new = SDL_GetTicks();
+		uint timeStamp_old = SDL_GetTicks();
+		uint frameTime = 0; // delta in ms
 
 		while (!SDL_QuitRequested()) {
-			// FPS Limiter (Nice, because it works without WAIT)
 			timeStamp_new = SDL_GetTicks();
-			if ((timeStamp_new - timeStamp_old) > (1000.0f / FPS)) {
-				SDL_PollEvent(&event);
+			frameTime = timeStamp_new - timeStamp_old;
 
-				_engine.HandleEvent(event);
-				_engine.Update(timeStamp_old, timeStamp_new);
+			// FPS Limiter (Nice, because it works without WAIT)
+			if (frameTime > (1000.0f / FPS)) {
+				// Pump the event loop to gather events from input devices
+				SDL_PumpEvents();
+
+				// Get a snapshot of the current state of the keyboard and handle the input
+				const uint8* keyStates = SDL_GetKeyboardState(NULL);
+				_engine.HandleEvent(keyStates);
+
+				// Update and render all GameObjects
+				_engine.Update(frameTime);
 				_engine.Render();
 
 				timeStamp_old = timeStamp_new;

@@ -15,14 +15,14 @@ bool EngineCore::Initialize(const std::string& windowName) {
 	}
 }
 
-void EngineCore::HandleEvent(const SDL_Event& event) {
+void EngineCore::HandleEvent(const uint8* keyStates) {
 	for (auto& go : _gameObjects)
-		go->HandleEvent(event);
+		go->HandleEvent(keyStates);
 }
 
-void EngineCore::Update(uint timestampOld, uint timestampNew) {
+void EngineCore::Update(uint frameTime) {
 	for (auto& go : _gameObjects)
-		go->Update(timestampOld, timestampNew);
+		go->Update(frameTime);
 }
 
 void EngineCore::Render() {

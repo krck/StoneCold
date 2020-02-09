@@ -24,8 +24,8 @@ public:
 	IComponent() : _gameObject(nullptr) { }
 
 	virtual void Init(GameObject* gameObject) { _gameObject = gameObject; }
-	virtual void HandleEvent(const SDL_Event& event) { }
-	virtual void Update(uint timestampOld, uint timestampNew) { }
+	virtual void HandleEvent(const uint8* keyStates) { }
+	virtual void Update(uint frameTime) { }
 	virtual void Render() { }
 
 	// Virtual Destructor ?
@@ -43,8 +43,8 @@ public:
 	GameObject() : _components(std::unordered_map<std::type_index, std::unique_ptr<IComponent>>()) { }
 
 	// Pass on main-loop Events to all Components
-	void HandleEvent(const SDL_Event& event) { for (auto& iter : _components) iter.second->HandleEvent(event); }
-	void Update(uint timestampOld, uint timestampNew) { for (auto& iter : _components) iter.second->Update(timestampOld, timestampNew); }
+	void HandleEvent(const uint8* keyStates) { for (auto& iter : _components) iter.second->HandleEvent(keyStates); }
+	void Update(uint frameTime) { for (auto& iter : _components) iter.second->Update(frameTime); }
 	void Render() { for (auto& iter : _components) iter.second->Render(); }
 
 	//

@@ -6,6 +6,9 @@
 #include "Component.hpp"
 #include "TransformComponent.hpp"
 
+#include <iostream>
+#include <string>
+
 namespace StoneCold::Engine {
 
 //
@@ -20,7 +23,7 @@ private:
 	TransformComponent* _transform;
 
 public:
-	KeyboardComponent() = default;
+	KeyboardComponent() : _transform(nullptr) { }
 
 	void Init(GameObject* gameObject) override {
 		IComponent::Init(gameObject);
@@ -28,25 +31,19 @@ public:
 		_transform = _gameObject->GetComponent<TransformComponent>();
 	}
 
-	void HandleEvent(const SDL_Event& event) override {
-		if (event.type == SDL_KEYDOWN) {
-			switch (event.key.keysym.sym) {
-			case SDLK_UP: _transform->Velocity.Y = -1; break;
-			case SDLK_DOWN: _transform->Velocity.Y = 1; break;
-			case SDLK_LEFT: _transform->Velocity.X = -1; break;
-			case SDLK_RIGHT: _transform->Velocity.X = 1; break;
-			default: break;
-			}
-		}
-		// Why not else if ? Test
-		if (event.type == SDL_KEYUP) {
-			switch (event.key.keysym.sym) {
-			case SDLK_UP: _transform->Velocity.Y = 0; break;
-			case SDLK_DOWN: _transform->Velocity.Y = 0; break;
-			case SDLK_LEFT: _transform->Velocity.X = 0; break;
-			case SDLK_RIGHT: _transform->Velocity.X = 0; break;
-			default: break;
-			}
+	void HandleEvent(const uint8* keyStates) override {
+		// For each keykeyStates contains a value of 1 if pressed and a value of 0 if not pressed
+		// Add negative and positive velocity so the sprite doesn't move if both are pressed at the same time
+		_transform->Velocity.Y = (-1.0f * keyStates[SDL_SCANCODE_UP]) + keyStates[SDL_SCANCODE_DOWN];
+		_transform->Velocity.X = (-1.0f * keyStates[SDL_SCANCODE_LEFT]) + keyStates[SDL_SCANCODE_RIGHT];
+
+		if (keyStates[SDL_SCANCODE_SPACE]) {
+			// y -1 x 1		true
+			// y -1 x -1	false
+			// y 1  x -1	false
+			// y 1	x 1		false
+			_transform->Velocity.Y *= 3.0f;
+			_transform->Velocity.X *= 3.0f;
 		}
 	}
 };
