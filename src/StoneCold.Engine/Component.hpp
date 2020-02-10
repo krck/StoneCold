@@ -14,7 +14,7 @@ namespace StoneCold::Engine {
 class GameObject;
 
 //
-// 
+// Component Interface
 //
 class IComponent {
 protected:
@@ -33,7 +33,11 @@ public:
 };
 
 //
+// GameObject base class
 //
+// A game object is everything that can be 
+// updated and rendered (Player, NPC, ...)
+// The behaviour is defined by its Components
 //
 class GameObject {
 private:

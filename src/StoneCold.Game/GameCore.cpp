@@ -39,6 +39,7 @@ bool GameCore::Initialize() {
 //
 int GameCore::Run() {
 	try {
+		const uint frameLimit = truncf(1000.0f / FPS);
 		uint timeStamp_new = SDL_GetTicks();
 		uint timeStamp_old = SDL_GetTicks();
 		uint frameTime = 0; // delta in ms
@@ -47,21 +48,22 @@ int GameCore::Run() {
 			timeStamp_new = SDL_GetTicks();
 			frameTime = timeStamp_new - timeStamp_old;
 
-			// FPS Limiter (Nice, because it works without WAIT)
-			if (frameTime > (1000.0f / FPS)) {
-				// Pump the event loop to gather events from input devices
-				SDL_PumpEvents();
+			// FPS Limiter (Source of the micro-studder)
+			// This can go now, because updates are delta-time based
+			//if (frameTime > frameLimit) { do everythin here }
+			
+			// Pump the event loop to gather events from input devices
+			SDL_PumpEvents();
 
-				// Get a snapshot of the current state of the keyboard and handle the input
-				const uint8* keyStates = SDL_GetKeyboardState(NULL);
-				_engine.HandleEvent(keyStates);
+			// Get a snapshot of the current state of the keyboard and handle the input
+			const uint8* keyStates = SDL_GetKeyboardState(NULL);
+			_engine.HandleEvent(keyStates);
 
-				// Update and render all GameObjects
-				_engine.Update(frameTime);
-				_engine.Render();
+			// Update and render all GameObjects
+			_engine.Update(frameTime);
+			_engine.Render();
 
-				timeStamp_old = timeStamp_new;
-			}
+			timeStamp_old = timeStamp_new;
 		}
 		return 0;
 	}
