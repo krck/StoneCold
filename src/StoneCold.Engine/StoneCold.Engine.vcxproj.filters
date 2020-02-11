@@ -19,13 +19,16 @@
     <ClInclude Include="TransformComponent.hpp">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteComponent.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="KeyboardComponent.hpp">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Component.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedSpriteComponent.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingSpriteComponent.hpp">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
