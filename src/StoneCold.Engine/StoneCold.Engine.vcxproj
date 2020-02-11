@@ -159,12 +159,12 @@
     <ClCompile Include="SDLManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AnimatedSpriteComponent.hpp" />
+    <ClInclude Include="SpriteComponentAnimated.hpp" />
     <ClInclude Include="EngineCore.hpp" />
     <ClInclude Include="Component.hpp" />
     <ClInclude Include="KeyboardComponent.hpp" />
     <ClInclude Include="SDLManager.hpp" />
-    <ClInclude Include="MovingSpriteComponent.hpp" />
+    <ClInclude Include="SpriteComponentMoving.hpp" />
     <ClInclude Include="TransformComponent.hpp" />
   </ItemGroup>
   <ItemGroup>

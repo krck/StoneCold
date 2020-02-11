@@ -9,13 +9,13 @@
 namespace StoneCold::Engine {
 
 //
-// 2D moving Sprite Component
+// 2D animated Sprite Component
 // Dependent on: TransformComponent
 //
 // Contains information needed to render a 2D sprite (Texture, SDL_Renderer, ...)
 // Needs a GameObject with a TransformComponent to update the position on screen
 //
-class MovingSpriteComponent : public IComponent {
+class SpriteComponentAnimated : public IComponent {
 private:
 	TransformComponent* _transform;
 	SDL_Renderer* _renderer;
@@ -24,7 +24,7 @@ private:
 	SDL_FRect _destRect; // floats, because all Transformations are float calculations
 
 public:
-	MovingSpriteComponent(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect srcRect, SDL_FRect destRect)
+	SpriteComponentAnimated(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect srcRect, SDL_FRect destRect)
 		: _transform(nullptr), _renderer(renderer), _texture(texture), _srcRect(srcRect), _destRect(destRect) { }
 
 	void Init(GameObject* gameObject) override {

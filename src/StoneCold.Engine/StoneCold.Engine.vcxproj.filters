@@ -25,10 +25,10 @@
     <ClInclude Include="Component.hpp">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="AnimatedSpriteComponent.hpp">
+    <ClInclude Include="SpriteComponentAnimated.hpp">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="MovingSpriteComponent.hpp">
+    <ClInclude Include="SpriteComponentMoving.hpp">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
