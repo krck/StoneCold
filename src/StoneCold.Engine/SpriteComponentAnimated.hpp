@@ -4,24 +4,11 @@
 
 #include "SDL_Base.hpp"
 #include "Component.hpp"
+#include "Animation.hpp"
 #include "TransformComponent.hpp"
 
 namespace StoneCold::Engine {
 
-//
-// Animation contains only its name and an array of source rectangles (SDL_Rect srcRects) 
-// to define which part of a full Texture image is part of the Animation / should be rendered
-//
-struct Animation {
-public:
-	Animation(const const std::vector<SDL_Rect>& framePositions, uint frameTime)
-		: Name(name), FramePositions(framePositions), FrameCount(framePositions.size()), FrameTime(frameTime) {}
-	
-	const std::vector<SDL_Rect> FramePositions;
-	const size_t FrameCount;
-	const uint FrameTime;
-};
-	
 //
 // 2D animated Sprite Component
 // Dependent on: TransformComponent
@@ -31,8 +18,8 @@ public:
 //
 class SpriteComponentAnimated : public IComponent {
 private:
-	const std::unordered_map<std::string, Animation> _animations;
-	Animation _currentAnimation;
+	const std::unordered_map<std::string, StoneCold::Resources::Animation>& _animations;
+	const StoneCold::Resources::Animation* _currentAnimation;
 	SDL_Rect _currentFrame;
 	uint _timeElapsed;
 	int _currentFrameIndex;
@@ -43,7 +30,7 @@ private:
 	SDL_FRect _destRect; // floats, because all Transformations are float calculations
 
 public:
-	SpriteComponentAnimated(SDL_Renderer* renderer, SDL_Texture* texture, const std::unordered_map<std::string, Animation>& animations, SDL_FRect destRect)
+	SpriteComponentAnimated(SDL_Renderer* renderer, SDL_Texture* texture, const std::unordered_map<std::string, StoneCold::Resources::Animation>& animations, SDL_FRect destRect)
 		: _transform(nullptr), _renderer(renderer), _texture(texture), _animations(animations), _destRect(destRect) { }
 
 	void Init(GameObject* gameObject) override {
@@ -61,14 +48,14 @@ public:
 		
 		// Udpate the Sprites animation frame
 		_timeElapsed += frameTime;
-		if (_timeElapsed > _currentAnimation._frameTime) {
-			_timeElapsed -= _currentAnimation._frameTime;
-			_currentFrameIndex = (_currentFrameIndex < _currentAnimation.FrameCount ? _currentFrameIndex + 1 : 0);
+		if (_timeElapsed > _currentAnimation->FrameTime) {
+			_timeElapsed -= _currentAnimation->FrameTime;
+			_currentFrameIndex = (_currentFrameIndex < _currentAnimation->FrameCount ? _currentFrameIndex + 1 : 0);
 		}
 	}
 
 	void Render() override {
-		_currentFrame = _currentAnimation.FramePositions[_currentFrameIndex];
+		_currentFrame = _currentAnimation->FramePositions[_currentFrameIndex];
 
 		// Use SDL_RenderCopyEx in case of Animation
 		auto flip = (_transform->Velocity.X < 0 ? SDL_RendererFlip::SDL_FLIP_HORIZONTAL : SDL_RendererFlip::SDL_FLIP_NONE);
@@ -76,7 +63,9 @@ public:
 	}
 	
 	void SetCurrentAnimation(const std::string& name) {
-		_currentAnimation = _animations[name];
+		_currentAnimation = &_animations.find(name)->second;
+		if (_currentFrameIndex > _currentAnimation->FrameCount)
+			_currentFrameIndex = 0;
 	}
 };
 

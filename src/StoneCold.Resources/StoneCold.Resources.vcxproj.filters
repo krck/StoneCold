@@ -13,45 +13,36 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Interfaces">
-      <UniqueIdentifier>{e6c6194b-b5ae-4aef-a643-2261dec6827b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources">
+    <Filter Include="ResourceTypes">
       <UniqueIdentifier>{5901a8e2-bb60-48be-8979-35449d59dd18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceLists">
+      <UniqueIdentifier>{bf230a4e-a571-42e6-9256-dda0f07e1cba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
+    <ClCompile Include="ResourceManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TextureManager.hpp">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationManager.hpp">
-      <Filter>Managers</Filter>
-    </ClInclude>
     <ClInclude Include="Animation.hpp">
-      <Filter>Resources</Filter>
+      <Filter>ResourceTypes</Filter>
     </ClInclude>
     <ClInclude Include="Texture.hpp">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="IManager.hpp">
-      <Filter>Interfaces</Filter>
+      <Filter>ResourceTypes</Filter>
     </ClInclude>
     <ClInclude Include="ResourceCore.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Resource.hpp">
-      <Filter>Resources</Filter>
+    <ClInclude Include="ResourceManager.hpp">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources.hpp">
+      <Filter>ResourceLists</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

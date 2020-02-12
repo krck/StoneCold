@@ -9,19 +9,22 @@
 namespace StoneCold::Game {
 
 using namespace StoneCold::Engine;
+using namespace StoneCold::Resources;
 
 class PlayerCharacter : public GameObject {
 public:
 	PlayerCharacter(SDL_Renderer* renderer, SDL_Texture* texture, const std::unordered_map<std::string, Animation>& animations, Vec2 position, Vec2 dimension, int scale, int speed) {
 		// Create the Components needed by the PlayerCharacter
 		auto t = TransformComponent(position, dimension, scale, speed);
-		auto k = KeyboardComponent();
 		auto s = SpriteComponentAnimated(renderer, texture, animations, SDL_FRect());
+		auto k = KeyboardComponent();
+		s.SetCurrentAnimation("idle");
 
 		// Add the Components. The order is important!
 		AddComponent<TransformComponent>(std::make_shared<TransformComponent>(t));
-		AddComponent<KeyboardComponent>(std::make_shared<KeyboardComponent>(k));
 		AddComponent<SpriteComponentAnimated>(std::make_shared<SpriteComponentAnimated>(s));
+		AddComponent<KeyboardComponent>(std::make_shared<KeyboardComponent>(k));
+
 	}
 };
 

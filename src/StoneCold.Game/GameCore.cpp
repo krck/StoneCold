@@ -1,21 +1,15 @@
 
 #include "GameCore.hpp"
 
+#include "Resources.hpp"
+
 using namespace StoneCold::Game;
+using namespace StoneCold::Resources;
 
 // THIS MUST GO
 SDL_Texture* tex = nullptr;
 
-auto playerAnimations = std::unordered_map<std::string, Animation>({
-	{"idle", ({ {0,0,34,34}, {34,0,34,34}, {68,0,34,34}, {102,0,34,34}, {136,0,34,34} }) },
-	{"walk", ({ {0,34,34,34}, {34,34,34,34}, {68,34,34,34}, {102,34,34,34}, {136,34,34,34}, {170,34,34,34}, {204,34,34,34}, {238,34,34,34} }) },
-	{"atk2", ({ {0,68,34,34}, {34,68,34,34}, {68,68,34,34}, {102,68,34,34}, {136,68,34,34}, {170,68,34,34}, {204,68,34,34} }) },
-	{"atk1", ({ {0,102,34,34}, {34,102,34,34}, {68,102,34,34}, {102,102,34,34}, {136,102,34,34}, {170,102,34,34} }) },
-	{"atk3", ({ {0,136,34,34}, {34,136,34,34} }) },
-	{"jump", ({ {0,170,34,34}, {34,170,34,34}, {68,170,34,34}, {102,170,34,34}, {136,170,34,34} }) },
-	{"hurt", ({ {0,204,34,34}, {34,204,34,34}, {68,204,34,34}, {102,204,34,34} }) },
-	{"dead", ({ {0,238,34,34}, {34,238,34,34}, {68,238,34,34}, {102,238,34,34}, {136,238,34,34}, {170,238,34,34}, {204,238,34,34} }) }
-});
+
 
 bool GameCore::Initialize() {
 	try {
@@ -26,13 +20,13 @@ bool GameCore::Initialize() {
 		// INIT RESOURCE MANAGER AND RESOURCES HERE
 		// _resources.gettexture ...
 		// get renderer from engine
-		const auto path = "C:\\Users\\PeterUser\\Documents\\GitHub\\StoneCold\\assets\\test.png";
+		const auto path = "C:\\Users\\PeterUser\\Documents\\GitHub\\StoneCold\\assets\\Dwarf_Sprite.png";
 		SDL_Surface* tmpSurface = IMG_Load(path);
 		auto x1 = SDL_GetError();
 		tex = SDL_CreateTextureFromSurface(rendererPtr, tmpSurface);
 		SDL_FreeSurface(tmpSurface);
 
-		auto pc = PlayerCharacter(rendererPtr, tex, playerAnimations, Vec2(), Vec2(78.0f, 60.0f), 1, 200);
+		auto pc = PlayerCharacter(rendererPtr, tex, playerAnimations, Vec2(), Vec2(34, 34), 3, 200);
 
 		_engine.AddNewGameObject(std::make_unique<PlayerCharacter>(pc));
 
@@ -60,7 +54,7 @@ int GameCore::Run() {
 
 			// FPS Limiter (Source of the micro-studder)
 			// This can go now, because updates are delta-time based
-			//if (frameTime > frameLimit) { do everythin here }
+			if (frameTime > frameLimit) { }
 			
 			// Pump the event loop to gather events from input devices
 			SDL_PumpEvents();

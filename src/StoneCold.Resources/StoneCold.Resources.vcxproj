@@ -155,18 +155,15 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AnimationManager.cpp" />
     <ClCompile Include="ResourceCore.cpp" />
-    <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.hpp" />
-    <ClInclude Include="AnimationManager.hpp" />
-    <ClInclude Include="IManager.hpp" />
-    <ClInclude Include="Resource.hpp" />
     <ClInclude Include="ResourceCore.hpp" />
+    <ClInclude Include="Resources.hpp" />
     <ClInclude Include="Texture.hpp" />
-    <ClInclude Include="TextureManager.hpp" />
+    <ClInclude Include="ResourceManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StoneCold.Base\StoneCold.Base.vcxproj">
