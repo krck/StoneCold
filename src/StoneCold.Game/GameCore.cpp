@@ -6,6 +6,16 @@ using namespace StoneCold::Game;
 // THIS MUST GO
 SDL_Texture* tex = nullptr;
 
+auto playerAnimations = std::unordered_map<std::string, Animation>({
+	{"idle", ({ {0,0,34,34}, {34,0,34,34}, {68,0,34,34}, {102,0,34,34}, {136,0,34,34} }) },
+	{"walk", ({ {0,34,34,34}, {34,34,34,34}, {68,34,34,34}, {102,34,34,34}, {136,34,34,34}, {170,34,34,34}, {204,34,34,34}, {238,34,34,34} }) },
+	{"atk2", ({ {0,68,34,34}, {34,68,34,34}, {68,68,34,34}, {102,68,34,34}, {136,68,34,34}, {170,68,34,34}, {204,68,34,34} }) },
+	{"atk1", ({ {0,102,34,34}, {34,102,34,34}, {68,102,34,34}, {102,102,34,34}, {136,102,34,34}, {170,102,34,34} }) },
+	{"atk3", ({ {0,136,34,34}, {34,136,34,34} }) },
+	{"jump", ({ {0,170,34,34}, {34,170,34,34}, {68,170,34,34}, {102,170,34,34}, {136,170,34,34} }) },
+	{"hurt", ({ {0,204,34,34}, {34,204,34,34}, {68,204,34,34}, {102,204,34,34} }) },
+	{"dead", ({ {0,238,34,34}, {34,238,34,34}, {68,238,34,34}, {102,238,34,34}, {136,238,34,34}, {170,238,34,34}, {204,238,34,34} }) }
+});
 
 bool GameCore::Initialize() {
 	try {
@@ -22,7 +32,7 @@ bool GameCore::Initialize() {
 		tex = SDL_CreateTextureFromSurface(rendererPtr, tmpSurface);
 		SDL_FreeSurface(tmpSurface);
 
-		auto pc = PlayerCharacter(rendererPtr, tex, Vec2(), Vec2(78.0f, 60.0f), 1, 200);
+		auto pc = PlayerCharacter(rendererPtr, tex, playerAnimations, Vec2(), Vec2(78.0f, 60.0f), 1, 200);
 
 		_engine.AddNewGameObject(std::make_unique<PlayerCharacter>(pc));
 
