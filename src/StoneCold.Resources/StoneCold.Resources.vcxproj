@@ -155,14 +155,15 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ResourceCore.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animation.hpp" />
+    <ClInclude Include="AnimationResource.hpp" />
+    <ClInclude Include="FontResource.hpp" />
+    <ClInclude Include="Resource.hpp" />
     <ClInclude Include="ResourceCore.hpp" />
     <ClInclude Include="Resources.hpp" />
-    <ClInclude Include="Texture.hpp" />
+    <ClInclude Include="TextureResource.hpp" />
     <ClInclude Include="ResourceManager.hpp" />
   </ItemGroup>
   <ItemGroup>

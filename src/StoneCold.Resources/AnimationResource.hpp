@@ -1,16 +1,11 @@
 
-#ifndef STONECOLD_ANIMATION_H
-#define STONECOLD_ANIMATION_H
+#ifndef STONECOLD_ANIMATIONRESOURCE_H
+#define STONECOLD_ANIMATIONRESOURCE_H
 
 #include "SDL_Base.hpp"
-#include "Types.hpp"
-#include <functional>
-#include <string>
-#include <vector>
+#include "Resource.hpp"
 
 namespace StoneCold::Resources {
-
-enum class AnimationType { Player, NPC };
 
 //
 // Animation contains only its name and an array of source rectangles (SDL_Rect srcRects) 
@@ -28,15 +23,12 @@ struct Animation {
 //
 // ...
 //
-class AnimationResource {
+class AnimationResource : public Resource {
 public:
-	AnimationResource(AnimationType type, const std::string& name, const std::unordered_map<std::string, Animation>& animations)
-		: Id(std::hash<std::string>()(name)), Type(type), Name(name), Animations(animations) {}
+	AnimationResource(const std::string& name, const std::unordered_map<std::string, Animation>& animations)
+		:  Resource(name), Animations(animations) {}
 
 public:
-	const hash64 Id;
-	const AnimationType Type;
-	const std::string Name;
 	const std::unordered_map<std::string, Animation>& Animations;
 };
 

@@ -13,28 +13,19 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="ResourceTypes">
-      <UniqueIdentifier>{5901a8e2-bb60-48be-8979-35449d59dd18}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceLists">
+    <Filter Include="tmp_stuff">
       <UniqueIdentifier>{bf230a4e-a571-42e6-9256-dda0f07e1cba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{5901a8e2-bb60-48be-8979-35449d59dd18}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ResourceCore.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animation.hpp">
-      <Filter>ResourceTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.hpp">
-      <Filter>ResourceTypes</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceCore.hpp">
       <Filter>Core</Filter>
     </ClInclude>
@@ -42,7 +33,19 @@
       <Filter>Managers</Filter>
     </ClInclude>
     <ClInclude Include="Resources.hpp">
-      <Filter>ResourceLists</Filter>
+      <Filter>tmp_stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.hpp">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationResource.hpp">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="FontResource.hpp">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureResource.hpp">
+      <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

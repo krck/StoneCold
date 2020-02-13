@@ -4,7 +4,7 @@
 
 #include "Settings.hpp"
 #include "EngineCore.hpp"
-#include "ResourceCore.hpp"
+#include "ResourceManager.hpp"
 #include "PlayerCharacter.hpp"
 
 namespace StoneCold::Game {
@@ -17,7 +17,7 @@ using namespace StoneCold::Resources;
 //
 class GameCore {
 public:
-	GameCore() : _engine(EngineCore()), _resources(ResourceCore()) { };
+	GameCore() : _engine(EngineCore()), _resources(ResourceManager()) { };
 	GameCore(const GameCore&) = delete;
 	GameCore& operator=(const GameCore&) = delete;
 
@@ -28,7 +28,7 @@ public:
 
 private:
 	EngineCore _engine;
-	ResourceCore _resources;
+	ResourceManager _resources;
 };
 
 }
