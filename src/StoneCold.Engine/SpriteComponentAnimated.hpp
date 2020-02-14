@@ -23,6 +23,7 @@ private:
 	SDL_Rect _currentFrame;
 	uint _timeElapsed;
 	int _currentFrameIndex;
+	SDL_RendererFlip _flip;
 	
 	TransformComponent* _transform;
 	SDL_Renderer* _renderer;
@@ -57,9 +58,9 @@ public:
 	void Render() override {
 		_currentFrame = _currentAnimation->FramePositions[_currentFrameIndex];
 
-		// Use SDL_RenderCopyEx in case of Animation
-		auto flip = (_transform->Velocity.X < 0 ? SDL_RendererFlip::SDL_FLIP_HORIZONTAL : SDL_RendererFlip::SDL_FLIP_NONE);
-		SDL_RenderCopyExF(_renderer, _texture, &_currentFrame, &_destRect, 0, nullptr, flip);
+		// Use SDL_RenderCopyEx and flip the Animation, based on the last input velocity
+		_flip = (_transform->Velocity.X == 0 ? _flip : (_transform->Velocity.X < 0 ? SDL_RendererFlip::SDL_FLIP_HORIZONTAL : SDL_RendererFlip::SDL_FLIP_NONE));
+		SDL_RenderCopyExF(_renderer, _texture, &_currentFrame, &_destRect, 0, nullptr, _flip);
 	}
 	
 	void SetCurrentAnimation(const std::string& name) {
