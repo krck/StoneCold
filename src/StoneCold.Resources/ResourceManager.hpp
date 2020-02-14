@@ -8,10 +8,9 @@
 #include "AnimationResource.hpp"
 #include "TextureResource.hpp"
 #include "FontResource.hpp"
+#include <windows.h>
 #include <unordered_map>
-#include <type_traits>
 #include <algorithm>
-#include <vector>
 #include <memory>
 
 namespace StoneCold::Resources {
@@ -83,6 +82,7 @@ private:
 	FontResource CreateFont(const std::string& name);
 	
 private:
+	std::string _basePath;
 	std::unordered_map<std::string, std::shared_ptr<Resource>> _resources;
 	std::unordered_map<ResourceLifeTime, std::vector<std::string>> _resouceLifetimes;
 	SDL_Renderer* _renderer;
