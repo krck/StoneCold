@@ -9,7 +9,9 @@
 #include "TextureResource.hpp"
 #include "FontResource.hpp"
 #include <unordered_map>
+#include <type_traits>
 #include <algorithm>
+#include <vector>
 #include <memory>
 
 namespace StoneCold::Resources {
@@ -41,7 +43,23 @@ public:
 	// Ensures that any Resource is loaded only once, per LifeTime
 	//
 	template<typename T>
-	void LoadResource(ResourceLifeTime resourceLifeTime, const std::string& name);
+	void LoadResource(ResourceLifeTime resourceLifeTime, const std::string& name) {
+		// Load each ressource only once
+		if (!IsResourceLoaded(name)) {
+			// Create the specific Resource based on Type
+			if (std::is_same<T, TextureResource>::value) {
+				_resources.insert({ name, std::make_shared<TextureResource>(CreateTexture(name)) });
+				_resouceLifetimes[resourceLifeTime].push_back(name);
+			}
+			else if (std::is_same<T, AnimationResource>::value) {
+				_resources.insert({ name, std::make_shared<AnimationResource>(CreateAnimation(name)) });
+				_resouceLifetimes[resourceLifeTime].push_back(name);
+			}
+			else if (std::is_same<T, FontResource>::value) {
+
+			}
+		}
+	}
 
 	//
 	// Reset a specific Resource Map (LifeTime storage) completely
@@ -49,7 +67,7 @@ public:
 	void UnloadResources(ResourceLifeTime resourceLifeTime);
 
 	template<typename T>
-	inline T* GetResource(const std::string& name) const { return static_cast<T*>(_resources[name].get()); }
+	inline T* GetResource(const std::string& name) { return static_cast<T*>(_resources[name].get()); }
 
 	inline bool IsResourceLoaded(const std::string& name) const { return (_resources.find(name) != _resources.end()); }
 
@@ -65,7 +83,7 @@ private:
 	FontResource CreateFont(const std::string& name);
 	
 private:
-	std::unordered_map<std::string, std::unique_ptr<Resource>> _resources;
+	std::unordered_map<std::string, std::shared_ptr<Resource>> _resources;
 	std::unordered_map<ResourceLifeTime, std::vector<std::string>> _resouceLifetimes;
 	SDL_Renderer* _renderer;
 };

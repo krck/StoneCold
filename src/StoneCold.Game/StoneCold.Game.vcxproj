@@ -35,7 +35,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\StoneCold.Resources\Resources.hpp" />
     <ClInclude Include="GameCore.hpp" />
     <ClInclude Include="GameResources.hpp" />
     <ClInclude Include="PlayerCharacter.hpp" />

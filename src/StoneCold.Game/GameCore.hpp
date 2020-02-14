@@ -18,7 +18,7 @@ using namespace StoneCold::Resources;
 //
 class GameCore {
 public:
-	GameCore() : _engine(EngineCore()), _resources(ResourceManager()) { };
+	GameCore() : _engine(EngineCore()), _resources(ResourceManager()), _gameResources(GameResources()) { };
 	GameCore(const GameCore&) = delete;
 	GameCore& operator=(const GameCore&) = delete;
 
@@ -30,6 +30,7 @@ public:
 private:
 	EngineCore _engine;
 	ResourceManager _resources;
+	GameResources _gameResources;
 };
 
 }

@@ -4,39 +4,22 @@
 using namespace StoneCold::Resources;
 
 ResourceManager::ResourceManager()
-	: _resources(std::unordered_map<std::string, std::unique_ptr<Resource>>())
+	: _resources(std::unordered_map<std::string, std::shared_ptr<Resource>>())
 	, _resouceLifetimes(std::unordered_map<ResourceLifeTime, std::vector<std::string>>())
 	, _renderer(nullptr) {}
 
 bool ResourceManager::Initialize(SDL_Renderer* renderer) {
-	_renderer = renderer;
+	if (renderer != nullptr) {
+		_renderer = renderer;
 
-	_resouceLifetimes.insert({ ResourceLifeTime::Global, std::vector<std::string>() });
-	_resouceLifetimes.insert({ ResourceLifeTime::Level, std::vector<std::string>() });
-	_resouceLifetimes.insert({ ResourceLifeTime::Sequence, std::vector<std::string>() });
-	
-	return true;
-}
+		_resouceLifetimes.insert({ ResourceLifeTime::Global, std::vector<std::string>() });
+		_resouceLifetimes.insert({ ResourceLifeTime::Level, std::vector<std::string>() });
+		_resouceLifetimes.insert({ ResourceLifeTime::Sequence, std::vector<std::string>() });
 
-template<typename T>
-void ResourceManager::LoadResource(ResourceLifeTime resourceLifeTime, const std::string& name) {
-	// Load each ressource only once
-	if (!IsResourceLoaded(name)) {
-		// Create the specific Resource based on Type
-		if (std::is_same<T, TextureResource>::value) {
-			auto texture = CreateTexture(name);
-			_resources.insert({ name, std::make_unique<TextureResource>(texture) });
-			//_resouceLifetimes.find(resourceLifeTime)->second.push_back(texture.Id);
-			_resouceLifetimes[resourceLifeTime].push_back(name);
-		}
-		else if (std::is_same<T, AnimationResource>::value) {
-			auto animation = CreateAnimation(name);
-			_resources.insert({ name, std::make_unique<AnimationResource>(animation) });
-			_resouceLifetimes[resourceLifeTime].push_back(name);
-		}
-		else if (std::is_same<T, FontResource>::value) {
-
-		}
+		return true;
+	}
+	else {
+		return false;
 	}
 }
 

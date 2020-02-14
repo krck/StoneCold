@@ -30,7 +30,6 @@ const auto playerAnimation = std::unordered_map<std::string, Animation>({
 //
 const auto AnimationData = std::unordered_map<std::string, std::unordered_map<std::string, Animation>>({
 	{ PLAYER_ANIMATION, playerAnimation }
-
 });
 
 }

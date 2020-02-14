@@ -6,53 +6,20 @@
 using namespace StoneCold::Game;
 using namespace StoneCold::Resources;
 
-//class GameCore {
-//
-//private:
-//	RessourceManager _ressourceManager;
-//	GameResources _gameResources;
-//	
-//public:
-//	void Init() {
-//		// ... init enginge, ....
-//		// ... init resourcemanager ....
-//		_gameResources = GameResources(&_resourceManager);
-//		
-//		_gameResources.LoadGlobalResouces();
-//		_gameResources.LoadLevelResouces(Level1);
-//		
-//		// ...
-//		
-//		gameObjects.add<Player>(RessourceManager.GetResource<TextureResource>("player")
-//				       ,RessourceManager.GetResource<AnimationResource>("player")
-//				       , ...)
-//		
-//		// ...
-//	}
-//	
-//};
-
-// THIS MUST GO
-SDL_Texture* tex = nullptr;
-
-
-
 bool GameCore::Initialize() {
 	try {
 		// Setup the Engine, which in turn will setup SDL and create the Window
 		_engine.Initialize("StoneCold");
 		auto rendererPtr = _engine.GetSDLRenderer();
+		// Setup the ResouceManager and the GameResouces class and load the global Resources
+		_resources.Initialize(rendererPtr);
+		_gameResources.Initialize(&_resources);
+		_gameResources.LoadGlobalResouces();
 
-		// INIT RESOURCE MANAGER AND RESOURCES HERE
-		// _resources.gettexture ...
-		// get renderer from engine
-		const auto path = "C:\\Users\\PeterUser\\Documents\\GitHub\\StoneCold\\assets\\Dwarf_Sprite.png";
-		SDL_Surface* tmpSurface = IMG_Load(path);
-		auto x1 = SDL_GetError();
-		tex = SDL_CreateTextureFromSurface(rendererPtr, tmpSurface);
-		SDL_FreeSurface(tmpSurface);
 
-		auto pc = PlayerCharacter(rendererPtr, tex, playerAnimation, Vec2(), Vec2(34, 34), 3, 200);
+		auto playerTexture = _resources.GetResource<TextureResource>(PLAYER_TEXTURE);
+		auto pc = PlayerCharacter(rendererPtr, playerTexture, playerAnimation, Vec2(), Vec2(34, 34), 3, 200);
+
 
 		_engine.AddNewGameObject(std::make_unique<PlayerCharacter>(pc));
 
