@@ -5,19 +5,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Core">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Managers">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="tmp_stuff">
-      <UniqueIdentifier>{bf230a4e-a571-42e6-9256-dda0f07e1cba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{5901a8e2-bb60-48be-8979-35449d59dd18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceData">
+      <UniqueIdentifier>{bf230a4e-a571-42e6-9256-dda0f07e1cba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -26,14 +22,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ResourceCore.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceManager.hpp">
       <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="Resources.hpp">
-      <Filter>tmp_stuff</Filter>
     </ClInclude>
     <ClInclude Include="Resource.hpp">
       <Filter>Resources</Filter>
@@ -46,6 +36,12 @@
     </ClInclude>
     <ClInclude Include="TextureResource.hpp">
       <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Data_Animations.hpp">
+      <Filter>ResourceData</Filter>
+    </ClInclude>
+    <ClInclude Include="Data_Textures.hpp">
+      <Filter>ResourceData</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

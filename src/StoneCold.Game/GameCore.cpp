@@ -1,10 +1,36 @@
 
 #include "GameCore.hpp"
 
-#include "Resources.hpp"
+#include "Data_Animations.hpp"
 
 using namespace StoneCold::Game;
 using namespace StoneCold::Resources;
+
+//class GameCore {
+//
+//private:
+//	RessourceManager _ressourceManager;
+//	GameResources _gameResources;
+//	
+//public:
+//	void Init() {
+//		// ... init enginge, ....
+//		// ... init resourcemanager ....
+//		_gameResources = GameResources(&_resourceManager);
+//		
+//		_gameResources.LoadGlobalResouces();
+//		_gameResources.LoadLevelResouces(Level1);
+//		
+//		// ...
+//		
+//		gameObjects.add<Player>(RessourceManager.GetResource<TextureResource>("player")
+//				       ,RessourceManager.GetResource<AnimationResource>("player")
+//				       , ...)
+//		
+//		// ...
+//	}
+//	
+//};
 
 // THIS MUST GO
 SDL_Texture* tex = nullptr;
@@ -26,13 +52,13 @@ bool GameCore::Initialize() {
 		tex = SDL_CreateTextureFromSurface(rendererPtr, tmpSurface);
 		SDL_FreeSurface(tmpSurface);
 
-		auto pc = PlayerCharacter(rendererPtr, tex, playerAnimations, Vec2(), Vec2(34, 34), 3, 200);
+		auto pc = PlayerCharacter(rendererPtr, tex, playerAnimation, Vec2(), Vec2(34, 34), 3, 200);
 
 		_engine.AddNewGameObject(std::make_unique<PlayerCharacter>(pc));
 
 		return true;
 	}
-	catch (const std::exception & ex) {
+	catch (const std::exception& ex) {
 		std::cout << ex.what() << std::endl;
 		return false;
 	}
@@ -54,8 +80,8 @@ int GameCore::Run() {
 
 			// FPS Limiter (Source of the micro-studder)
 			// This can go now, because updates are delta-time based
-			if (frameTime > frameLimit) { }
-			
+			if (frameTime > frameLimit) {}
+
 			// Pump the event loop to gather events from input devices
 			SDL_PumpEvents();
 
@@ -71,7 +97,7 @@ int GameCore::Run() {
 		}
 		return 0;
 	}
-	catch (const std::exception & ex) {
+	catch (const std::exception& ex) {
 		std::cout << ex.what() << std::endl;
 		return -1;
 	}

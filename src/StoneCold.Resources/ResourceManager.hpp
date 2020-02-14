@@ -3,6 +3,8 @@
 #define STONECOLD_RESOURCEMANAGER_H
 
 #include "Exception.hpp"
+#include "Data_Animations.hpp"
+#include "Data_Textures.hpp"
 #include "AnimationResource.hpp"
 #include "TextureResource.hpp"
 #include "FontResource.hpp"
@@ -20,6 +22,12 @@ namespace StoneCold::Resources {
 //
 enum class ResourceLifeTime { Global, Level, Sequence };
 
+//
+// ResorceManager 
+// - Ensures that only one copy of each unique resource exists
+// - Manages the lifetime of each resource (loading / unloading)
+// - !NOT YET! Handles loading of composite resources (resource dependencies)
+//
 class ResourceManager {
 public:
 	ResourceManager();
@@ -33,23 +41,21 @@ public:
 	// Ensures that any Resource is loaded only once, per LifeTime
 	//
 	template<typename T>
-	bool LoadResource(ResourceLifeTime resourceLifeTime, const std::string& name);
+	void LoadResource(ResourceLifeTime resourceLifeTime, const std::string& name);
 
 	//
 	// Reset a specific Resource Map (LifeTime storage) completely
 	//
-	bool UnloadResources(ResourceLifeTime resourceLifeTime);
+	void UnloadResources(ResourceLifeTime resourceLifeTime);
 
 	template<typename T>
-	T* GetResource(ResourceLifeTime resourceLifeTime, const std::string& name);
+	inline T* GetResource(const std::string& name) const { return static_cast<T*>(_resources[name].get()); }
 
-	bool IsResourceLoaded(ResourceLifeTime resourceLifeTime, const std::string& name);
+	inline bool IsResourceLoaded(const std::string& name) const { return (_resources.find(name) != _resources.end()); }
 
 	~ResourceManager() = default;
 
 private:
-	std::unordered_map<std::string, std::unique_ptr<Resource>>& GetResourceMap(ResourceLifeTime resourceLifeTime);
-
 	//
 	// Loads a Texture form file into an SDL_Texture object
 	// The returned shared_ptr will automatically call SDL_DestroyTexture on destruction
@@ -59,10 +65,8 @@ private:
 	FontResource CreateFont(const std::string& name);
 	
 private:
-	// All Resources exist only once with a managed lifetime
-	std::unordered_map<std::string, std::unique_ptr<Resource>> _globalResources;
-	std::unordered_map<std::string, std::unique_ptr<Resource>> _levelResources;
-	std::unordered_map<std::string, std::unique_ptr<Resource>> _sequenceResources;
+	std::unordered_map<std::string, std::unique_ptr<Resource>> _resources;
+	std::unordered_map<ResourceLifeTime, std::vector<std::string>> _resouceLifetimes;
 	SDL_Renderer* _renderer;
 };
 

@@ -4,57 +4,51 @@
 using namespace StoneCold::Resources;
 
 ResourceManager::ResourceManager()
-	: _globalResources(std::unordered_map<std::string, std::unique_ptr<Resource>>())
-	, _levelResources(std::unordered_map<std::string, std::unique_ptr<Resource>>())
-	, _sequenceResources(std::unordered_map<std::string, std::unique_ptr<Resource>>())
+	: _resources(std::unordered_map<std::string, std::unique_ptr<Resource>>())
+	, _resouceLifetimes(std::unordered_map<ResourceLifeTime, std::vector<std::string>>())
 	, _renderer(nullptr) {}
 
 bool ResourceManager::Initialize(SDL_Renderer* renderer) {
 	_renderer = renderer;
+
+	_resouceLifetimes.insert({ ResourceLifeTime::Global, std::vector<std::string>() });
+	_resouceLifetimes.insert({ ResourceLifeTime::Level, std::vector<std::string>() });
+	_resouceLifetimes.insert({ ResourceLifeTime::Sequence, std::vector<std::string>() });
+	
+	return true;
 }
 
 template<typename T>
-inline bool ResourceManager::LoadResource(ResourceLifeTime resourceLifeTime, const std::string& name) {
-	auto& resMap = GetResourceMap(resourceLifeTime);
+void ResourceManager::LoadResource(ResourceLifeTime resourceLifeTime, const std::string& name) {
+	// Load each ressource only once
+	if (!IsResourceLoaded(name)) {
+		// Create the specific Resource based on Type
+		if (std::is_same<T, TextureResource>::value) {
+			auto texture = CreateTexture(name);
+			_resources.insert({ name, std::make_unique<TextureResource>(texture) });
+			//_resouceLifetimes.find(resourceLifeTime)->second.push_back(texture.Id);
+			_resouceLifetimes[resourceLifeTime].push_back(name);
+		}
+		else if (std::is_same<T, AnimationResource>::value) {
+			auto animation = CreateAnimation(name);
+			_resources.insert({ name, std::make_unique<AnimationResource>(animation) });
+			_resouceLifetimes[resourceLifeTime].push_back(name);
+		}
+		else if (std::is_same<T, FontResource>::value) {
 
-	// Check if the 
-	if (std::is_same<T, TextureResource>::value) {
-
+		}
 	}
-	else if (std::is_same<T, AnimationResource>::value) {
+}
 
+void ResourceManager::UnloadResources(ResourceLifeTime resourceLifeTime) {
+	// Remove all Resources that are mapped to the specific lifetime
+	const auto& keys = _resouceLifetimes[resourceLifeTime];
+	for (const auto& key : keys) {
+		_resources.erase(key);
 	}
-	else if (std::is_same<T, FontResource>::value) {
 
-	}
-
-	// check IsResourceLoaded<T>() is in the dictionary already
-	// if not ... load the specific Resource based on Type
-	// by calling the private Function
-	return false;
-}
-
-bool ResourceManager::UnloadResources(ResourceLifeTime resourceLifeTime) {
-	// Clear the wohle dictionary based on Type
-	return false;
-}
-
-template<typename T>
-T* StoneCold::Resources::ResourceManager::GetResource(ResourceLifeTime resourceLifeTime, const std::string& name) {
-	auto& resMap = GetResourceMap(resourceLifeTime);
-	return static_cast<T*>(resMap[name].get());
-}
-
-bool StoneCold::Resources::ResourceManager::IsResourceLoaded(ResourceLifeTime resourceLifeTime, const std::string& name) {
-	auto& resMap = GetResourceMap(resourceLifeTime);
-	return (resMap.find(name) != resMap.end());
-}
-
-std::unordered_map<std::string, std::unique_ptr<Resource>>& StoneCold::Resources::ResourceManager::GetResourceMap(ResourceLifeTime resourceLifeTime) {
-	// Get a reference to the correct Resource Map based on type ResourceLifeTime
-	return (resourceLifeTime == ResourceLifeTime::Global) ? _globalResources :
-		(resourceLifeTime == ResourceLifeTime::Level) ? _levelResources :
-		_sequenceResources;
+	// Clear all ResourceLifeTime keys
+	_resouceLifetimes[resourceLifeTime] = std::vector<std::string>();
 }
 
 TextureResource ResourceManager::CreateTexture(const std::string& name) {
@@ -73,9 +67,15 @@ TextureResource ResourceManager::CreateTexture(const std::string& name) {
 }
 
 AnimationResource ResourceManager::CreateAnimation(const std::string& name) {
-	return AnimationResource();
+	try {
+		return AnimationResource(name, AnimationData.find(name)->second);
+	}
+	catch (...) {
+		throw GameException("Error on Animation creation: " + name);
+
+	}
 }
 
 FontResource ResourceManager::CreateFont(const std::string& name) {
-	return FontResource();
+	return FontResource(name);
 }

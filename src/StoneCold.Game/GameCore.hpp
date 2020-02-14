@@ -6,6 +6,7 @@
 #include "EngineCore.hpp"
 #include "ResourceManager.hpp"
 #include "PlayerCharacter.hpp"
+#include "GameResources.hpp"
 
 namespace StoneCold::Game {
 

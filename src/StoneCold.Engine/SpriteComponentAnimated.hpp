@@ -4,7 +4,7 @@
 
 #include "SDL_Base.hpp"
 #include "Component.hpp"
-#include "Animation.hpp"
+#include "AnimationResource.hpp"
 #include "TransformComponent.hpp"
 
 namespace StoneCold::Engine {
