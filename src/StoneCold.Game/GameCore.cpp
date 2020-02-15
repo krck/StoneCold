@@ -36,21 +36,26 @@ bool GameCore::Initialize() {
 //
 int GameCore::Run() {
 	try {
+		bool exit = false;
 		const uint frameLimit = truncf(1000.0f / FPS);
 		uint timeStamp_new = SDL_GetTicks();
 		uint timeStamp_old = SDL_GetTicks();
 		uint frameTime = 0; // delta in ms
+        SDL_Event event;
 
-		while (!SDL_QuitRequested()) {
+		while (!exit) {
 			timeStamp_new = SDL_GetTicks();
 			frameTime = timeStamp_new - timeStamp_old;
 
 			// FPS Limiter (Source of the micro-studder)
 			// This can go now, because updates are delta-time based
-			if (frameTime > frameLimit) {}
+			// if (frameTime > frameLimit) {}
 
-			// Pump the event loop to gather events from input devices
-			SDL_PumpEvents();
+            // Poll the event loop to gather events from input devices
+            while (SDL_PollEvent(&event) != 0) { 
+				if (event.type == SDL_QUIT) 
+					exit = true;
+			}
 
 			// Get a snapshot of the current state of the keyboard and handle the input
 			const uint8* keyStates = SDL_GetKeyboardState(NULL);

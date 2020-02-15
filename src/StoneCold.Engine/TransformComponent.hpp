@@ -19,11 +19,12 @@ public:
 	Vec2 Position;
 	Vec2 Velocity;
 	Vec2 Dimensions;
-	int Scale = 1;
+	const int BaseSpeed = 100;
 	int Speed = 100;
+	int Scale = 1;
 
 	TransformComponent(Vec2 pos, Vec2 dim, int scale, int speed)
-		: Position(pos), Velocity(Vec2()), Dimensions(dim), Scale(scale), Speed(speed) { }
+		: Position(pos), Velocity(Vec2()), Dimensions(dim), Scale(scale), BaseSpeed(speed), Speed(speed) { }
 
 	void Init(GameObject* gameObject) override {
 		IComponent::Init(gameObject);

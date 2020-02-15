@@ -42,16 +42,21 @@ public:
 	void HandleEvent(const uint8* keyStates) override {
 		// For each keykeyStates contains a value of 1 if pressed and a value of 0 if not pressed
 		// Add negative and positive velocity so the sprite doesn't move if both are pressed at the same time
-		_transform->Velocity.Y = (-1.0f * keyStates[SDL_SCANCODE_UP]) + keyStates[SDL_SCANCODE_DOWN];
-		_transform->Velocity.X = (-1.0f * keyStates[SDL_SCANCODE_LEFT]) + keyStates[SDL_SCANCODE_RIGHT];
+		_transform->Velocity.Y = (-1.0f * keyStates[SDL_SCANCODE_W]) + keyStates[SDL_SCANCODE_S];
+		_transform->Velocity.X = (-1.0f * keyStates[SDL_SCANCODE_A]) + keyStates[SDL_SCANCODE_D];
+
+		_transform->Speed = (keyStates[SDL_SCANCODE_RCTRL] ? _transform->BaseSpeed * 3 : _transform->BaseSpeed);
 
 		if (_isAnimated) {
-			if (_transform->Velocity.Y > 0 || _transform->Velocity.X) {
+			// Dash/Dodge movement
+			if (_transform->Speed > _transform->BaseSpeed)
+				_spriteAnimation->SetCurrentAnimation("jump");
+			// Normal movement
+			else if (_transform->Velocity.Y != 0.f || _transform->Velocity.X != 0.f)
 				_spriteAnimation->SetCurrentAnimation("walk");
-			}
-			else {
+			// No movement
+			else
 				_spriteAnimation->SetCurrentAnimation("idle");
-			}
 		}
 	}
 };
