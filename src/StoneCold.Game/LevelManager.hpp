@@ -1,6 +1,6 @@
 
-#ifndef STONECOLD_MAPMANAGER_H
-#define STONECOLD_MAPMANAGER_H
+#ifndef STONECOLD_LEVELMANAGER_H
+#define STONECOLD_LEVELMANAGER_H
 
 #include "GameResources.hpp"
 #include "EngineCore.hpp"
@@ -33,24 +33,24 @@ const std::vector<std::vector<int>> tmp_map = {
 };
 
 
-class MapManager {
+class LevelManager {
 public:
-	MapManager() : _resourceManager(nullptr), _gameResources(nullptr) { }
-	MapManager(const MapManager&) = delete;
-	MapManager& operator=(const MapManager&) = delete;
+	LevelManager() : _resourceManager(nullptr), _gameResources(nullptr) { }
+	LevelManager(const LevelManager&) = delete;
+	LevelManager& operator=(const LevelManager&) = delete;
 
 	bool Initialize(ResourceManager* resourceManager, GameResources* gameResources);
 
 	//
-	// Load a Map
+	// Load a Level (Map)
 	//
 	// Create a Map by loading all needed Textures based on LevelType (Grass, Desert, ...)
 	// Then those Textures are transformed into MapTiles, based on the MapLayout and finally 
 	// pushed to the Engines GameObject List, which will be rendered
 	//
-	void LoadMap(EngineCore* engine, LevelType type, const std::vector<std::vector<int>> mapLayout);
+	void LoadLevel(EngineCore* engine, LevelType type, const std::vector<std::vector<int>> mapLayout);
 
-	~MapManager() = default;
+	~LevelManager() = default;
 
 private:
 	ResourceManager* _resourceManager;

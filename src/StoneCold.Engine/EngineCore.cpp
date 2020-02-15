@@ -21,8 +21,12 @@ void EngineCore::HandleEvent(const uint8* keyStates) {
 }
 
 void EngineCore::Update(uint frameTime) {
+	// Update/Move all objects
 	for (auto& go : _gameObjects)
 		go->Update(frameTime);
+
+	// Now check for possible collisions
+	_collisionManager.UpdateCollisions(_collidableObjects);
 }
 
 void EngineCore::Render() {
@@ -38,5 +42,11 @@ void EngineCore::Render() {
 }
 
 void EngineCore::AddNewGameObject(std::unique_ptr<GameObject>&& gameObject) {
+	// Add to the main GameObjects list
 	_gameObjects.push_back(std::move(gameObject));
+
+	// Check for CollisionComponent and store ptr
+	auto go = _gameObjects.back().get();
+	if (go->HasComponent<CollisionComponent>())
+		_collidableObjects.push_back(go);
 }

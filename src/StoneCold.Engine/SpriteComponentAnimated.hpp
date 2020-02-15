@@ -5,13 +5,14 @@
 #include "SDL_Base.hpp"
 #include "Component.hpp"
 #include "AnimationResource.hpp"
+#include "CollisionComponent.hpp"
 #include "TransformComponent.hpp"
 
 namespace StoneCold::Engine {
 
 //
 // 2D animated Sprite Component (Player Character, NPCs, ...)
-// Dependent on: TransformComponent
+// Dependent on: TransformComponent (and can have a CollisionComponent)
 //
 // Contains information needed to render a 2D sprite (Texture, SDL_Renderer, ...)
 // Needs a GameObject with a TransformComponent to update the position on screen
@@ -25,6 +26,7 @@ private:
 	int _currentFrameIndex;
 	SDL_RendererFlip _flip;
 	
+	CollisionComponent* _collisionComponent;
 	TransformComponent* _transform;
 	SDL_Renderer* _renderer;
 	SDL_Texture* _texture;
@@ -32,12 +34,15 @@ private:
 
 public:
 	SpriteComponentAnimated(SDL_Renderer* renderer, SDL_Texture* texture, const std::unordered_map<std::string, StoneCold::Resources::Animation>& animations, SDL_FRect destRect)
-		: _transform(nullptr), _renderer(renderer), _texture(texture), _animations(animations), _destRect(destRect) { }
+		: _collisionComponent(nullptr), _transform(nullptr), _renderer(renderer), _texture(texture), _animations(animations), _destRect(destRect) { }
 
 	void Init(GameObject* gameObject) override {
 		IComponent::Init(gameObject);
 		// Get the TransformComponent to read transformations based on the Keyboard input
 		_transform = _gameObject->GetComponent<TransformComponent>();
+		// Get the CollisionComponent (if it has one) to keep it up to date with the _destRect
+		if (gameObject->HasComponent<CollisionComponent>())
+			_collisionComponent = gameObject->GetComponent<CollisionComponent>();
 	}
 
 	void Update(uint frameTime) override {
@@ -47,6 +52,11 @@ public:
 		_destRect.w = _transform->Dimensions.X * _transform->Scale;
 		_destRect.h = _transform->Dimensions.Y * _transform->Scale;
 		
+		// Update the Collision "box"
+		if (_collisionComponent != nullptr) {
+			_collisionComponent->CollisionDimensions = _destRect;
+		}
+
 		// Udpate the Sprites animation frame
 		_timeElapsed += frameTime;
 		if (_timeElapsed > _currentAnimation->FrameTime) {

@@ -18,16 +18,17 @@ public:
 		_animation = animation;
 
 		// Create the Components needed by the PlayerCharacter
+		auto c = CollisionComponent("player", { position.X, position.Y, dimension.X, dimension.Y });
 		auto t = TransformComponent(position, dimension, scale, speed);
 		auto s = SpriteComponentAnimated(renderer, _texture->GetTextureSDL(), _animation->Animations, SDL_FRect());
 		auto k = KeyboardComponent();
 		s.SetCurrentAnimation("idle");
 
 		// Add the Components. The order is important!
+		AddComponent<CollisionComponent>(std::make_shared<CollisionComponent>(c));
 		AddComponent<TransformComponent>(std::make_shared<TransformComponent>(t));
 		AddComponent<SpriteComponentAnimated>(std::make_shared<SpriteComponentAnimated>(s));
 		AddComponent<KeyboardComponent>(std::make_shared<KeyboardComponent>(k));
-
 	}
 
 private:

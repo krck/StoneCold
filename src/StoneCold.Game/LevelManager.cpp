@@ -1,10 +1,10 @@
 
-#include "MapManager.hpp"
+#include "LevelManager.hpp"
 
 using namespace StoneCold::Resources;
 using namespace StoneCold::Game;
 
-bool MapManager::Initialize(ResourceManager* resourceManager, GameResources* gameResources) {
+bool LevelManager::Initialize(ResourceManager* resourceManager, GameResources* gameResources) {
 	if (resourceManager != nullptr && gameResources != nullptr) {
 		_resourceManager = resourceManager;
 		_gameResources = gameResources;
@@ -15,7 +15,7 @@ bool MapManager::Initialize(ResourceManager* resourceManager, GameResources* gam
 	}
 }
 
-void MapManager::LoadMap(EngineCore* engine, LevelType type, const std::vector<std::vector<int>> mapLayout) {
+void LevelManager::LoadLevel(EngineCore* engine, LevelType type, const std::vector<std::vector<int>> mapLayout) {
 	// Load the specific Level Resources
 	_gameResources->LoadLevelResouces(LevelType::Grassland);
 
@@ -31,8 +31,8 @@ void MapManager::LoadMap(EngineCore* engine, LevelType type, const std::vector<s
 		for (int column = 0; column < mapLayout[row].size(); column++) {
 			// Map tile position based on row/column within the mapLayout
 			const auto& texId = mapLayout[row][column];
-			auto grassTile = MapTile(renderPtr, texMap[texId], Vec2i(column * 64, row * 64), Vec2i(64, 64));
-			engine->AddNewGameObject(std::make_unique<MapTile>(grassTile));
+			auto tile = MapTile(renderPtr, texMap[texId], Vec2(column * 64.f, row * 64.f), Vec2(64.f, 64.f), texId);
+			engine->AddNewGameObject(std::make_unique<MapTile>(tile));
 		}
 	}
 }

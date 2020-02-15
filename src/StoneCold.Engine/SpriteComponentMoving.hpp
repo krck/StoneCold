@@ -4,19 +4,21 @@
 
 #include "SDL_Base.hpp"
 #include "Component.hpp"
+#include "CollisionComponent.hpp"
 #include "TransformComponent.hpp"
 
 namespace StoneCold::Engine {
 
 //
 // 2D moving Sprite Component (Projectiles, ...)
-// Dependent on: TransformComponent
+// Dependent on: TransformComponent (and can have a CollisionComponent)
 //
 // Contains information needed to render a 2D sprite (Texture, SDL_Renderer, ...)
 // Needs a GameObject with a TransformComponent to update the position on screen
 //
 class SpriteComponentMoving : public IComponent {
 private:
+	CollisionComponent* _collisionComponent;
 	TransformComponent* _transform;
 	SDL_Renderer* _renderer;
 	SDL_Texture* _texture;
@@ -25,12 +27,15 @@ private:
 
 public:
 	SpriteComponentMoving(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect srcRect, SDL_FRect destRect)
-		: _transform(nullptr), _renderer(renderer), _texture(texture), _srcRect(srcRect), _destRect(destRect) { }
+		: _collisionComponent(nullptr), _transform(nullptr), _renderer(renderer), _texture(texture), _srcRect(srcRect), _destRect(destRect) { }
 
 	void Init(GameObject* gameObject) override {
 		IComponent::Init(gameObject);
 		// Get the TransformComponent to read transformations based on the Keyboard input
 		_transform = _gameObject->GetComponent<TransformComponent>();
+		// Get the CollisionComponent (if it has one) to keep it up to date with the _destRect
+		if (gameObject->HasComponent<CollisionComponent>())
+			_collisionComponent = gameObject->GetComponent<CollisionComponent>();
 
 		_srcRect.x = 0;
 		_srcRect.y = 0;
@@ -43,6 +48,10 @@ public:
 		_destRect.y = _transform->Position.Y;
 		_destRect.w = _transform->Dimensions.X * _transform->Scale;
 		_destRect.h = _transform->Dimensions.Y * _transform->Scale;
+		// Update the Collision "box"
+		if (_collisionComponent != nullptr) {
+			_collisionComponent->CollisionDimensions = _destRect;
+		}
 	}
 
 	void Render() override {

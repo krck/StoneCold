@@ -34,12 +34,21 @@
     <ClInclude Include="SpriteComponentFixed.hpp">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionComponent.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="SDLManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

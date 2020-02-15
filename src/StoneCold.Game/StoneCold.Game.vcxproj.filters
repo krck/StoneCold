@@ -22,7 +22,7 @@
     <ClCompile Include="GameResources.cpp">
       <Filter>GameResources</Filter>
     </ClCompile>
-    <ClCompile Include="MapManager.cpp">
+    <ClCompile Include="LevelManager.cpp">
       <Filter>GameResources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -39,7 +39,7 @@
     <ClInclude Include="MapTile.hpp">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="MapManager.hpp">
+    <ClInclude Include="LevelManager.hpp">
       <Filter>GameResources</Filter>
     </ClInclude>
   </ItemGroup>

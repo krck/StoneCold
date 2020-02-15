@@ -12,7 +12,7 @@ bool GameCore::Initialize() {
 		// Setup all the Managers in the correct order
 		_resources.Initialize(rendererPtr);
 		_gameResources.Initialize(&_resources);
-		_mapManager.Initialize(&_resources, &_gameResources);
+		_levelManager.Initialize(&_resources, &_gameResources);
 
 		// Load the Global Resources, create the PlayerCharacter and add it to the render list
 		_gameResources.LoadGlobalResouces();
@@ -21,7 +21,7 @@ bool GameCore::Initialize() {
 		auto pc = PlayerCharacter(rendererPtr, playerTexture, playerAnimation, Vec2(), Vec2(34, 34), 3, 200);
 
 
-		_mapManager.LoadMap(&_engine, LevelType::Grassland, tmp_map);
+		_levelManager.LoadLevel(&_engine, LevelType::Grassland, tmp_map);
 
 
 		_engine.AddNewGameObject(std::make_unique<PlayerCharacter>(pc));

@@ -5,6 +5,7 @@
 #include "SDLManager.hpp"
 #include "Exception.hpp"
 #include "Component.hpp"
+#include "CollisionManager.hpp"
 #include <iostream>
 #include <memory>
 #include <string>
@@ -14,7 +15,7 @@ namespace StoneCold::Engine {
 
 class EngineCore {
 public:
-	EngineCore() : _sdlManager(SDLManager()), _renderer(nullptr), _gameObjects(std::vector<std::unique_ptr<GameObject>>()) { };
+	EngineCore() : _sdlManager(SDLManager()), _collisionManager(CollisionManager()), _renderer(nullptr), _gameObjects(std::vector<std::unique_ptr<GameObject>>()) { };
 	EngineCore(const EngineCore&) = delete;
 	EngineCore& operator=(const EngineCore&) = delete;
 
@@ -31,6 +32,7 @@ public:
 
 private:
 	SDLManager _sdlManager;
+	CollisionManager _collisionManager;
 	SDL_Renderer* _renderer;
 
 	//
@@ -40,6 +42,12 @@ private:
 	// Group (and render) this by SDL_Texture for better performance
 	//
 	std::vector<std::unique_ptr<GameObject>> _gameObjects;
+
+	//
+	// Based on vector _gameObjects, this stores a pointer
+	// to each GameObject, that has a CollisionComponent
+	//
+	std::vector<GameObject*> _collidableObjects;
 };
 
 }

@@ -6,7 +6,7 @@
 #include "EngineCore.hpp"
 #include "ResourceManager.hpp"
 #include "PlayerCharacter.hpp"
-#include "MapManager.hpp"
+#include "LevelManager.hpp"
 
 namespace StoneCold::Game {
 
@@ -18,7 +18,7 @@ using namespace StoneCold::Resources;
 //
 class GameCore {
 public:
-	GameCore() : _engine(EngineCore()), _resources(ResourceManager()), _gameResources(GameResources()), _mapManager(MapManager()) { };
+	GameCore() : _engine(EngineCore()), _resources(ResourceManager()), _gameResources(GameResources()), _levelManager(LevelManager()) { };
 	GameCore(const GameCore&) = delete;
 	GameCore& operator=(const GameCore&) = delete;
 
@@ -31,7 +31,7 @@ private:
 	EngineCore _engine;
 	ResourceManager _resources;
 	GameResources _gameResources;
-	MapManager _mapManager;
+	LevelManager _levelManager;
 };
 
 }

@@ -14,13 +14,13 @@ Using
 Todo (next few weeks)
 ---------------------
 
-- [ ] Add AnimatedSprite
-- [ ] Add RessourceManager basics (Textures and Animations)
-- [ ] Add simple TileMap
-- [ ] Add Camera and TileMap scrolling
+- [x] Add AnimatedSprite
+- [x] Add RessourceManager basics (Textures and Animations)
+- [x] Add simple TileMap
 - [ ] Add Collision detection
+- [ ] Add Camera and TileMap scrolling
 - [ ] Add random map generation
-
+- [ ] Test, Cleanup, Fix, Optimize
 
 Copyright/Attribution Notices
 -----------------------------
