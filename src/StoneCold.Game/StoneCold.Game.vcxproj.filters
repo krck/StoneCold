@@ -22,6 +22,9 @@
     <ClCompile Include="GameResources.cpp">
       <Filter>GameResources</Filter>
     </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>GameResources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCore.hpp">
@@ -31,6 +34,12 @@
       <Filter>GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="GameResources.hpp">
+      <Filter>GameResources</Filter>
+    </ClInclude>
+    <ClInclude Include="MapTile.hpp">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="MapManager.hpp">
       <Filter>GameResources</Filter>
     </ClInclude>
   </ItemGroup>

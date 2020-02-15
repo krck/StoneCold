@@ -4,12 +4,10 @@
 using namespace StoneCold::Resources;
 using namespace StoneCold::Game;
 
-StoneCold::Game::GameResources::GameResources() : _resourceManager(nullptr) { }
-
 bool StoneCold::Game::GameResources::Initialize(ResourceManager* resourceManager) {
 	if (resourceManager != nullptr) {
 		_resourceManager = resourceManager;
-		return false;
+		return true;
 	}
 	else {
 		return false;
@@ -22,7 +20,7 @@ void GameResources::LoadGlobalResouces() {
 		_resourceManager->UnloadResources(ResourceLifeTime::Global);
 
 		_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Global, PLAYER_TEXTURE);
-		//_resourceManager->LoadResource<AnimationResource>(ResourceLifeTime::Global, PLAYER_ANIMATION);
+		_resourceManager->LoadResource<AnimationResource>(ResourceLifeTime::Global, PLAYER_ANIMATION);
 		// ...
 	}
 	catch (const std::exception & ex) {
@@ -35,19 +33,12 @@ void GameResources::LoadLevelResouces(LevelType type) {
 		// First clear the Level Resources
 		_resourceManager->UnloadResources(ResourceLifeTime::Level);
 
-		//std::string basePath;
-		//switch (type) {
-		//case LevelType::Grassland:	basePath = "gassland";	break;
-		//case LevelType::Desert:		basePath = "desert";	break;
-		//case LevelType::IceWorld:		basePath = "iceworld";	break;
-		//case LevelType::Jungle:		basePath = "jungle";	break;
-		//case LevelType::LavaStone:	basePath = "lavastone"; break;
-		//default: break;
-		//}
+		if (type == LevelType::Grassland) {
+			_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Level, GRASS_TEXTURE);
+			_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Level, DIRT_TEXTURE);
+			_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Level, WATER_TEXTURE);
+		}
 
-		//_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Level, basePath + "/ground.png");
-		//_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Level, basePath + "/wall_1.png");
-		//_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Level, basePath + "/wall_2.png");
 		// ...
 	}
 	catch (const std::exception & ex) {

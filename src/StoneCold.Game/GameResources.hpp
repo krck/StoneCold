@@ -20,11 +20,8 @@ enum class LevelType { Grassland, Desert, IceWorld, Jungle, LavaStone };
 // This includes Player Textures, GUI Fonts, NPC Animations, ...
 //
 class GameResources {
-private:
-	ResourceManager* _resourceManager;
-
 public:
-	GameResources();
+	GameResources() : _resourceManager(nullptr) { }
 	GameResources(const GameResources&) = delete;
 	GameResources& operator=(const GameResources&) = delete;
 
@@ -35,6 +32,9 @@ public:
 	void LoadSequenceResouces();
 
 	~GameResources() = default;
+
+private:
+	ResourceManager* _resourceManager;
 };
 
 }

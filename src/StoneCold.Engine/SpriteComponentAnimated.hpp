@@ -1,6 +1,6 @@
 
-#ifndef STONECOLD_SPRITECOMPONENT_H
-#define STONECOLD_SPRITECOMPONENT_H
+#ifndef STONECOLD_SPRITECOMPONENTANIMATED_H
+#define STONECOLD_SPRITECOMPONENTANIMATED_H
 
 #include "SDL_Base.hpp"
 #include "Component.hpp"
@@ -10,7 +10,7 @@
 namespace StoneCold::Engine {
 
 //
-// 2D animated Sprite Component
+// 2D animated Sprite Component (Player Character, NPCs, ...)
 // Dependent on: TransformComponent
 //
 // Contains information needed to render a 2D sprite (Texture, SDL_Renderer, ...)

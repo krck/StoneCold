@@ -164,6 +164,7 @@
     <ClInclude Include="Component.hpp" />
     <ClInclude Include="KeyboardComponent.hpp" />
     <ClInclude Include="SDLManager.hpp" />
+    <ClInclude Include="SpriteComponentFixed.hpp" />
     <ClInclude Include="SpriteComponentMoving.hpp" />
     <ClInclude Include="TransformComponent.hpp" />
   </ItemGroup>

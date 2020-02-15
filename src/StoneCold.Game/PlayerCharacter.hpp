@@ -13,12 +13,13 @@ using namespace StoneCold::Resources;
 
 class PlayerCharacter : public GameObject {
 public:
-	PlayerCharacter(SDL_Renderer* renderer, TextureResource* texture, const std::unordered_map<std::string, Animation>& animations, Vec2 position, Vec2 dimension, int scale, int speed) {
+	PlayerCharacter(SDL_Renderer* renderer, TextureResource* texture, AnimationResource* animation, Vec2 position, Vec2 dimension, int scale, int speed) {
 		_texture = texture;
-		
+		_animation = animation;
+
 		// Create the Components needed by the PlayerCharacter
 		auto t = TransformComponent(position, dimension, scale, speed);
-		auto s = SpriteComponentAnimated(renderer, _texture->GetTextureSDL(), animations, SDL_FRect());
+		auto s = SpriteComponentAnimated(renderer, _texture->GetTextureSDL(), _animation->Animations, SDL_FRect());
 		auto k = KeyboardComponent();
 		s.SetCurrentAnimation("idle");
 
@@ -31,7 +32,7 @@ public:
 
 private:
 	TextureResource* _texture;
-
+	AnimationResource* _animation;
 };
 
 }

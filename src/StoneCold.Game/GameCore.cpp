@@ -1,8 +1,6 @@
 
 #include "GameCore.hpp"
 
-#include "Data_Animations.hpp"
-
 using namespace StoneCold::Game;
 using namespace StoneCold::Resources;
 
@@ -11,14 +9,19 @@ bool GameCore::Initialize() {
 		// Setup the Engine, which in turn will setup SDL and create the Window
 		_engine.Initialize("StoneCold");
 		auto rendererPtr = _engine.GetSDLRenderer();
-		// Setup the ResouceManager and the GameResouces class and load the global Resources
+		// Setup all the Managers in the correct order
 		_resources.Initialize(rendererPtr);
 		_gameResources.Initialize(&_resources);
+		_mapManager.Initialize(&_resources, &_gameResources);
+
+		// Load the Global Resources, create the PlayerCharacter and add it to the render list
 		_gameResources.LoadGlobalResouces();
-
-
 		auto playerTexture = _resources.GetResource<TextureResource>(PLAYER_TEXTURE);
+		auto playerAnimation = _resources.GetResource<AnimationResource>(PLAYER_ANIMATION);
 		auto pc = PlayerCharacter(rendererPtr, playerTexture, playerAnimation, Vec2(), Vec2(34, 34), 3, 200);
+
+
+		_mapManager.LoadMap(&_engine, LevelType::Grassland, tmp_map);
 
 
 		_engine.AddNewGameObject(std::make_unique<PlayerCharacter>(pc));
