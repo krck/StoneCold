@@ -17,7 +17,7 @@ Todo (next few weeks)
 - [x] Add AnimatedSprite
 - [x] Add RessourceManager basics (Textures and Animations)
 - [x] Add simple TileMap
-- [ ] Add Collision detection
+- [x] Add Collision detection
 - [ ] Add Camera and TileMap scrolling
 - [ ] Add random map generation
 - [ ] Test, Cleanup, Fix, Optimize

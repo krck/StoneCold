@@ -18,7 +18,7 @@ bool GameCore::Initialize() {
 		_gameResources.LoadGlobalResouces();
 		auto playerTexture = _resources.GetResource<TextureResource>(PLAYER_TEXTURE);
 		auto playerAnimation = _resources.GetResource<AnimationResource>(PLAYER_ANIMATION);
-		auto pc = PlayerCharacter(rendererPtr, playerTexture, playerAnimation, Vec2(), Vec2(34, 34), 3, 200);
+		auto pc = PlayerCharacter(rendererPtr, playerTexture, playerAnimation, Vec2(), Vec2(32, 32), 3, 200);
 
 
 		_levelManager.LoadLevel(&_engine, LevelType::Grassland, tmp_map);
