@@ -18,7 +18,7 @@ public:
 		_animation = animation;
 
 		// Create the Components needed by the PlayerCharacter
-		auto c = CollisionComponent("player", { position.X, position.Y, dimension.X, dimension.Y });
+		auto c = CollisionComponent("player", false, { position.X, position.Y, dimension.X, dimension.Y });
 		auto t = TransformComponent(position, dimension, scale, speed);
 		auto s = SpriteComponentAnimated(renderer, _texture->GetTextureSDL(), _animation->Animations, SDL_FRect());
 		auto k = KeyboardComponent();

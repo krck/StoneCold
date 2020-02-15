@@ -14,7 +14,7 @@ public:
 	CollisionManager(const CollisionManager&) = delete;
 	CollisionManager& operator=(const CollisionManager&) = delete;
 
-	void UpdateCollisions(std::vector<GameObject*>& collidableObjects);
+	void UpdateCollisions(std::vector<CollisionComponent*>& collidableObjects);
 
 	~CollisionManager() = default;
 

@@ -18,11 +18,12 @@ namespace StoneCold::Engine {
 class CollisionComponent : public IComponent {
 public:
 	const std::string Tag;
+	const bool IsFixed;
 	std::string CollisionWithTag;
 	SDL_FRect CollisionDimensions;
 
-	CollisionComponent(const std::string& tag, SDL_FRect collisionDimensions)
-		: Tag(tag), CollisionDimensions(collisionDimensions) { }
+	CollisionComponent(const std::string& tag, bool isFixed, SDL_FRect collisionDimensions)
+		: Tag(tag), IsFixed(isFixed), CollisionDimensions(collisionDimensions) { }
 
 	void Init(GameObject* gameObject) override {
 		IComponent::Init(gameObject);

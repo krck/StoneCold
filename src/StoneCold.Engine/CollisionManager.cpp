@@ -5,21 +5,13 @@
 
 using namespace StoneCold::Engine;
 
-void StoneCold::Engine::CollisionManager::UpdateCollisions(std::vector<GameObject*>& collidableObjects) {
-    CollisionComponent* ccMain = nullptr;
-    CollisionComponent* ccCheck = nullptr;
-    bool result = false;
-
-    for (auto coMain : collidableObjects) {
-        for (auto coCheck : collidableObjects) {
-            if (coMain == coCheck || (coMain->HasComponent<SpriteComponentFixed>() && coCheck->HasComponent<SpriteComponentFixed>()))
+void StoneCold::Engine::CollisionManager::UpdateCollisions(std::vector<CollisionComponent*>& collidableObjects) {
+    for (auto ccMain : collidableObjects) {
+        for (auto ccCheck : collidableObjects) {
+            if (ccMain == ccCheck || ccMain->IsFixed && ccCheck->IsFixed)
                 continue;
 
-            ccMain = coMain->GetComponent<CollisionComponent>();
-            ccCheck = coCheck->GetComponent<CollisionComponent>();
-            result = CalculateAABB(ccMain->CollisionDimensions, ccCheck->CollisionDimensions);
-
-            if (result) {
+            if (CalculateAABB(ccMain->CollisionDimensions, ccCheck->CollisionDimensions)) {
                 ccMain->CollisionWithTag = ccCheck->Tag;
                 ccCheck->CollisionWithTag = ccMain->Tag;
                 std::cout << ccMain->Tag << " collision with: " << ccCheck->Tag << std::endl;

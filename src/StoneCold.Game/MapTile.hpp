@@ -22,7 +22,7 @@ public:
 
 		// TEST
 		if (tileTypeId == 2) {
-			auto c = CollisionComponent("dirt", { position.X, position.Y, dimension.X, dimension.Y });
+			auto c = CollisionComponent("dirt", true, { position.X, position.Y, dimension.X, dimension.Y });
 			AddComponent<CollisionComponent>(std::make_shared<CollisionComponent>(c));
 		}
 

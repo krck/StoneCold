@@ -15,7 +15,7 @@ namespace StoneCold::Engine {
 
 class EngineCore {
 public:
-	EngineCore() : _sdlManager(SDLManager()), _collisionManager(CollisionManager()), _renderer(nullptr), _gameObjects(std::vector<std::unique_ptr<GameObject>>()) { };
+	EngineCore();
 	EngineCore(const EngineCore&) = delete;
 	EngineCore& operator=(const EngineCore&) = delete;
 
@@ -47,7 +47,7 @@ private:
 	// Based on vector _gameObjects, this stores a pointer
 	// to each GameObject, that has a CollisionComponent
 	//
-	std::vector<GameObject*> _collidableObjects;
+	std::vector<CollisionComponent*> _collidableObjects;
 };
 
 }

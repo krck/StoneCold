@@ -4,6 +4,10 @@
 using namespace StoneCold;
 using namespace StoneCold::Engine;
 
+EngineCore::EngineCore()
+	: _sdlManager(SDLManager()), _collisionManager(CollisionManager()), _renderer(nullptr)
+	, _gameObjects(std::vector<std::unique_ptr<GameObject>>()), _collidableObjects(std::vector<CollisionComponent*>()) { };
+
 bool EngineCore::Initialize(const std::string& windowName) {
 	// Init SDL will create and show the Application Window
 	if (_sdlManager.InitializeSDL(windowName)) {
@@ -48,5 +52,5 @@ void EngineCore::AddNewGameObject(std::unique_ptr<GameObject>&& gameObject) {
 	// Check for CollisionComponent and store ptr
 	auto go = _gameObjects.back().get();
 	if (go->HasComponent<CollisionComponent>())
-		_collidableObjects.push_back(go);
+		_collidableObjects.push_back(go->GetComponent<CollisionComponent>());
 }
