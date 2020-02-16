@@ -40,7 +40,7 @@ bool GameCore::Initialize() {
 int GameCore::Run() {
 	try {
 		bool exit = false;
-		const uint frameLimit = truncf(1000.0f / FPS);
+		const uint frameLimit = (uint)truncf(1000.0f / FPS);
 		uint timeStamp_new = SDL_GetTicks();
 		uint timeStamp_old = SDL_GetTicks();
 		uint frameTime = 0; // delta in ms
