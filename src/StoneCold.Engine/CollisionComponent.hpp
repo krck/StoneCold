@@ -19,17 +19,17 @@ class CollisionComponent : public IComponent {
 public:
 	const std::string Tag;
 	const bool IsFixed;
-	std::string CollisionWithTag;
 	SDL_FRect CollisionDimensions;
+	CollisionComponent* CollisionWith;
 
 	CollisionComponent(const std::string& tag, bool isFixed, SDL_FRect collisionDimensions)
-		: Tag(tag), IsFixed(isFixed), CollisionDimensions(collisionDimensions) { }
+		: Tag(tag), IsFixed(isFixed), CollisionDimensions(collisionDimensions), CollisionWith(nullptr) { }
 
 	void Init(GameObject* gameObject) override {
 		IComponent::Init(gameObject);
 	}
 
-	inline bool HasCollision() const { return !CollisionWithTag.empty(); }
+	inline bool HasCollision() const { return (CollisionWith != nullptr); }
 };
 
 }

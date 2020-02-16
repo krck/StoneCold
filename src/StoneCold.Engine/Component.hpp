@@ -28,6 +28,8 @@ public:
 	virtual void Update(uint frameTime) { }
 	virtual void Render() { }
 
+	inline GameObject* GetGameObject() { return _gameObject; }
+
 	// Virtual Destructor ?
 	virtual ~IComponent() {}
 };

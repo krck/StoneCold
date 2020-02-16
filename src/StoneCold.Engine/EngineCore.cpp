@@ -25,12 +25,12 @@ void EngineCore::HandleEvent(const uint8* keyStates) {
 }
 
 void EngineCore::Update(uint frameTime) {
+	// Now check for possible collisions
+	_collisionManager.UpdateCollisions(_collidableObjects);
+
 	// Update/Move all objects
 	for (auto& go : _gameObjects)
 		go->Update(frameTime);
-
-	// Now check for possible collisions
-	_collisionManager.UpdateCollisions(_collidableObjects);
 }
 
 void EngineCore::Render() {

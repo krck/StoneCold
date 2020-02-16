@@ -1,23 +1,18 @@
 
 #include "CollisionManager.hpp"
 
-#include <iostream>
-
 using namespace StoneCold::Engine;
 
 void StoneCold::Engine::CollisionManager::UpdateCollisions(std::vector<CollisionComponent*>& collidableObjects) {
-    for (auto ccMain : collidableObjects) {
-        for (auto ccCheck : collidableObjects) {
-            if (ccMain == ccCheck || ccMain->IsFixed && ccCheck->IsFixed)
-                continue;
-
-            if (CalculateAABB(ccMain->CollisionDimensions, ccCheck->CollisionDimensions)) {
-                ccMain->CollisionWithTag = ccCheck->Tag;
-                ccCheck->CollisionWithTag = ccMain->Tag;
-                std::cout << ccMain->Tag << " collision with: " << ccCheck->Tag << std::endl;
-            }
-        }
-    }
+	for (auto ccMain : collidableObjects) {
+		ccMain->CollisionWith = nullptr;
+		for (auto ccCheck : collidableObjects) {
+			if (ccMain != ccCheck && !(ccMain->IsFixed && ccCheck->IsFixed)
+				&& CalculateAABB(ccMain->CollisionDimensions, ccCheck->CollisionDimensions)) {
+				ccMain->CollisionWith = ccCheck;
+			}
+		}
+	}
 }
 
 bool CollisionManager::CalculateAABB(const SDL_FRect& recA, const SDL_FRect& recB) const {
