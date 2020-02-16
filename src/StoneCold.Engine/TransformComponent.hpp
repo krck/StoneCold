@@ -48,20 +48,21 @@ public:
 		if (Velocity.X != 0 || Velocity.Y != 0)
 			Velocity.normalize();
 
-		// Update the Collision "box"
+		// Update the Position, either with automatic values in case 
+		// of a collision, or based on the manual input (Velocity)
 		if (_collisionComponent != nullptr && _collisionComponent->HasCollision()) {
 			auto recA = _collisionComponent->CollisionDimensions;
 			auto recB = _collisionComponent->CollisionWith->CollisionDimensions;
 
-			auto dx1 = (recA.x + recA.w - recB.x);
-			auto dx2 = (recB.x + recB.w - recA.x);
-			auto dy1 = (recA.y + recA.h - recB.y);
-			auto dy2 = (recB.y + recB.h - recA.y);
+			// Get the edge thats overlapping (positive or negative direction)
+			bool dxP = (recA.x + recA.w - recB.x) < 1.f;
+			bool dxN = (recB.x + recB.w - recA.x) < 1.f;
+			bool dyP = (recA.y + recA.h - recB.y) < 1.f;
+			bool dyN = (recB.y + recB.h - recA.y) < 1.f;
 
-			if (dx1 < 1 || dx2 < 1)
-				Position.X += (dx1 > dx2 ? 1 : -1);
-			else
-				Position.Y += (dy1 > dy2 ? 1 : -1);
+			// Step the overlapping Axis 1 pixel away, in the opposite direction
+			Position.X += (dxN + (dxP * -1));
+			Position.Y += (dyN + (dyP * -1));
 		}
 		else {
 			// Update the position and round down to the next int
