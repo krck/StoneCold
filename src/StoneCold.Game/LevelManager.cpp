@@ -1,6 +1,7 @@
 
 #include "LevelManager.hpp"
 
+using namespace StoneCold;
 using namespace StoneCold::Resources;
 using namespace StoneCold::Game;
 

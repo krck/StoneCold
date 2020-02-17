@@ -55,10 +55,10 @@ public:
 			auto recB = _collisionComponent->CollisionWith->CollisionDimensions;
 
 			// Get the edge thats overlapping (positive or negative direction)
-			bool dxP = (recA.x + recA.w - recB.x) < 1.f;
-			bool dxN = (recB.x + recB.w - recA.x) < 1.f;
-			bool dyP = (recA.y + recA.h - recB.y) < 1.f;
-			bool dyN = (recB.y + recB.h - recA.y) < 1.f;
+			bool dxP = (recA.x + recA.w - recB.x) < 5.f;
+			bool dxN = (recB.x + recB.w - recA.x) < 5.f;
+			bool dyP = (recA.y + recA.h - recB.y) < 5.f;
+			bool dyN = (recB.y + recB.h - recA.y) < 5.f;
 
 			// Step the overlapping Axis 1 pixel away, in the opposite direction
 			Position.X += (dxN + (dxP * -1));

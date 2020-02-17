@@ -16,14 +16,6 @@
 namespace StoneCold::Resources {
 
 //
-// ResourceLifeTimes
-// - Global: Resource is needed as the game is running (Player Character, GUI Elements, Fonts, Music, ...)
-// - Level: Resource is only needed during a specific Level (Ground-Textures, NPC Animations, ...)
-// - Sequence: Resource is only for a very short duration like a Cutscene
-//
-enum class ResourceLifeTime { Global, Level, Sequence };
-
-//
 // ResorceManager 
 // - Ensures that only one copy of each unique resource exists
 // - Manages the lifetime of each resource (loading / unloading)

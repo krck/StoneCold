@@ -10,12 +10,6 @@ namespace StoneCold::Game {
 using namespace StoneCold::Resources;
 
 //
-// All the bread-and-butter Video Game level types
-//
-enum class LevelType { Grassland, Desert, IceWorld, Jungle, LavaStone };
-
-
-//
 // Definitions of what Resources should be loaded
 // This includes Player Textures, GUI Fonts, NPC Animations, ...
 //
