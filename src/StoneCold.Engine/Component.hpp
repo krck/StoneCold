@@ -26,7 +26,7 @@ public:
 	virtual void Init(GameObject* gameObject) { _gameObject = gameObject; }
 	virtual void HandleEvent(const uint8* keyStates) { }
 	virtual void Update(uint frameTime) { }
-	virtual void Render() { }
+	virtual void Render(SDL_FRect camera) { }
 
 	inline GameObject* GetGameObject() { return _gameObject; }
 
@@ -51,7 +51,7 @@ public:
 	// Pass on main-loop Events to all Components
 	void HandleEvent(const uint8* keyStates) { for (auto& iter : _components) iter.second->HandleEvent(keyStates); }
 	void Update(uint frameTime) { for (auto& iter : _components) iter.second->Update(frameTime); }
-	void Render() { for (auto& iter : _components) iter.second->Render(); }
+	void Render(SDL_FRect camera) { for (auto& iter : _components) iter.second->Render(camera); }
 
 	//
 	// Add a new Component to the GameObject based on the Component Type

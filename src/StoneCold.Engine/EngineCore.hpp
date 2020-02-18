@@ -4,7 +4,7 @@
 
 #include "SDLManager.hpp"
 #include "Exception.hpp"
-#include "Component.hpp"
+#include "TransformComponent.hpp"
 #include "CollisionManager.hpp"
 #include <iostream>
 #include <memory>
@@ -26,6 +26,7 @@ public:
 	void Update(uint frameTime);
 	void Render();
 
+	void AddPlayer(std::unique_ptr<GameObject>&& gameObject);
 	void AddNewGameObject(std::unique_ptr<GameObject>&& gameObject);
 
 	~EngineCore() = default;
@@ -34,6 +35,13 @@ private:
 	SDLManager _sdlManager;
 	CollisionManager _collisionManager;
 	SDL_Renderer* _renderer;
+	SDL_FRect _camera;
+	
+	//
+	// Pointers to the Player GameObject for fast access
+	//
+	std::unique_ptr<GameObject> _player;
+	TransformComponent* _playerTransformation;
 
 	//
 	// Vector with all GameObjects (Player, NPCs, MapTiles, ...)

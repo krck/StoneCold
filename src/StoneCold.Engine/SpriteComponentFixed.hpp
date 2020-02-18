@@ -36,8 +36,10 @@ public:
 		}
 	}
 
-	void Render() override {
-		SDL_RenderCopyF(_renderer, _texture, &_srcRect, &_destRect);
+	void Render(SDL_FRect camera) override {
+		// Get the dest rect relative to the camera position
+		SDL_FRect currentDest = { _destRect.x - camera.x, _destRect.y - camera.y, _destRect.w, _destRect.h };
+		SDL_RenderCopyF(_renderer, _texture, &_srcRect, &currentDest);
 	}
 };
 

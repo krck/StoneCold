@@ -24,7 +24,7 @@ bool GameCore::Initialize() {
 		_levelManager.LoadLevel(&_engine, LevelType::Grassland, tmp_map);
 
 
-		_engine.AddNewGameObject(std::make_unique<PlayerCharacter>(pc));
+		_engine.AddPlayer(std::make_unique<PlayerCharacter>(pc));
 
 		return true;
 	}

@@ -28,9 +28,6 @@
     <ClInclude Include="SpriteComponentAnimated.hpp">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteComponentMoving.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="SpriteComponentFixed.hpp">
       <Filter>Components</Filter>
     </ClInclude>

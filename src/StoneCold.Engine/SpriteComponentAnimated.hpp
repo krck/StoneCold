@@ -65,12 +65,15 @@ public:
 		}
 	}
 
-	void Render() override {
+	void Render(SDL_FRect camera) override {
+		// Get the current src and dest rects
+		// Src is within the animation texture and dest is relative to the camera position
 		_currentFrame = _currentAnimation->FramePositions[_currentFrameIndex];
+		SDL_FRect currentDest = { _destRect.x - camera.x, _destRect.y - camera.y, _destRect.w, _destRect.h };
 
 		// Use SDL_RenderCopyEx and flip the Animation, based on the last input velocity
 		_flip = (_transform->Velocity.X == 0 ? _flip : (_transform->Velocity.X < 0 ? SDL_RendererFlip::SDL_FLIP_HORIZONTAL : SDL_RendererFlip::SDL_FLIP_NONE));
-		SDL_RenderCopyExF(_renderer, _texture, &_currentFrame, &_destRect, 0, nullptr, _flip);
+		SDL_RenderCopyExF(_renderer, _texture, &_currentFrame, &currentDest, 0, nullptr, _flip);
 	}
 	
 	void SetCurrentAnimation(const std::string& name) {
