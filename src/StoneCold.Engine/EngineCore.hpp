@@ -30,7 +30,7 @@ public:
 	void AddPlayer(std::unique_ptr<GameObject>&& gameObject);
 	void AddNewGameObject(std::unique_ptr<GameObject>&& gameObject);
 
-	std::vector<std::vector<MapTileTypes>>* GetNewMap();
+	const std::vector<std::vector<MapTileTypes>>& GetNewMap();
 
 	~EngineCore() = default;
 

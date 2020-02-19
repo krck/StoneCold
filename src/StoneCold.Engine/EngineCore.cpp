@@ -42,10 +42,10 @@ void EngineCore::Update(uint frameTime) {
 	_camera.y = _playerTransformation->Position.Y - (WINDOW_SIZE_HEIGHT / 2.f);
 
 	// Keep the camera in bounds
-	if (_camera.x < 0) _camera.x = 0;
-	if (_camera.y < 0) _camera.y = 0;
-	if (_camera.x > _camera.w) _camera.x = _camera.w;
-	if (_camera.y > _camera.h) _camera.y = _camera.h;
+	//if (_camera.x < 0) _camera.x = 0;
+	//if (_camera.y < 0) _camera.y = 0;
+	//if (_camera.x > _camera.w) _camera.x = _camera.w;
+	//if (_camera.y > _camera.h) _camera.y = _camera.h;
 }
 
 void EngineCore::Render() {
@@ -83,6 +83,6 @@ void StoneCold::Engine::EngineCore::AddPlayer(std::unique_ptr<GameObject>&& game
 	_playerTransformation = _player->GetComponent<TransformComponent>();
 }
 
-std::vector<std::vector<MapTileTypes>>* StoneCold::Engine::EngineCore::GetNewMap() {
+const std::vector<std::vector<MapTileTypes>>& StoneCold::Engine::EngineCore::GetNewMap() {
 	return _mapGenerator.GenerateMap(Vec2i(50, 50));
 }

@@ -4,7 +4,7 @@
 using namespace StoneCold;
 using namespace StoneCold::Engine;
 
-std::vector<std::vector<MapTileTypes>>*  MapGenerator::GenerateMap(Vec2i size) {
+const std::vector<std::vector<MapTileTypes>>&  MapGenerator::GenerateMap(Vec2i size) {
 	// Set _grid size and create a _grid with empty spaces and reset the _walkers
 	_mapSize = size;
 	_spawnPos = Vec2i((_mapSize.X / 2), (_mapSize.Y / 2));
@@ -15,7 +15,7 @@ std::vector<std::vector<MapTileTypes>>*  MapGenerator::GenerateMap(Vec2i size) {
 	CreateWalls();
 	SetMapTiles();
 
-	return &_grid;
+	return _grid;
 }
 
 void MapGenerator::CreateFloor() {

@@ -21,7 +21,7 @@ bool GameCore::Initialize() {
 		auto pc = PlayerCharacter(rendererPtr, playerTexture, playerAnimation, Vec2(), Vec2(32, 32), 3, 200);
 
 
-		_levelManager.LoadLevel(&_engine, LevelType::Grassland, tmp_map);
+		_levelManager.LoadLevel(&_engine, LevelType::Grassland);
 
 
 		_engine.AddPlayer(std::make_unique<PlayerCharacter>(pc));

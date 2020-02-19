@@ -34,10 +34,10 @@ void GameResources::LoadLevelResouces(LevelType type) {
 		// First clear the Level Resources
 		_resourceManager->UnloadResources(ResourceLifeTime::Level);
 
+		// Animation data is the same for all Maps. Only Textures need to loaded by LevelType
+		_resourceManager->LoadResource<AnimationResource>(ResourceLifeTime::Level, MAP_ANIMATION);
 		if (type == LevelType::Grassland) {
-			_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Level, GRASS_TEXTURE);
-			_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Level, DIRT_TEXTURE);
-			_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Level, WATER_TEXTURE);
+			_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Level, GRASSLAND_TEXTURE);
 		}
 
 		// ...

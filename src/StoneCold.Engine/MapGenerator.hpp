@@ -28,7 +28,7 @@ public:
 	MapGenerator(const MapGenerator&) = delete;
 	MapGenerator& operator=(const MapGenerator&) = delete;
 
-	std::vector<std::vector<MapTileTypes>>* GenerateMap(Vec2i size);
+	const std::vector<std::vector<MapTileTypes>>& GenerateMap(Vec2i size);
 
 	~MapGenerator() = default;
 
