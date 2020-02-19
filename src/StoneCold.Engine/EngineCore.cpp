@@ -5,7 +5,7 @@ using namespace StoneCold;
 using namespace StoneCold::Engine;
 
 EngineCore::EngineCore()
-	: _sdlManager(SDLManager()), _collisionManager(CollisionManager()), _renderer(nullptr)
+	: _sdlManager(SDLManager()), _collisionManager(CollisionManager()), _mapGenerator(MapGenerator()), _renderer(nullptr)
 	, _gameObjects(std::vector<std::unique_ptr<GameObject>>()), _collidableObjects(std::vector<CollisionComponent*>())
 	, _camera({ 0.f, 0.f, (float)WINDOW_SIZE_WIDTH, (float)WINDOW_SIZE_HEIGHT }), _player(nullptr) { };
 
@@ -81,4 +81,8 @@ void StoneCold::Engine::EngineCore::AddPlayer(std::unique_ptr<GameObject>&& game
 	_player = std::move(gameObject);
 	_collidableObjects.push_back(_player->GetComponent<CollisionComponent>());
 	_playerTransformation = _player->GetComponent<TransformComponent>();
+}
+
+std::vector<std::vector<MapTileTypes>>* StoneCold::Engine::EngineCore::GetNewMap() {
+	return _mapGenerator.GenerateMap(Vec2i(50, 50));
 }

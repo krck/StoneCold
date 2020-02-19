@@ -8,12 +8,12 @@
     <Filter Include="Components">
       <UniqueIdentifier>{423b9c07-e60d-4eb0-8d75-a7256da8c402}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{a1b4e741-00ca-47b9-9540-a46f3785e16f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="SDLManager.hpp">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="TransformComponent.hpp">
@@ -34,8 +34,14 @@
     <ClInclude Include="CollisionComponent.hpp">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="SDLManager.hpp">
+      <Filter>Managers</Filter>
+    </ClInclude>
     <ClInclude Include="CollisionManager.hpp">
-      <Filter>Core</Filter>
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="MapGenerator.hpp">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -43,10 +49,13 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="SDLManager.cpp">
-      <Filter>Core</Filter>
+      <Filter>Managers</Filter>
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
-      <Filter>Core</Filter>
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="MapGenerator.cpp">
+      <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

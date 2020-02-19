@@ -157,11 +157,13 @@
   <ItemGroup>
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="EngineCore.cpp" />
+    <ClCompile Include="MapGenerator.cpp" />
     <ClCompile Include="SDLManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionComponent.hpp" />
     <ClInclude Include="CollisionManager.hpp" />
+    <ClInclude Include="MapGenerator.hpp" />
     <ClInclude Include="SpriteComponentAnimated.hpp" />
     <ClInclude Include="EngineCore.hpp" />
     <ClInclude Include="Component.hpp" />

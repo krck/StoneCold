@@ -23,6 +23,34 @@ enum class LevelType { Grassland, Desert, IceWorld, Jungle, LavaStone };
 //
 enum class ResourceLifeTime { Global, Level, Sequence };
 
+//
+// MapTiles used by the Random Map Generator
+// These TileTypes will be mapped to a Texture
+//
+enum class MapTileTypes {
+	Empty,
+	Floor,
+	Placeholder,
+
+	Wall_Top,
+	Wall_Left,
+	Wall_Right,
+	Wall_Bottom,
+
+	Corner_Top_Left,
+	Corner_Top_Right,
+	Corner_Bottom_Left,
+	Corner_Bottom_Right,
+
+	Endblock_Top,
+	Endblock_Left,
+	Endblock_Right,
+	Endblock_Bottom,
+
+	Middle_Block_Horizontal,
+	Middle_Block_Vertical,
+};
+
 }
 
 #endif

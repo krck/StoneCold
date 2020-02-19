@@ -6,6 +6,7 @@
 #include "Exception.hpp"
 #include "TransformComponent.hpp"
 #include "CollisionManager.hpp"
+#include "MapGenerator.hpp"
 #include <iostream>
 #include <memory>
 #include <string>
@@ -29,11 +30,14 @@ public:
 	void AddPlayer(std::unique_ptr<GameObject>&& gameObject);
 	void AddNewGameObject(std::unique_ptr<GameObject>&& gameObject);
 
+	std::vector<std::vector<MapTileTypes>>* GetNewMap();
+
 	~EngineCore() = default;
 
 private:
 	SDLManager _sdlManager;
 	CollisionManager _collisionManager;
+	MapGenerator _mapGenerator;
 	SDL_Renderer* _renderer;
 	SDL_FRect _camera;
 	

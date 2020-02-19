@@ -17,6 +17,9 @@ bool LevelManager::Initialize(ResourceManager* resourceManager, GameResources* g
 }
 
 void LevelManager::LoadLevel(EngineCore* engine, LevelType type, const std::vector<std::vector<int>> mapLayout) {
+	// Get a new, randomly generated Map
+	auto mapData = engine->GetNewMap();
+	
 	// Load the specific Level Resources
 	_gameResources->LoadLevelResouces(LevelType::Grassland);
 
