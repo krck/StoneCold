@@ -44,14 +44,21 @@ void SimulationManager::LoadLevelResouces(LevelType type) {
 
 		// Animation data is the same for all Maps. Only Textures need to loaded by LevelType
 		_resourceManager->LoadResource<AnimationResource>(ResourceLifeTime::Level, MAP_ANIMATION);
-		if (type == LevelType::Grassland) {
-			_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Level, GRASSLAND_TEXTURE);
+		std::string texturePath = "";
+		switch (type) {
+		case LevelType::Grassland: texturePath = GRASSLAND_TEXTURE; break;
+		case  LevelType::Desert: texturePath = DESERT_TEXTURE; break;
+		case  LevelType::Stone: texturePath = STONE_TEXTURE; break;
+		case  LevelType::Ice: texturePath = ICE_TEXTURE; break;
+		default: texturePath = GRASSLAND_TEXTURE; break;
 		}
+		_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Level, texturePath);
+
 
 		// Get a new, randomly generated Map
 		auto mapData = _engine->GetNewMap();
 		auto animation = _resourceManager->GetResource<AnimationResource>(MAP_ANIMATION);
-		auto texture = _resourceManager->GetResource<TextureResource>(GRASSLAND_TEXTURE);
+		auto texture = _resourceManager->GetResource<TextureResource>(texturePath);
 		auto renderPtr = _engine->GetSDLRenderer();
 		const auto& an = animation->Animations;
 

@@ -13,7 +13,7 @@ typedef unsigned __int64	hash64;
 //
 // All the bread-and-butter Video Game level types
 //
-enum class LevelType { Grassland, Desert, IceWorld, Jungle, LavaStone };
+enum class LevelType { Grassland, Desert, Stone, Ice };
 
 //
 // ResourceLifeTimes

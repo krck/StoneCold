@@ -11,6 +11,9 @@ namespace StoneCold::Resources {
 //
 const std::string PLAYER_TEXTURE = "textures\\Dwarf_Sprite.png";
 const std::string GRASSLAND_TEXTURE = "textures\\map_grassland.png";
+const std::string DESERT_TEXTURE = "textures\\map_desert.png";
+const std::string STONE_TEXTURE = "textures\\map_stone.png";
+const std::string ICE_TEXTURE = "textures\\map_ice.png";
 
 }
 

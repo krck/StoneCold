@@ -15,7 +15,7 @@ bool GameCore::Initialize() {
 
 		// Load the Global Resources, create the PlayerCharacter and add it to the render list
 		_simulationManager.LoadGlobalResouces();
-		_simulationManager.LoadLevelResouces(LevelType::Grassland);
+		_simulationManager.LoadLevelResouces(LevelType::Desert);
 
 		return true;
 	}
