@@ -13,7 +13,7 @@ using namespace StoneCold::Resources;
 
 class MapTile : public GameObject {
 public:
-	MapTile(SDL_Renderer* renderer, TextureResource* texture, Vec2 position, Vec2 dimension, SDL_Rect srcRect, int tileTypeId) {
+	MapTile(SDL_Renderer* renderer, TextureResource* texture, Vec2 position, Vec2 dimension, SDL_Rect srcRect, SDL_RendererFlip flip, int tileTypeId) {
 		_texture = texture;
 
 		// Fixed src_rect (Pixels to take, from the .png) and dest_rect (Where to put the Pixels)
@@ -27,7 +27,7 @@ public:
 		}
 
 		// Create the Components needed by the MapTile
-		auto s = SpriteComponentFixed(renderer, _texture->GetTextureSDL(), src, dest, 3);
+		auto s = SpriteComponentFixed(renderer, _texture->GetTextureSDL(), src, dest, flip, 3);
 
 		// Add the Components. The order is important!
 		AddComponent<SpriteComponentFixed>(std::make_shared<SpriteComponentFixed>(s));

@@ -139,9 +139,9 @@ void MapGenerator::SetMapTiles() {
 				// If floor is in 3 locations around
 				if (floorCount == 3) {
 					if (!tmp[0])
-						_grid[i][j] = MapTileTypes::Endblock_Top;
-					else if (!tmp[1])
 						_grid[i][j] = MapTileTypes::Endblock_Bottom;
+					else if (!tmp[1])
+						_grid[i][j] = MapTileTypes::Endblock_Top;
 					else if (!tmp[2])
 						_grid[i][j] = MapTileTypes::Endblock_Right;
 					else

@@ -21,11 +21,12 @@ private:
 	SDL_Texture* _texture;
 	SDL_Rect _srcRect;
 	SDL_FRect _destRect;
+	SDL_RendererFlip _flip;
 	int _scale = 1;
 
 public:
-	SpriteComponentFixed(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect srcRect, SDL_FRect destRect, int scale)
-		: _collisionComponent(nullptr), _renderer(renderer), _texture(texture), _srcRect(srcRect), _destRect(destRect), _scale(scale) { }
+	SpriteComponentFixed(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect srcRect, SDL_FRect destRect, SDL_RendererFlip flip, int scale)
+		: _collisionComponent(nullptr), _renderer(renderer), _texture(texture), _srcRect(srcRect), _destRect(destRect), _flip(flip), _scale(scale) { }
 
 	void Init(GameObject* gameObject) override {
 		IComponent::Init(gameObject);
@@ -40,7 +41,7 @@ public:
 	void Render(SDL_FRect camera) override {
 		// Get the dest rect relative to the camera position
 		SDL_FRect currentDest = { _destRect.x - camera.x, _destRect.y - camera.y, _destRect.w * _scale, _destRect.h * _scale };
-		SDL_RenderCopyF(_renderer, _texture, &_srcRect, &currentDest);
+		SDL_RenderCopyExF(_renderer, _texture, &_srcRect, &currentDest, 0, nullptr, _flip);
 	}
 };
 

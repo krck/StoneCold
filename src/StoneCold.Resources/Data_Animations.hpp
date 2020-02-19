@@ -30,11 +30,11 @@ const auto playerAnimation = std::unordered_map<std::string, Animation>({
 const auto mapAnimation = std::unordered_map<std::string, Animation>({
 	{"wall_top",			Animation({ {0,0,32,32} }, 0) },
 	{"corner_top",			Animation({	{32,0,32,32} }, 0) },
-	{"middle_horizontal",	Animation({ {64,0,32,32} }, 0) },
+	{"middle_vertical",		Animation({ {64,0,32,32} }, 0) },
 	{"endblock_top",		Animation({ {96,0,32,32} }, 0) },
 	{"wall_default",		Animation({ {0,32,32,32} }, 0) },
 	{"wall_side",			Animation({ {32,32,32,32} }, 0) },
-	{"middle_vertical",		Animation({ {64,32,32,32} }, 0) },
+	{"middle_horizontal",	Animation({ {64,32,32,32} }, 0) },
 	{"endblock_bottom",		Animation({ {96,32,32,32} }, 0) },
 	{"wall_bottom",			Animation({ {0,64,32,32} }, 0) },
 	{"corner_bottom",		Animation({ {32,64,32,32} }, 0) },
