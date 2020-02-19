@@ -29,7 +29,10 @@ enum class ResourceLifeTime { Global, Level, Sequence };
 //
 enum class MapTileTypes {
 	Empty,
-	Floor,
+	Floor_Default,
+	Floor_Bottom,
+	Floor_Corner_Left,
+	Floor_Corner_Right,
 	Placeholder,
 
 	Wall_Top,

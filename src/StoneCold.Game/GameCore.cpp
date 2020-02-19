@@ -15,7 +15,7 @@ bool GameCore::Initialize() {
 
 		// Load the Global Resources, create the PlayerCharacter and add it to the render list
 		_simulationManager.LoadGlobalResouces();
-		_simulationManager.LoadLevelResouces(LevelType::Desert);
+		_simulationManager.LoadLevelResouces();
 
 		return true;
 	}
@@ -47,6 +47,8 @@ int GameCore::Run() {
 
             // Poll the event loop to gather events from input devices
             while (SDL_PollEvent(&event) != 0) { 
+				if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F5)
+					_simulationManager.LoadLevelResouces();
 				if (event.type == SDL_QUIT) 
 					exit = true;
 			}

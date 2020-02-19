@@ -50,8 +50,8 @@ void MapGenerator::CreateFloor() {
 			walker.pos.Y = std::clamp(walker.pos.Y, 7, _mapSize.Y - 8);
 
 			// Create a Floor at the position of every walker, if there is non already
-			if (_grid[walker.pos.X][walker.pos.Y] != MapTileTypes::Floor) {
-				_grid[walker.pos.X][walker.pos.Y] = MapTileTypes::Floor;
+			if (_grid[walker.pos.X][walker.pos.Y] != MapTileTypes::Floor_Default) {
+				_grid[walker.pos.X][walker.pos.Y] = MapTileTypes::Floor_Default;
 				floorCount++;
 			}
 		}
@@ -76,7 +76,7 @@ void MapGenerator::CreateWalls() {
 	// empty space around it. This will be changed to a Wall-Placeholder
 	for (int i = 0; i < _grid.size(); i++) {
 		for (int j = 0; j < _grid[i].size(); j++) {
-			if (_grid[i][j] == MapTileTypes::Floor) {
+			if (_grid[i][j] == MapTileTypes::Floor_Default) {
 				if (_grid[i - 1][j] == MapTileTypes::Empty) {
 					_grid[i - 1][j] = MapTileTypes::Placeholder;
 				}
@@ -111,13 +111,13 @@ void MapGenerator::CreateWalls() {
 							// Skip corners and center
 							continue;
 						}
-						if (_grid[i + checkX][j + checkY] != MapTileTypes::Floor) {
+						if (_grid[i + checkX][j + checkY] != MapTileTypes::Floor_Default) {
 							allFloors = false;
 						}
 					}
 				}
 				if (allFloors) {
-					_grid[i][j] = MapTileTypes::Floor;
+					_grid[i][j] = MapTileTypes::Floor_Default;
 				}
 			}
 		}
@@ -129,23 +129,29 @@ void MapGenerator::SetMapTiles() {
 		for (int j = 0; j < _grid[i].size(); j++) {
 			if (_grid[i][j] == MapTileTypes::Placeholder) {
 				std::vector<bool> tmp{
-					_grid[i - 1][j] == MapTileTypes::Floor,	// top
-					_grid[i + 1][j] == MapTileTypes::Floor,	// bottom
-					_grid[i][j - 1] == MapTileTypes::Floor,	// right
-					_grid[i][j + 1] == MapTileTypes::Floor	// left
+					_grid[i - 1][j] == MapTileTypes::Floor_Default,	// top
+					_grid[i + 1][j] == MapTileTypes::Floor_Default,	// bottom
+					_grid[i][j - 1] == MapTileTypes::Floor_Default,	// right
+					_grid[i][j + 1] == MapTileTypes::Floor_Default	// left
 				};
 				int floorCount = (tmp[0] + tmp[1] + tmp[2] + tmp[3]);
 
 				// If floor is in 3 locations around
 				if (floorCount == 3) {
-					if (!tmp[0])
+					if (!tmp[0]) {
 						_grid[i][j] = MapTileTypes::Endblock_Bottom;
+						//_grid[i + 1][j] = MapTileTypes::Floor_Bottom;
+					}
 					else if (!tmp[1])
 						_grid[i][j] = MapTileTypes::Endblock_Top;
-					else if (!tmp[2])
+					else if (!tmp[2]) {
 						_grid[i][j] = MapTileTypes::Endblock_Right;
-					else
+						//_grid[i + 1][j] = MapTileTypes::Floor_Corner_Right;
+					}
+					else {
 						_grid[i][j] = MapTileTypes::Endblock_Left;
+						//_grid[i + 1][j] = MapTileTypes::Floor_Corner_Left;
+					}
 				}
 				// If floor is in 2 locations around
 				if (floorCount == 2) {
@@ -153,12 +159,18 @@ void MapGenerator::SetMapTiles() {
 						_grid[i][j] = MapTileTypes::Corner_Top_Left;
 					else if (tmp[0] && tmp[3])
 						_grid[i][j] = MapTileTypes::Corner_Top_Right;
-					else if (tmp[1] && tmp[2])
+					else if (tmp[1] && tmp[2]) {
 						_grid[i][j] = MapTileTypes::Corner_Bottom_Left;
-					else if (tmp[1] && tmp[3])
+						//_grid[i + 1][j] = MapTileTypes::Floor_Corner_Left;
+					}
+					else if (tmp[1] && tmp[3]) {
 						_grid[i][j] = MapTileTypes::Corner_Bottom_Right;
-					else if (tmp[0] && tmp[1])
+						//_grid[i + 1][j] = MapTileTypes::Floor_Corner_Right;
+					}
+					else if (tmp[0] && tmp[1]) {
 						_grid[i][j] = MapTileTypes::Middle_Block_Horizontal;
+						/*_grid[i + 1][j] = MapTileTypes::Floor_Bottom;*/
+					}
 					else
 						_grid[i][j] = MapTileTypes::Middle_Block_Vertical;
 				}
@@ -166,8 +178,10 @@ void MapGenerator::SetMapTiles() {
 				if (floorCount == 1) {
 					if (tmp[0])
 						_grid[i][j] = MapTileTypes::Wall_Top;
-					else if (tmp[1])
+					else if (tmp[1]) {
 						_grid[i][j] = MapTileTypes::Wall_Bottom;
+						//_grid[i + 1][j] = MapTileTypes::Floor_Bottom;
+					}
 					else if (tmp[2])
 						_grid[i][j] = MapTileTypes::Wall_Right;
 					else

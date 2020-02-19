@@ -37,7 +37,7 @@ public:
 	// Then those Textures are transformed into MapTiles, based on the MapLayout and finally 
 	// pushed to the Engines GameObject List, which will be rendered
 	//
-	void LoadLevelResouces(LevelType type);
+	void LoadLevelResouces();
 
 	//
 	// ...

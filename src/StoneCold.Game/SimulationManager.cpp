@@ -37,25 +37,20 @@ void SimulationManager::LoadGlobalResouces() {
 	}
 }
 
-void SimulationManager::LoadLevelResouces(LevelType type) {
+void SimulationManager::LoadLevelResouces() {
 	try {
 		// First clear the Level Resources
 		_resourceManager->UnloadResources(ResourceLifeTime::Level);
 
-		// Animation data is the same for all Maps. Only Textures need to loaded by LevelType
+		// Animation data is the same for all Maps. Only Textures need to be loaded by LevelType
 		_resourceManager->LoadResource<AnimationResource>(ResourceLifeTime::Level, MAP_ANIMATION);
-		std::string texturePath = "";
-		switch (type) {
-		case LevelType::Grassland: texturePath = GRASSLAND_TEXTURE; break;
-		case  LevelType::Desert: texturePath = DESERT_TEXTURE; break;
-		case  LevelType::Stone: texturePath = STONE_TEXTURE; break;
-		case  LevelType::Ice: texturePath = ICE_TEXTURE; break;
-		default: texturePath = GRASSLAND_TEXTURE; break;
-		}
+
+		// Get a new, randomly generated Map Texture
+		auto levelType = (LevelType)(rand() % 3 + 0);
+		std::string texturePath = MAP_TEXTURES.find(levelType)->second;
 		_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Level, texturePath);
 
-
-		// Get a new, randomly generated Map
+		// Get a new, randomly generated Map Layout
 		auto mapData = _engine->GetNewMap();
 		auto animation = _resourceManager->GetResource<AnimationResource>(MAP_ANIMATION);
 		auto texture = _resourceManager->GetResource<TextureResource>(texturePath);
@@ -69,7 +64,10 @@ void SimulationManager::LoadLevelResouces(LevelType type) {
 				auto flip = SDL_RendererFlip::SDL_FLIP_NONE;
 				switch (type) {
 				case MapTileTypes::Empty: srcRect = an.find("wall_default")->second.FramePositions.front(); break;
-				case MapTileTypes::Floor: srcRect = an.find("floor_default")->second.FramePositions.front(); break;
+				case MapTileTypes::Floor_Default: srcRect = an.find("floor_default")->second.FramePositions.front(); break;
+				case MapTileTypes::Floor_Corner_Left: srcRect = an.find("floor_corner")->second.FramePositions.front(); flip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL; break;
+				case MapTileTypes::Floor_Corner_Right: srcRect = an.find("floor_corner")->second.FramePositions.front(); break;
+				case MapTileTypes::Floor_Bottom: srcRect = an.find("floor_bottom")->second.FramePositions.front(); break;
 				case MapTileTypes::Placeholder: srcRect = an.find("floor_default")->second.FramePositions.front(); break;
 
 				case MapTileTypes::Wall_Top: srcRect = an.find("wall_top")->second.FramePositions.front(); break;
