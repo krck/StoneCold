@@ -19,10 +19,7 @@
     <ClCompile Include="GameCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="GameResources.cpp">
-      <Filter>GameResources</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelManager.cpp">
+    <ClCompile Include="SimulationManager.cpp">
       <Filter>GameResources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -33,13 +30,10 @@
     <ClInclude Include="PlayerCharacter.hpp">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="GameResources.hpp">
-      <Filter>GameResources</Filter>
-    </ClInclude>
     <ClInclude Include="MapTile.hpp">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="LevelManager.hpp">
+    <ClInclude Include="SimulationManager.hpp">
       <Filter>GameResources</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,20 +11,11 @@ bool GameCore::Initialize() {
 		auto rendererPtr = _engine.GetSDLRenderer();
 		// Setup all the Managers in the correct order
 		_resources.Initialize(rendererPtr);
-		_gameResources.Initialize(&_resources);
-		_levelManager.Initialize(&_resources, &_gameResources);
+		_simulationManager.Initialize(&_engine, &_resources);
 
 		// Load the Global Resources, create the PlayerCharacter and add it to the render list
-		_gameResources.LoadGlobalResouces();
-		auto playerTexture = _resources.GetResource<TextureResource>(PLAYER_TEXTURE);
-		auto playerAnimation = _resources.GetResource<AnimationResource>(PLAYER_ANIMATION);
-		auto pc = PlayerCharacter(rendererPtr, playerTexture, playerAnimation, Vec2(), Vec2(32, 32), 3, 200);
-
-
-		_levelManager.LoadLevel(&_engine, LevelType::Grassland);
-
-
-		_engine.AddPlayer(std::make_unique<PlayerCharacter>(pc));
+		_simulationManager.LoadGlobalResouces();
+		_simulationManager.LoadLevelResouces(LevelType::Grassland);
 
 		return true;
 	}
