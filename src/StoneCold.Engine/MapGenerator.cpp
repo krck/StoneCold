@@ -200,8 +200,8 @@ void MapGenerator::SetMapTiles() {
 				}
 				// Random chance to be a "Special" Floor-Tile
 				else {
-					int rng = (rand() % 20 + 1);
-					if(rng > 16)
+					int rng = (rand() % 100 + 1);
+					if(rng > 90)
 						_grid[i][j] = MapTileTypes::Floor_Special_1;
 					else if (rng < 2)
 						_grid[i][j] = MapTileTypes::Floor_Special_2;
