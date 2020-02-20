@@ -4,7 +4,7 @@
 using namespace StoneCold;
 using namespace StoneCold::Engine;
 
-const std::vector<std::vector<MapTileTypes>>&  MapGenerator::GenerateMap(Vec2i size) {
+const std::vector<std::vector<MapTileTypes>>& MapGenerator::GenerateMap(Vec2i size) {
 	// Set _grid size and create a _grid with empty spaces and reset the _walkers
 	_mapSize = size;
 	_spawnPos = Vec2i((_mapSize.X / 2), (_mapSize.Y / 2));
@@ -125,6 +125,7 @@ void MapGenerator::CreateWalls() {
 }
 
 void MapGenerator::SetMapTiles() {
+	// Loop every Placeholder-Wall and set the actual Wall-Tiles
 	for (int i = 0; i < _grid.size(); i++) {
 		for (int j = 0; j < _grid[i].size(); j++) {
 			if (_grid[i][j] == MapTileTypes::Placeholder) {
@@ -138,20 +139,14 @@ void MapGenerator::SetMapTiles() {
 
 				// If floor is in 3 locations around
 				if (floorCount == 3) {
-					if (!tmp[0]) {
+					if (!tmp[0])
 						_grid[i][j] = MapTileTypes::Endblock_Bottom;
-						//_grid[i + 1][j] = MapTileTypes::Floor_Bottom;
-					}
 					else if (!tmp[1])
 						_grid[i][j] = MapTileTypes::Endblock_Top;
-					else if (!tmp[2]) {
+					else if (!tmp[2])
 						_grid[i][j] = MapTileTypes::Endblock_Right;
-						//_grid[i + 1][j] = MapTileTypes::Floor_Corner_Right;
-					}
-					else {
+					else
 						_grid[i][j] = MapTileTypes::Endblock_Left;
-						//_grid[i + 1][j] = MapTileTypes::Floor_Corner_Left;
-					}
 				}
 				// If floor is in 2 locations around
 				if (floorCount == 2) {
@@ -159,18 +154,12 @@ void MapGenerator::SetMapTiles() {
 						_grid[i][j] = MapTileTypes::Corner_Top_Left;
 					else if (tmp[0] && tmp[3])
 						_grid[i][j] = MapTileTypes::Corner_Top_Right;
-					else if (tmp[1] && tmp[2]) {
+					else if (tmp[1] && tmp[2])
 						_grid[i][j] = MapTileTypes::Corner_Bottom_Left;
-						//_grid[i + 1][j] = MapTileTypes::Floor_Corner_Left;
-					}
-					else if (tmp[1] && tmp[3]) {
+					else if (tmp[1] && tmp[3])
 						_grid[i][j] = MapTileTypes::Corner_Bottom_Right;
-						//_grid[i + 1][j] = MapTileTypes::Floor_Corner_Right;
-					}
-					else if (tmp[0] && tmp[1]) {
+					else if (tmp[0] && tmp[1])
 						_grid[i][j] = MapTileTypes::Middle_Block_Horizontal;
-						/*_grid[i + 1][j] = MapTileTypes::Floor_Bottom;*/
-					}
 					else
 						_grid[i][j] = MapTileTypes::Middle_Block_Vertical;
 				}
@@ -178,14 +167,44 @@ void MapGenerator::SetMapTiles() {
 				if (floorCount == 1) {
 					if (tmp[0])
 						_grid[i][j] = MapTileTypes::Wall_Top;
-					else if (tmp[1]) {
+					else if (tmp[1])
 						_grid[i][j] = MapTileTypes::Wall_Bottom;
-						//_grid[i + 1][j] = MapTileTypes::Floor_Bottom;
-					}
 					else if (tmp[2])
 						_grid[i][j] = MapTileTypes::Wall_Right;
 					else
 						_grid[i][j] = MapTileTypes::Wall_Left;
+				}
+			}
+		}
+	}
+
+	// Loop every Floor-Tile and check if its below a Wall (add Shadow)
+	for (int i = 0; i < _grid.size(); i++) {
+		for (int j = 0; j < _grid[i].size(); j++) {
+			if (_grid[i][j] == MapTileTypes::Floor_Default) {
+				// Normal shadow
+				if (_grid[i - 1][j] == MapTileTypes::Wall_Bottom
+					|| _grid[i - 1][j] == MapTileTypes::Middle_Block_Horizontal
+					|| _grid[i - 1][j] == MapTileTypes::Endblock_Bottom) {
+					_grid[i][j] = MapTileTypes::Floor_Bottom;
+				}
+				// Right-Corner shadow
+				else if (_grid[i - 1][j] == MapTileTypes::Corner_Bottom_Right
+						 || _grid[i - 1][j] == MapTileTypes::Endblock_Right) {
+					_grid[i][j] = MapTileTypes::Floor_Corner_Right;
+				}
+				// Left-Corner shadow
+				else if (_grid[i - 1][j] == MapTileTypes::Corner_Bottom_Left
+						 || _grid[i - 1][j] == MapTileTypes::Endblock_Left) {
+					_grid[i][j] = MapTileTypes::Floor_Corner_Left;
+				}
+				// Random chance to be a "Special" Floor-Tile
+				else {
+					int rng = (rand() % 20 + 1);
+					if(rng > 16)
+						_grid[i][j] = MapTileTypes::Floor_Special_1;
+					else if (rng < 2)
+						_grid[i][j] = MapTileTypes::Floor_Special_2;
 				}
 			}
 		}
