@@ -21,6 +21,7 @@ void SimulationManager::LoadGlobalResouces() {
 	try {
 		// First clear the Global Resources
 		_resourceManager->UnloadResources(ResourceLifeTime::Global);
+		_engine->UnloadGameObjects(ResourceLifeTime::Global);
 
 		_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Global, PLAYER_TEXTURE);
 		_resourceManager->LoadResource<AnimationResource>(ResourceLifeTime::Global, PLAYER_ANIMATION);
@@ -41,6 +42,7 @@ void SimulationManager::LoadLevelResouces() {
 	try {
 		// First clear the Level Resources
 		_resourceManager->UnloadResources(ResourceLifeTime::Level);
+		_engine->UnloadGameObjects(ResourceLifeTime::Level);
 
 		// Get a new, randomly generated Map Texture
 		auto levelType = (LevelType)(rand() % 4 + 0);
@@ -48,7 +50,7 @@ void SimulationManager::LoadLevelResouces() {
 		_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Level, texturePath);
 
 		// Get a new, randomly generated Map Layout
-		auto mapData = _engine->GetNewMap();
+		auto mapData = _mapGenerator.GenerateMap(Vec2i(60, 60));
 		auto texture = _resourceManager->GetResource<TextureResource>(texturePath);
 		auto renderPtr = _engine->GetSDLRenderer();
 
@@ -57,7 +59,7 @@ void SimulationManager::LoadLevelResouces() {
 				// Map tile position based on row/column within the mapLayout
 				const auto type = mapFrames.find(mapData[row][column])->second;
 				auto tile = MapTile(renderPtr, texture, Vec2(column * 96.f, row * 96.f), Vec2(32.f, 32.f), type.first, type.second, 0);
-				_engine->AddNewGameObject(std::make_unique<MapTile>(tile));
+				_engine->AddNewMapObject(texture->Id, std::make_shared<MapTile>(tile));
 			}
 		}
 
@@ -69,5 +71,14 @@ void SimulationManager::LoadLevelResouces() {
 }
 
 void StoneCold::Game::SimulationManager::LoadSequenceResouces() {
+	try {
+		// First clear the Sequence Resources
+		_resourceManager->UnloadResources(ResourceLifeTime::Sequence);
+		_engine->UnloadGameObjects(ResourceLifeTime::Sequence);
 
+		// ...
+	}
+	catch (const std::exception & ex) {
+		std::cout << "Loading Sequence Resources failed:\n" << ex.what() << std::endl;
+	}
 }

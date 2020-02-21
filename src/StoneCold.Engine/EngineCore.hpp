@@ -28,36 +28,45 @@ public:
 	void Render();
 
 	void AddPlayer(std::unique_ptr<GameObject>&& gameObject);
-	void AddNewGameObject(std::unique_ptr<GameObject>&& gameObject);
+	void AddNewMapObject(hash64 textureId, std::shared_ptr<GameObject>&& mapObject);
+	void AddNewGameObject(hash64 textureId, std::shared_ptr<GameObject>&& gameObject);
+	void AddNewGuiObject(hash64 textureId, std::shared_ptr<GameObject>&& guiObject);
 
-	const std::vector<std::vector<MapTileTypes>>& GetNewMap();
+	void UnloadGameObjects(ResourceLifeTime resourceLifeTime);
 
 	~EngineCore() = default;
 
 private:
 	SDLManager _sdlManager;
 	CollisionManager _collisionManager;
-	MapGenerator _mapGenerator;
 	SDL_Renderer* _renderer;
 	SDL_FRect _camera;
-	
+
 	//
 	// Pointers to the Player GameObject for fast access
+	// ResourceLifeTime::Global
 	//
 	std::unique_ptr<GameObject> _player;
 	TransformComponent* _playerTransformation;
 
 	//
-	// Vector with all GameObjects (Player, NPCs, MapTiles, ...)
-	// that need to be updated and rendered in every loop iteration
+	// unordered_maps with all GameObjects (Player, NPCs, MapTiles, ...)
+	// Each map has a TextureResource hash as key to batch render by Texture
 	//
-	// Group (and render) this by SDL_Texture for better performance
+	// Each map is (indirectly) linked to a ResourceLifeTime
+	// _mapObjects:		ResourceLifeTime::Level
+	// _gameObjects:	ResourceLifeTime::Level
+	// _guiObjects:		ResourceLifeTime::Global
 	//
-	std::vector<std::unique_ptr<GameObject>> _gameObjects;
+	std::unordered_map<hash64, std::vector<std::shared_ptr<GameObject>>> _mapObjects;
+	std::unordered_map<hash64, std::vector<std::shared_ptr<GameObject>>> _gameObjects;
+	std::vector<std::shared_ptr<GameObject>> _guiObjects;
 
 	//
-	// Based on vector _gameObjects, this stores a pointer
+	// Based on the GameObject maps, this stores a pointer
 	// to each GameObject, that has a CollisionComponent
+	//
+	// ResourceLifeTime::Level
 	//
 	std::vector<CollisionComponent*> _collidableObjects;
 };

@@ -5,9 +5,13 @@ using namespace StoneCold;
 using namespace StoneCold::Engine;
 
 EngineCore::EngineCore()
-	: _sdlManager(SDLManager()), _collisionManager(CollisionManager()), _mapGenerator(MapGenerator()), _renderer(nullptr)
-	, _gameObjects(std::vector<std::unique_ptr<GameObject>>()), _collidableObjects(std::vector<CollisionComponent*>())
-	, _camera({ 0.f, 0.f, (float)WINDOW_SIZE_WIDTH, (float)WINDOW_SIZE_HEIGHT }), _player(nullptr) { };
+	: _sdlManager(SDLManager()), _collisionManager(CollisionManager()), _renderer(nullptr)
+	, _mapObjects(std::unordered_map<hash64, std::vector<std::shared_ptr<GameObject>>>())
+	, _gameObjects(std::unordered_map<hash64, std::vector<std::shared_ptr<GameObject>>>())
+	, _guiObjects(std::vector<std::shared_ptr<GameObject>>())
+	, _collidableObjects(std::vector<CollisionComponent*>())
+	, _player(nullptr), _playerTransformation(nullptr)
+	, _camera({ 0.f, 0.f, (float)WINDOW_SIZE_WIDTH, (float)WINDOW_SIZE_HEIGHT }) { };
 
 bool EngineCore::Initialize(const std::string& windowName) {
 	// Init SDL will create and show the Application Window
@@ -34,8 +38,9 @@ void EngineCore::Update(uint frameTime) {
 
 	// Update/Move all objects
 	_player->Update(frameTime);
-	for (auto& go : _gameObjects)
-		go->Update(frameTime);
+	for (const auto& gameOs : _gameObjects)
+		for (const auto& go : gameOs.second)
+			go->Update(frameTime);
 
 	// Center the camera over the Player
 	_camera.x = _playerTransformation->Position.X - (WINDOW_SIZE_WIDTH / 2.f);
@@ -53,27 +58,25 @@ void EngineCore::Render() {
 	SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
 	SDL_RenderClear(_renderer);
 
-	// Render any GameObject (Map, NPC, ...) first
-	for (auto& go : _gameObjects) 
-		go->Render(_camera);
+	// First: Render any MapTile batched by Texture hash
+	for (const auto& mapOs : _mapObjects)
+		for (const auto& mo : mapOs.second)
+			mo->Render(_camera);
 
-	// Render the Player second
+	// Second: Render any GameObject (NPC, ...) batched by Texture hash
+	for (const auto& gameOs : _gameObjects)
+		for (const auto& go : gameOs.second)
+			go->Render(_camera);
+
+	// Third: Render the Player
 	_player->Render(_camera);
 
-	// Render the GUI last (always top Layer)
+	// Last: Render the GUI (always top Layer)
+	for (const auto& gui : _guiObjects)
+		gui->Render(_camera);
 
 	// Swap render buffer to the Window
 	SDL_RenderPresent(_renderer);
-}
-
-void EngineCore::AddNewGameObject(std::unique_ptr<GameObject>&& gameObject) {
-	// Add to the main GameObjects list
-	_gameObjects.push_back(std::move(gameObject));
-
-	// Check for CollisionComponent and store ptr
-	auto go = _gameObjects.back().get();
-	if (go->HasComponent<CollisionComponent>())
-		_collidableObjects.push_back(go->GetComponent<CollisionComponent>());
 }
 
 void StoneCold::Engine::EngineCore::AddPlayer(std::unique_ptr<GameObject>&& gameObject) {
@@ -83,6 +86,52 @@ void StoneCold::Engine::EngineCore::AddPlayer(std::unique_ptr<GameObject>&& game
 	_playerTransformation = _player->GetComponent<TransformComponent>();
 }
 
-const std::vector<std::vector<MapTileTypes>>& StoneCold::Engine::EngineCore::GetNewMap() {
-	return _mapGenerator.GenerateMap(Vec2i(50, 50));
+void StoneCold::Engine::EngineCore::AddNewMapObject(hash64 textureId, std::shared_ptr<GameObject>&& mapObject) {
+	// Check for CollisionComponent and store ptr
+	if (mapObject->HasComponent<CollisionComponent>())
+		_collidableObjects.push_back(mapObject->GetComponent<CollisionComponent>());
+
+	// Add a new vector in case no hash exists
+	if (_mapObjects.find(textureId) == _mapObjects.end() || _mapObjects[textureId].empty()) {
+		_mapObjects[textureId] = std::vector<std::shared_ptr<GameObject>>{ std::move(mapObject) };
+	}
+	else {
+		_mapObjects[textureId].push_back(std::move(mapObject));
+	}
+}
+
+void StoneCold::Engine::EngineCore::AddNewGameObject(hash64 textureId, std::shared_ptr<GameObject>&& gameObject) {
+	// Check for CollisionComponent and store ptr
+	if (gameObject->HasComponent<CollisionComponent>())
+		_collidableObjects.push_back(gameObject->GetComponent<CollisionComponent>());
+
+	// Add a new vector in case no hash exists
+	if (_gameObjects.find(textureId) == _gameObjects.end() || _gameObjects[textureId].empty()) {
+		_gameObjects[textureId] = std::vector<std::shared_ptr<GameObject>>{ std::move(gameObject) };
+	}
+	else {
+		_gameObjects[textureId].push_back(std::move(gameObject));
+	}
+}
+
+void StoneCold::Engine::EngineCore::AddNewGuiObject(hash64 textureId, std::shared_ptr<GameObject>&& guiObject) {
+	// Add a new vector in case no hash exists
+	_guiObjects.push_back(std::move(guiObject));
+}
+
+void StoneCold::Engine::EngineCore::UnloadGameObjects(ResourceLifeTime resourceLifeTime) {
+	if (resourceLifeTime == ResourceLifeTime::Global) {
+		// Do nothing for now.
+	}
+	else if (resourceLifeTime == ResourceLifeTime::Level) {
+		_mapObjects = std::unordered_map<hash64, std::vector<std::shared_ptr<GameObject>>>();
+		_gameObjects = std::unordered_map<hash64, std::vector<std::shared_ptr<GameObject>>>();
+		_guiObjects = std::vector<std::shared_ptr<GameObject>>();
+		_collidableObjects = std::vector<CollisionComponent*>();
+		// Add the player CollisionComponen again (has Global LifeTime)
+		_collidableObjects.push_back(_player->GetComponent<CollisionComponent>());
+	}
+	else if (resourceLifeTime == ResourceLifeTime::Sequence) {
+		// Do nothing for now.
+	}
 }

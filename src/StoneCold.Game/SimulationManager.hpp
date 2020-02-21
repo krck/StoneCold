@@ -25,7 +25,7 @@ using namespace StoneCold::Resources;
 // 
 class SimulationManager {
 public:
-	SimulationManager() : _engine(nullptr), _resourceManager(nullptr) { }
+	SimulationManager() : _mapGenerator(MapGenerator()), _engine(nullptr), _resourceManager(nullptr) { }
 	SimulationManager(const SimulationManager&) = delete;
 	SimulationManager& operator=(const SimulationManager&) = delete;
 
@@ -53,8 +53,9 @@ public:
 	~SimulationManager() = default;
 
 private:
-	EngineCore* _engine;
+	MapGenerator _mapGenerator;
 	ResourceManager* _resourceManager;
+	EngineCore* _engine;
 };
 
 }

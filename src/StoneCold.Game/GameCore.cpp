@@ -19,7 +19,7 @@ bool GameCore::Initialize() {
 
 		return true;
 	}
-	catch (const std::exception& ex) {
+	catch (const std::exception & ex) {
 		std::cout << ex.what() << std::endl;
 		return false;
 	}
@@ -35,7 +35,7 @@ int GameCore::Run() {
 		uint timeStamp_new = SDL_GetTicks();
 		uint timeStamp_old = SDL_GetTicks();
 		uint frameTime = 0; // delta in ms
-        SDL_Event event;
+		SDL_Event event;
 
 		while (!exit) {
 			timeStamp_new = SDL_GetTicks();
@@ -45,11 +45,11 @@ int GameCore::Run() {
 			// This can go now, because updates are delta-time based
 			// if (frameTime > frameLimit) {}
 
-            // Poll the event loop to gather events from input devices
-            while (SDL_PollEvent(&event) != 0) { 
-				if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F5)
+			// Poll the event loop to gather events from input devices
+			while (SDL_PollEvent(&event) != 0) {
+				if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F5)
 					_simulationManager.LoadLevelResouces();
-				if (event.type == SDL_QUIT) 
+				if (event.type == SDL_QUIT)
 					exit = true;
 			}
 
@@ -65,7 +65,7 @@ int GameCore::Run() {
 		}
 		return 0;
 	}
-	catch (const std::exception& ex) {
+	catch (const std::exception & ex) {
 		std::cout << ex.what() << std::endl;
 		return -1;
 	}
