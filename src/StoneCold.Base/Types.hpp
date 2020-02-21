@@ -36,6 +36,7 @@ enum class MapTileTypes {
 	Floor_Corner_Left,
 	Floor_Corner_Right,
 	Placeholder,
+	Portal,
 
 	Wall_Top,
 	Wall_Left,

@@ -135,3 +135,8 @@ void StoneCold::Engine::EngineCore::UnloadGameObjects(ResourceLifeTime resourceL
 		// Do nothing for now.
 	}
 }
+
+void StoneCold::Engine::EngineCore::SetPlayerPosition(Vec2 position) {
+	_playerTransformation->Position.X = position.X;
+	_playerTransformation->Position.Y = position.Y;
+}

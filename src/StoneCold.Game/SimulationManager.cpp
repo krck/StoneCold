@@ -51,17 +51,23 @@ void SimulationManager::LoadLevelResouces() {
 
 		// Get a new, randomly generated Map Layout
 		auto mapData = _mapGenerator.GenerateMap(Vec2i(60, 60));
+		auto spawnPos = _mapGenerator.GetStartEndPositions();
 		auto texture = _resourceManager->GetResource<TextureResource>(texturePath);
 		auto renderPtr = _engine->GetSDLRenderer();
 
+		// Create the actual MapTiles, based on the Layout and the loaded MapTexture
 		for (int row = 0; row < mapData.size(); row++) {
 			for (int column = 0; column < mapData[row].size(); column++) {
 				// Map tile position based on row/column within the mapLayout
-				const auto type = mapFrames.find(mapData[row][column])->second;
-				auto tile = MapTile(renderPtr, texture, Vec2(column * 96.f, row * 96.f), Vec2(32.f, 32.f), type.first, type.second, 0);
+				const auto type = mapFrames.find(mapData[row][column]);
+				const auto frame = type->second;
+				auto tile = MapTile(renderPtr, texture, Vec2(column * 96.f, row * 96.f), Vec2(32.f, 32.f), frame.first, frame.second, type->first);
 				_engine->AddNewMapObject(texture->Id, std::make_shared<MapTile>(tile));
 			}
 		}
+
+		// Update the Players position to fit a random spawn point
+		_engine->SetPlayerPosition(Vec2(spawnPos.first.X * 96.f, spawnPos.first.Y * 96.f));
 
 		// ...
 	}

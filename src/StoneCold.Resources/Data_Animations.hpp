@@ -47,7 +47,8 @@ const auto mapFrames = std::unordered_map<MapTileTypes, std::pair<SDL_Rect, SDL_
 	{MapTileTypes::Floor_Corner_Left,		{ {32,96,32,32}, SDL_RendererFlip::SDL_FLIP_HORIZONTAL } },
 	{MapTileTypes::Floor_Corner_Right,		{ {32,96,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
 	{MapTileTypes::Floor_Default,			{ {64,96,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
-	{MapTileTypes::Floor_Special_1,			{ {96,96,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } }
+	{MapTileTypes::Floor_Special_1,			{ {96,96,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
+	{MapTileTypes::Portal,					{ {0,32,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } }
 });
 
 //

@@ -29,6 +29,7 @@ public:
 	MapGenerator& operator=(const MapGenerator&) = delete;
 
 	const std::vector<std::vector<MapTileTypes>>& GenerateMap(Vec2i size);
+	inline std::pair<Vec2i, Vec2i> GetStartEndPositions() { return _mapStartEndPositions;  }
 
 	~MapGenerator() = default;
 
@@ -65,10 +66,10 @@ private:
 	}
 
 private:
+	std::pair<Vec2i, Vec2i> _mapStartEndPositions;
 	std::vector<std::vector<MapTileTypes>> _grid;
 	std::vector<Walker> _walkers;
 	Vec2i _mapSize;
-	Vec2i _spawnPos;
 
 	// Could be variable, but these settings yield good results
 	const float _chanceWalkerChangeDir = 0.5;

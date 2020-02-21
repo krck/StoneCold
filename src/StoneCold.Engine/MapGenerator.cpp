@@ -7,7 +7,6 @@ using namespace StoneCold::Engine;
 const std::vector<std::vector<MapTileTypes>>& MapGenerator::GenerateMap(Vec2i size) {
 	// Set _grid size and create a _grid with empty spaces and reset the _walkers
 	_mapSize = size;
-	_spawnPos = Vec2i((_mapSize.X / 2), (_mapSize.Y / 2));
 	_grid = std::vector<std::vector<MapTileTypes>>(_mapSize.X, std::vector<MapTileTypes>(_mapSize.Y, MapTileTypes::Empty));
 	_walkers = std::vector<Walker>();
 
@@ -19,10 +18,10 @@ const std::vector<std::vector<MapTileTypes>>& MapGenerator::GenerateMap(Vec2i si
 }
 
 void MapGenerator::CreateFloor() {
-	// Create and add the first walker
+	// Create and add the first walker (spawn in the center)
 	auto newWalker = Walker();
 	newWalker.dir = RandomDirection();
-	newWalker.pos = _spawnPos;
+	newWalker.pos = Vec2i((_mapSize.X / 2), (_mapSize.Y / 2));
 	_walkers.push_back(newWalker);
 
 	float random = 0.f;
@@ -125,6 +124,8 @@ void MapGenerator::CreateWalls() {
 }
 
 void MapGenerator::SetMapTiles() {
+	auto spawnPositions = std::vector<Vec2i>();
+
 	// Loop every Placeholder-Wall and set the actual Wall-Tiles
 	for (int i = 0; i < _grid.size(); i++) {
 		for (int j = 0; j < _grid[i].size(); j++) {
@@ -139,8 +140,11 @@ void MapGenerator::SetMapTiles() {
 
 				// If floor is in 3 locations around
 				if (floorCount == 3) {
-					if (!tmp[0])
+					if (!tmp[0]) {
+						// Save all the possible spawn positions. Always below a Endblock_Bottom
 						_grid[i][j] = MapTileTypes::Endblock_Bottom;
+						spawnPositions.push_back(Vec2i(j, i + 1));
+					}
 					else if (!tmp[1])
 						_grid[i][j] = MapTileTypes::Endblock_Top;
 					else if (!tmp[2])
@@ -190,18 +194,18 @@ void MapGenerator::SetMapTiles() {
 				}
 				// Right-Corner shadow
 				else if (_grid[i - 1][j] == MapTileTypes::Corner_Bottom_Right
-						 || _grid[i - 1][j] == MapTileTypes::Endblock_Right) {
+					|| _grid[i - 1][j] == MapTileTypes::Endblock_Right) {
 					_grid[i][j] = MapTileTypes::Floor_Corner_Right;
 				}
 				// Left-Corner shadow
 				else if (_grid[i - 1][j] == MapTileTypes::Corner_Bottom_Left
-						 || _grid[i - 1][j] == MapTileTypes::Endblock_Left) {
+					|| _grid[i - 1][j] == MapTileTypes::Endblock_Left) {
 					_grid[i][j] = MapTileTypes::Floor_Corner_Left;
 				}
 				// Random chance to be a "Special" Floor-Tile
 				else {
 					int rng = (rand() % 100 + 1);
-					if(rng > 90)
+					if (rng > 90)
 						_grid[i][j] = MapTileTypes::Floor_Special_1;
 					else if (rng < 2)
 						_grid[i][j] = MapTileTypes::Floor_Special_2;
@@ -209,6 +213,14 @@ void MapGenerator::SetMapTiles() {
 			}
 		}
 	}
+
+	// Set the Map-Start and Map-End Positions based on all possible spawnPoints
+	// (Take the first and last so they are as far away from each other as possible)
+	auto start = spawnPositions.front();
+	auto end = spawnPositions.back();
+	_grid[start.Y][start.X] = MapTileTypes::Portal;
+	_grid[end.Y][end.X] = MapTileTypes::Portal;
+	_mapStartEndPositions = { start, end };
 }
 
 Vec2i MapGenerator::RandomDirection() {

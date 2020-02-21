@@ -34,6 +34,8 @@ public:
 
 	void UnloadGameObjects(ResourceLifeTime resourceLifeTime);
 
+	void SetPlayerPosition(Vec2 position);
+
 	~EngineCore() = default;
 
 private:
