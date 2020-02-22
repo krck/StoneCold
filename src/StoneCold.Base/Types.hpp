@@ -32,6 +32,7 @@ enum class MapTileTypes {
 	Floor_Default,
 	Floor_Special_1,
 	Floor_Special_2,
+	Floor_Special_3,
 	Floor_Bottom,
 	Floor_Corner_Left,
 	Floor_Corner_Right,

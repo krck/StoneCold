@@ -21,7 +21,7 @@ public:
 		SDL_FRect dest = { position.X, position.Y, dimension.X, dimension.Y };
 
 		// Add the CollisionComponent in case its a Wall-Tile (all MapTileTypes > 8)
-		if (static_cast<int>(tileType) > 8) {
+		if (static_cast<int>(tileType) > 9) {
 			auto c = CollisionComponent("wall", true, { position.X, position.Y, dimension.X, dimension.Y });
 			AddComponent<CollisionComponent>(std::make_shared<CollisionComponent>(c));
 		}

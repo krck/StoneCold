@@ -19,7 +19,7 @@ const std::string PLAYER_TEXTURE = "textures\\Dwarf_Sprite.png";
 const std::unordered_map<StoneCold::LevelType, std::string> MAP_TEXTURES = {
 	{ StoneCold::LevelType::Grassland, "textures\\map_grassland.png" },
 	{ StoneCold::LevelType::Desert, "textures\\map_desert.png" },
-	{ StoneCold::LevelType::Stone, "textures\\map_stone.png" },
+	{ StoneCold::LevelType::Stone, "textures\\map_castle.png" },
 	{ StoneCold::LevelType::Ice, "textures\\map_ice.png" }
 };
 
