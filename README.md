@@ -19,20 +19,15 @@ Using
 - [SDL_ttf 2.0](https://www.libsdl.org/projects/SDL_ttf/) : Allows the use of TrueType fonts in SDL applications
 - All the SDL/SDL_image/SDL_ttf dependencies
 
-Todo (tasks)
+Todo (current tasks)
 ------------
 
-- [x] Add AnimatedSprite
-- [x] Add RessourceManager basics (Textures and Animations)
-- [x] Add simple TileMap
-- [x] Add Collision detection
-- [x] Add Camera and TileMap scrolling
-- [x] Add procedural map generation
-- [ ] Update map algorithm to also add the "shadow" floor-tiles
-- [ ] Update the Map-Textures (Add Teleport-Pad and make them look nice)
-- [ ] Update Collision detection to work with smaller hitboxes
-- [ ] Update the EngineCore to factor in ReosurceLifetime as well
-- [ ] Collision-check and render only Objects, visible by the Camera
+- [x] Update map algorithm to also add the "shadow" floor-tiles
+- [x] Update the Map-Textures (Add Teleport-Pad and make them look nice)
+- [x] Update the EngineCore to factor in ReosurceLifetime as well
+- [x] Add batch rendering to the Engine (based on Texture Id)
+- [ ] Fix Collision detection and update it, to work with smaller hitboxes
+- [ ] Collision-check and render only objects, that are visible by the Camera
 - [ ] Test, Cleanup, Fix, Optimize
 
 Todo (backlog items)
