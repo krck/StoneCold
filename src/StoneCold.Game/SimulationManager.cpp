@@ -45,7 +45,7 @@ void SimulationManager::LoadLevelResouces() {
 		_engine->UnloadGameObjects(ResourceLifeTime::Level);
 
 		// Get a new, randomly generated Map Texture
-		auto levelType = (LevelType)(rand() % 4 + 0);
+		auto levelType = (LevelType)(rand() % 5 + 0);
 		std::string texturePath = MAP_TEXTURES.find(levelType)->second;
 		_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Level, texturePath);
 
