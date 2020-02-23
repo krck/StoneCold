@@ -10,7 +10,7 @@ void StoneCold::Engine::CollisionManager::UpdateCollisions(std::vector<Collision
 		for (auto ccCheck : collidableObjects) {
 			// Update the CollisionWith ptr, in case both objects had a collision (two fixed object will never)
 			if (ccMain != ccCheck && !(ccMain->IsFixed && ccCheck->IsFixed)
-				&& CalculateAABB(ccMain->Hitbox, ccCheck->Hitbox)) {
+				&& CalculateAABB(ccMain->CollisionBox, ccCheck->CollisionBox)) {
 				ccMain->CollisionWith = ccCheck;
 			}
 		}

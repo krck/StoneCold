@@ -22,7 +22,7 @@ public:
 
 		// Add the CollisionComponent in case its a Wall-Tile
 		if (static_cast<int>(tileType) > static_cast<int>(MapTileTypes::Portal)) {
-			auto c = CollisionComponent("wall", true, dest);
+			auto c = CollisionComponent("wall", true, Vec2(), dest);
 			AddComponent<CollisionComponent>(std::make_shared<CollisionComponent>(c));
 		}
 

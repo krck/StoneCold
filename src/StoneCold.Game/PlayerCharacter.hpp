@@ -23,7 +23,7 @@ public:
 		SDL_FRect defaultDestRect = { position.X, position.Y, dimension.X * scale, dimension.Y * scale };
 
 		// Create the Components needed by the PlayerCharacter
-		auto c = CollisionComponent("player", false, defaultDestRect);
+		auto c = CollisionComponent("player", false, Vec2(14.f, 18.f), defaultDestRect);
 		auto a = AnimationComponent(_animation->Animations);
 		auto t = TransformComponent(position, dimension, scale, speed);
 		auto s = SpriteComponentMoving(renderer, _texture->GetTextureSDL(), defaultSrcRect, defaultDestRect);

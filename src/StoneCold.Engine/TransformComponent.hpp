@@ -53,8 +53,8 @@ public:
 		// Update the Position, either with automatic values in case 
 		// of a collision, or based on the manual input (Velocity)
 		if (_collisionComponent != nullptr && _collisionComponent->HasCollision()) {
-			auto recA = _collisionComponent->Hitbox;
-			auto recB = _collisionComponent->CollisionWith->Hitbox;
+			auto recA = _collisionComponent->CollisionBox;
+			auto recB = _collisionComponent->CollisionWith->CollisionBox;
 
 			// Get the edge thats overlapping (positive or negative direction)
 			bool dxP = (recA.x + recA.w - recB.x) < 5.f;

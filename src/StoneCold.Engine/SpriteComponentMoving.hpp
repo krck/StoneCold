@@ -56,9 +56,22 @@ public:
 		_destRect.w = _transform->Dimensions.X * _transform->Scale;
 		_destRect.h = _transform->Dimensions.Y * _transform->Scale;
 
-		// Update the Collision hitbox, based on the new position
+		// Update the Collision CollisionBox, based on the new position
 		if (_collisionComponent != nullptr) {
-			_collisionComponent->Hitbox = _destRect;
+			if (_collisionComponent->HasHitbox()) {
+				// Centering the Hitbox within the actual _destRect to get the CollisionBox (Only works with smaller Hitboxes)
+				auto xOffset = floorf((_destRect.w - (_collisionComponent->Hitbox.X * _transform->Scale)) / 2.f);
+				auto yOffset = floorf((_destRect.h - (_collisionComponent->Hitbox.Y * _transform->Scale)) / 2.f);
+				_collisionComponent->CollisionBox = {
+					_destRect.x + xOffset,
+					_destRect.y + yOffset,
+					_collisionComponent->Hitbox.X * _transform->Scale,
+					_collisionComponent->Hitbox.Y * _transform->Scale,
+				};
+			}
+			else {
+				_collisionComponent->CollisionBox = _destRect;
+			}
 		}
 	}
 
