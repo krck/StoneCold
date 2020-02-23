@@ -10,20 +10,21 @@ namespace StoneCold::Engine {
 
 //
 // 2D Collision Component 
-// Dependent on: ---
+// Required: ---
+// Optional: ---
 //
-// Has no direct dendencies, but the _collisionDimensions must be
-// updated by either a TransformComponent or the SpriteComponentFixed
+// Has no direct dendencies, but the Hitbox can be updated by a TransformComponent
+// and the CollisionWith-Pointer will be set by the CollisionManager in case of overlap
 //
 class CollisionComponent : public IComponent {
 public:
 	const std::string Tag;
 	const bool IsFixed;
-	SDL_FRect CollisionDimensions;
+	SDL_FRect Hitbox;
 	CollisionComponent* CollisionWith;
 
-	CollisionComponent(const std::string& tag, bool isFixed, SDL_FRect collisionDimensions)
-		: Tag(tag), IsFixed(isFixed), CollisionDimensions(collisionDimensions), CollisionWith(nullptr) { }
+	CollisionComponent(const std::string& tag, bool isFixed, SDL_FRect hitbox)
+		: Tag(tag), IsFixed(isFixed), Hitbox(hitbox), CollisionWith(nullptr) { }
 
 	void Init(GameObject* gameObject) override {
 		IComponent::Init(gameObject);

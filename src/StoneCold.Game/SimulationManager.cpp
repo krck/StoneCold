@@ -61,7 +61,7 @@ void SimulationManager::LoadLevelResouces() {
 				// Map tile position based on row/column within the mapLayout
 				const auto type = mapFrames.find(mapData[row][column]);
 				const auto frame = type->second;
-				auto tile = MapTile(renderPtr, texture, Vec2(column * 96.f, row * 96.f), Vec2(32.f, 32.f), frame.first, frame.second, type->first);
+				auto tile = MapTile(renderPtr, texture, frame.first, Vec2(column * 96.f, row * 96.f), 3, frame.second, type->first);
 				_engine->AddNewMapObject(texture->Id, std::make_shared<MapTile>(tile));
 			}
 		}

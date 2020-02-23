@@ -25,9 +25,6 @@
     <ClInclude Include="Component.hpp">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteComponentAnimated.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="SpriteComponentFixed.hpp">
       <Filter>Components</Filter>
     </ClInclude>
@@ -42,6 +39,12 @@
     </ClInclude>
     <ClInclude Include="MapGenerator.hpp">
       <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationComponent.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteComponentMoving.hpp">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -161,10 +161,11 @@
     <ClCompile Include="SDLManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationComponent.hpp" />
     <ClInclude Include="CollisionComponent.hpp" />
     <ClInclude Include="CollisionManager.hpp" />
     <ClInclude Include="MapGenerator.hpp" />
-    <ClInclude Include="SpriteComponentAnimated.hpp" />
+    <ClInclude Include="SpriteComponentMoving.hpp" />
     <ClInclude Include="EngineCore.hpp" />
     <ClInclude Include="Component.hpp" />
     <ClInclude Include="KeyboardComponent.hpp" />

@@ -30,16 +30,14 @@ public:
 
 	inline GameObject* GetGameObject() { return _gameObject; }
 
-	// Virtual Destructor ?
 	virtual ~IComponent() {}
 };
 
 //
 // GameObject base class
 //
-// A game object is everything that can be 
-// updated and rendered (Player, NPC, ...)
-// The behaviour is defined by its Components
+// A game object is everything that could handle events, be updated or rendered 
+// (Player, NPC, MapTile, ...). The actual behaviour is defined by its Components
 //
 class GameObject {
 private:
