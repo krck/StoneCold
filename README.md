@@ -26,7 +26,8 @@ Todo (current tasks)
 - [x] Update the Map-Textures (Add Teleport-Pad and make them look nice)
 - [x] Update the EngineCore to factor in ReosurceLifetime as well
 - [x] Add batch rendering to the Engine (based on Texture Id)
-- [ ] Fix Collision detection and update it, to work with smaller hitboxes
+- [x] Update the ECS (Extract Animation, fix FixedSprite, ...)
+- [x] Fix Collision detection and update it, to work with smaller hitboxes
 - [ ] Collision-check and render only objects, that are visible by the Camera
 - [ ] Test, Cleanup, Fix, Optimize
 
