@@ -11,6 +11,9 @@
     <Filter Include="Managers">
       <UniqueIdentifier>{a1b4e741-00ca-47b9-9540-a46f3785e16f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States">
+      <UniqueIdentifier>{f705c335-f0f5-4f97-9b0a-46218b871260}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore.hpp">
@@ -45,6 +48,18 @@
     </ClInclude>
     <ClInclude Include="SpriteComponentMoving.hpp">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.hpp">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroState.hpp">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuState.hpp">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="State.hpp">
+      <Filter>States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
