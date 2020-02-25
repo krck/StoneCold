@@ -8,7 +8,7 @@
     <Filter Include="GameObjects">
       <UniqueIdentifier>{992c37f7-dd69-48fe-9e11-f9f919d878d9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameResources">
+    <Filter Include="Managers">
       <UniqueIdentifier>{28017be0-f40b-4fab-827b-98f1e14d0764}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -19,11 +19,8 @@
     <ClCompile Include="GameCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="GameResources.cpp">
-      <Filter>GameResources</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelManager.cpp">
-      <Filter>GameResources</Filter>
+    <ClCompile Include="SimulationManager.cpp">
+      <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -33,14 +30,11 @@
     <ClInclude Include="PlayerCharacter.hpp">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="GameResources.hpp">
-      <Filter>GameResources</Filter>
-    </ClInclude>
     <ClInclude Include="MapTile.hpp">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="LevelManager.hpp">
-      <Filter>GameResources</Filter>
+    <ClInclude Include="SimulationManager.hpp">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,24 +11,15 @@ bool GameCore::Initialize() {
 		auto rendererPtr = _engine.GetSDLRenderer();
 		// Setup all the Managers in the correct order
 		_resources.Initialize(rendererPtr);
-		_gameResources.Initialize(&_resources);
-		_levelManager.Initialize(&_resources, &_gameResources);
+		_simulationManager.Initialize(&_engine, &_resources);
 
 		// Load the Global Resources, create the PlayerCharacter and add it to the render list
-		_gameResources.LoadGlobalResouces();
-		auto playerTexture = _resources.GetResource<TextureResource>(PLAYER_TEXTURE);
-		auto playerAnimation = _resources.GetResource<AnimationResource>(PLAYER_ANIMATION);
-		auto pc = PlayerCharacter(rendererPtr, playerTexture, playerAnimation, Vec2(), Vec2(32, 32), 3, 200);
-
-
-		_levelManager.LoadLevel(&_engine, LevelType::Grassland, tmp_map);
-
-
-		_engine.AddNewGameObject(std::make_unique<PlayerCharacter>(pc));
+		_simulationManager.LoadGlobalResouces();
+		_simulationManager.LoadLevelResouces();
 
 		return true;
 	}
-	catch (const std::exception& ex) {
+	catch (const std::exception & ex) {
 		std::cout << ex.what() << std::endl;
 		return false;
 	}
@@ -40,11 +31,11 @@ bool GameCore::Initialize() {
 int GameCore::Run() {
 	try {
 		bool exit = false;
-		const uint frameLimit = truncf(1000.0f / FPS);
+		const uint frameLimit = (uint)truncf(1000.0f / FPS);
 		uint timeStamp_new = SDL_GetTicks();
 		uint timeStamp_old = SDL_GetTicks();
 		uint frameTime = 0; // delta in ms
-        SDL_Event event;
+		SDL_Event event;
 
 		while (!exit) {
 			timeStamp_new = SDL_GetTicks();
@@ -54,9 +45,11 @@ int GameCore::Run() {
 			// This can go now, because updates are delta-time based
 			// if (frameTime > frameLimit) {}
 
-            // Poll the event loop to gather events from input devices
-            while (SDL_PollEvent(&event) != 0) { 
-				if (event.type == SDL_QUIT) 
+			// Poll the event loop to gather events from input devices
+			while (SDL_PollEvent(&event) != 0) {
+				if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F5)
+					_simulationManager.LoadLevelResouces();
+				if (event.type == SDL_QUIT)
 					exit = true;
 			}
 
@@ -72,7 +65,7 @@ int GameCore::Run() {
 		}
 		return 0;
 	}
-	catch (const std::exception& ex) {
+	catch (const std::exception & ex) {
 		std::cout << ex.what() << std::endl;
 		return -1;
 	}

@@ -1,6 +1,7 @@
 
 #include "ResourceManager.hpp"
 
+using namespace StoneCold;
 using namespace StoneCold::Resources;
 
 ResourceManager::ResourceManager()

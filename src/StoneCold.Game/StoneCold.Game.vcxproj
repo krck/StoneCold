@@ -21,8 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="GameCore.cpp" />
-    <ClCompile Include="GameResources.cpp" />
-    <ClCompile Include="LevelManager.cpp" />
+    <ClCompile Include="SimulationManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StoneCold.Base\StoneCold.Base.vcxproj">
@@ -37,8 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCore.hpp" />
-    <ClInclude Include="GameResources.hpp" />
-    <ClInclude Include="LevelManager.hpp" />
+    <ClInclude Include="SimulationManager.hpp" />
     <ClInclude Include="MapTile.hpp" />
     <ClInclude Include="PlayerCharacter.hpp" />
   </ItemGroup>
@@ -103,6 +101,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -119,6 +118,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,7 +129,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MinSpace</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -137,6 +137,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,7 +150,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MinSpace</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -157,6 +158,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

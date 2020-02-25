@@ -111,7 +111,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MinSpace</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -134,7 +134,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MinSpace</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -157,18 +157,20 @@
   <ItemGroup>
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="EngineCore.cpp" />
+    <ClCompile Include="MapGenerator.cpp" />
     <ClCompile Include="SDLManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationComponent.hpp" />
     <ClInclude Include="CollisionComponent.hpp" />
     <ClInclude Include="CollisionManager.hpp" />
-    <ClInclude Include="SpriteComponentAnimated.hpp" />
+    <ClInclude Include="MapGenerator.hpp" />
+    <ClInclude Include="SpriteComponentMoving.hpp" />
     <ClInclude Include="EngineCore.hpp" />
     <ClInclude Include="Component.hpp" />
     <ClInclude Include="KeyboardComponent.hpp" />
     <ClInclude Include="SDLManager.hpp" />
     <ClInclude Include="SpriteComponentFixed.hpp" />
-    <ClInclude Include="SpriteComponentMoving.hpp" />
     <ClInclude Include="TransformComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
