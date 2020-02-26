@@ -1,7 +1,7 @@
 
 #include "SDLManager.hpp"
 
-using namespace StoneCold::Engine;
+using namespace StoneCold::Game;
 
 //
 // Initializes the SDL Ressources and 

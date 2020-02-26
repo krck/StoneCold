@@ -34,13 +34,7 @@
     <ClInclude Include="CollisionComponent.hpp">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="SDLManager.hpp">
-      <Filter>Managers</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionManager.hpp">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="MapGenerator.hpp">
       <Filter>Managers</Filter>
     </ClInclude>
     <ClInclude Include="AnimationComponent.hpp">
@@ -58,22 +52,16 @@
     <ClInclude Include="MenuState.hpp">
       <Filter>States</Filter>
     </ClInclude>
-    <ClInclude Include="State.hpp">
-      <Filter>States</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="SDLManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="MapGenerator.cpp">
-      <Filter>Managers</Filter>
+    <ClCompile Include="GameState.cpp">
+      <Filter>States</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

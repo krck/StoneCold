@@ -1,6 +1,6 @@
 
-#ifndef STONECOLD_MAPGENERATOR_H
-#define STONECOLD_MAPGENERATOR_H
+#ifndef STONECOLD_MAPMANAGER_H
+#define STONECOLD_MAPMANAGER_H
 
 #include "Vec2.hpp"
 #include <algorithm>
@@ -10,28 +10,28 @@
 #include <vector>
 #include <chrono>
 
-namespace StoneCold::Engine {
+namespace StoneCold::Game {
 
 //
-// 2d random Map Generator
+// 2d procedural Map Generator
 //
 // Using the Drunkard-Walk procedural generation algorithm (one of the most simple dungeon map generators)
 // This Code is based on a Tutorial by William Beaty (https://www.youtube.com/watch?v=I74I_MhZIK8)
 // (... which in turn was based on the game Nuclear Throne)
 //
-class MapGenerator {
+class MapManager {
 private:
 	struct Walker { Vec2i dir = Vec2i(), pos = Vec2i(); };
 
 public:
-	MapGenerator() { }
-	MapGenerator(const MapGenerator&) = delete;
-	MapGenerator& operator=(const MapGenerator&) = delete;
+	MapManager() { }
+	MapManager(const MapManager&) = delete;
+	MapManager& operator=(const MapManager&) = delete;
 
 	const std::vector<std::vector<MapTileTypes>>& GenerateMap(Vec2i size);
 	inline std::pair<Vec2i, Vec2i> GetStartEndPositions() { return _mapStartEndPositions;  }
 
-	~MapGenerator() = default;
+	~MapManager() = default;
 
 private:
 	//

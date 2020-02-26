@@ -22,6 +22,12 @@
     <ClCompile Include="SimulationManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="SDLManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCore.hpp">
@@ -34,6 +40,12 @@
       <Filter>GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="SimulationManager.hpp">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="MapManager.hpp">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="SDLManager.hpp">
       <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>

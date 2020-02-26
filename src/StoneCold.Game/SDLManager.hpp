@@ -10,7 +10,7 @@
 #include <memory>
 #include <string>
 
-namespace StoneCold::Engine {
+namespace StoneCold::Game {
 
 class SDLManager {
 public:

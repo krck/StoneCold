@@ -17,11 +17,12 @@ enum class LevelType { Grassland, Desert, Castle, Highlands, Arctic };
 
 //
 // ResourceLifeTimes
-// - Global: Resource is needed as the game is running (Player Character, GUI Elements, Fonts, Music, ...)
-// - Level: Resource is only needed during a specific Level (Ground-Textures, NPC Animations, ...)
-// - Sequence: Resource is only for a very short duration like a Cutscene
+// - Intro, Game and Menu: All have global/infinite lifetime (as long as the game is running) like Player Character, Fonts, GUI Elements
+//						   but are split, so they could potentially be unloaded, cleaned up, refreshed, etc. separatley
+// - Level:	These Resources are only needed during a specific Level (Ground-Textures, NPC Animations, ...) and will be loaded
+//          and unloaded frequently. Only the Resources for one Level will be held in memory at any given time
 //
-enum class ResourceLifeTime { Global, Level, Sequence };
+enum class ResourceLifeTime { Intro, Game, Menu, Level };
 
 //
 // MapTiles used by the Random Map Generator

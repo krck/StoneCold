@@ -2,17 +2,17 @@
 #ifndef STONECOLD_INTROSTATE_H
 #define STONECOLD_INTROSTATE_H
 
-#include "State.hpp"
+#include "EngineCore.hpp"
 
 namespace StoneCold::Engine {
 
 class IntroState : public State {
 public:
-	virtual void Pause() override;
-	virtual void Resume() override;
+	IntroState(EngineCore* engine) : State(engine) { }
+
 	virtual void HandleEvent(const uint8* keyStates) override;
 	virtual void Update(uint frameTime) override;
-	virtual void Render(SDL_FRect camera) override;
+	virtual void Render() override;
 };
 
 }

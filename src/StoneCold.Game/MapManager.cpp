@@ -1,10 +1,10 @@
 
-#include "MapGenerator.hpp"
+#include "MapManager.hpp"
 
 using namespace StoneCold;
-using namespace StoneCold::Engine;
+using namespace StoneCold::Game;
 
-const std::vector<std::vector<MapTileTypes>>& MapGenerator::GenerateMap(Vec2i size) {
+const std::vector<std::vector<MapTileTypes>>& MapManager::GenerateMap(Vec2i size) {
 	// Set _grid size and create a _grid with empty spaces and reset the _walkers
 	_mapSize = size;
 	_grid = std::vector<std::vector<MapTileTypes>>(_mapSize.X, std::vector<MapTileTypes>(_mapSize.Y, MapTileTypes::Empty));
@@ -17,7 +17,7 @@ const std::vector<std::vector<MapTileTypes>>& MapGenerator::GenerateMap(Vec2i si
 	return _grid;
 }
 
-void MapGenerator::CreateFloor() {
+void MapManager::CreateFloor() {
 	// Create and add the first walker (spawn in the center)
 	auto newWalker = Walker();
 	newWalker.dir = RandomDirection();
@@ -70,7 +70,7 @@ void MapGenerator::CreateFloor() {
 	}
 }
 
-void MapGenerator::CreateWalls() {
+void MapManager::CreateWalls() {
 	// Loop though every _grid space and check if theres a floor, with
 	// empty space around it. This will be changed to a Wall-Placeholder
 	for (int i = 0; i < _grid.size(); i++) {
@@ -123,7 +123,7 @@ void MapGenerator::CreateWalls() {
 	}
 }
 
-void MapGenerator::SetMapTiles() {
+void MapManager::SetMapTiles() {
 	auto spawnPositions = std::vector<Vec2i>();
 
 	// Loop every Placeholder-Wall and set the actual Wall-Tiles
@@ -225,7 +225,7 @@ void MapGenerator::SetMapTiles() {
 	_mapStartEndPositions = { start, end };
 }
 
-Vec2i MapGenerator::RandomDirection() {
+Vec2i MapManager::RandomDirection() {
 	// Random direction (Number between 1 and 4)
 	int choice = (rand() % 4 + 1);
 	switch (choice) {

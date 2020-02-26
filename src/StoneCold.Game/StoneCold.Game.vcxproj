@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="GameCore.cpp" />
+    <ClCompile Include="MapManager.cpp" />
+    <ClCompile Include="SDLManager.cpp" />
     <ClCompile Include="SimulationManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -36,6 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCore.hpp" />
+    <ClInclude Include="MapManager.hpp" />
+    <ClInclude Include="SDLManager.hpp" />
     <ClInclude Include="SimulationManager.hpp" />
     <ClInclude Include="MapTile.hpp" />
     <ClInclude Include="PlayerCharacter.hpp" />

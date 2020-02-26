@@ -26,9 +26,9 @@ bool ResourceManager::Initialize(SDL_Renderer* renderer) {
 	if (renderer != nullptr) {
 		_renderer = renderer;
 
-		_resouceLifetimes.insert({ ResourceLifeTime::Global, std::vector<std::string>() });
-		_resouceLifetimes.insert({ ResourceLifeTime::Level, std::vector<std::string>() });
-		_resouceLifetimes.insert({ ResourceLifeTime::Sequence, std::vector<std::string>() });
+		_resouceLifetimes.insert({ ResourceLifeTime::Intro, std::vector<std::string>() });
+		_resouceLifetimes.insert({ ResourceLifeTime::Game, std::vector<std::string>() });
+		_resouceLifetimes.insert({ ResourceLifeTime::Menu, std::vector<std::string>() });
 
 		return true;
 	}
