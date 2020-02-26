@@ -39,6 +39,7 @@ Copyright/Attribution Notices
 Some of the Textures are hand drawn (thanks MS Paint and Gimp) but the nice looking ones are created by actual Artists:
 
 - Dwarf Sprites: Elthen (Ahmet Avci) [link to his patreon](https://www.patreon.com/elthen)
+- Mountain Background: NotTandy [link to his pixelart](https://www.pixilart.com/nottandy)
 
 Todo (current tasks)
 --------------------
