@@ -14,19 +14,19 @@ Using
 -----
 
 - C++ 17 (MSVC 14.24 VS2019)
-- [SDL2](https://www.libsdl.org/index.php) : Cross-platform Graphics and IO library
-- [SDL_image 2.0](https://www.libsdl.org/projects/SDL_image/) : Loads images as SDL surfaces and textures
-- [SDL_ttf 2.0](https://www.libsdl.org/projects/SDL_ttf/) : Allows the use of TrueType fonts in SDL applications
+- [SDL2 v2.0.10](https://www.libsdl.org/index.php) : Cross-platform Graphics and IO library
+- [SDL_image v2.0.5](https://www.libsdl.org/projects/SDL_image/) : Loads images as SDL surfaces and textures
+- [SDL_ttf v2.0.15](https://www.libsdl.org/projects/SDL_ttf/) : Allows the use of TrueType fonts in SDL applications
 - All the SDL/SDL_image/SDL_ttf dependencies
 
 Architecture and Code Structure
 -------------------------------
 
-The code is written in an object oriented manner and simplicity (or rather: avoiding complexity) is a main goal. The code and classes are structured and commented in a way that even a total game-programming noob like myself should still be able to comprehend the Game and Engine logic a few years down the line. Fingers crossed.
+The code is written in an object oriented manner and simplicity (or rather: avoiding complexity) is a main goal. Fingers crossed.
 
-As stated, my basic approach of "i want to build a Engine" has changed for this project and the game/gameplay itself has top priority. Engine reusability, a common Render-API, etc. comes second. The result is a more thighly coupled structure composed of four projects, that obviously still need a Engine, but its more as a necessity and not the sole focus:
+As stated, my basic approach of "i want to build a Engine" has changed for this project and the game/gameplay itself has top priority. Engine reusability, common Render-API, etc. are therefore not factored in, when it comes to the core design. The result is a thighly coupled structure composed of four projects, that obviously still need a Engine, but its more as a necessity and not the sole focus:
 - <b>StoneCold.Base:</b> Basic Settings, SDL2 includes, common Types and Enums, Math (Vec2) classes
-- <b>StoneCold.Engine:</b> ECS, Game-State management, Collision detection, procedural Map generation, etc.
+- <b>StoneCold.Engine:</b> ECS, Game-State management, Event handling, Collision detection, etc.
 - <b>StoneCold.Game:</b> Window creation, Main-Loop and the "SimulationManager" to setup Levels, NPCs, Menus, etc.
 - <b>StoneCold.Resources:</b> Resource management with Lifetime checks (loading and unloading) and unique Resources
 
@@ -38,24 +38,35 @@ Copyright/Attribution Notices
 
 Some of the Textures are hand drawn (thanks MS Paint and Gimp) but the nice looking ones are created by actual Artists:
 
+- DawnBringer Color-Palette (Richard Fhager) [link to his pixeljoint](http://pixeljoint.com/p/23821.htm)
 - Dwarf Sprites: Elthen (Ahmet Avci) [link to his patreon](https://www.patreon.com/elthen)
 - Mountain Background: NotTandy [link to his pixelart](https://www.pixilart.com/nottandy)
 
 Todo (current tasks)
 --------------------
 
-- [x] Update map algorithm to also add the "shadow" floor-tiles
-- [x] Update the Map-Textures (Add Teleport-Pad and make them look nice)
-- [x] Update the EngineCore to factor in ReosurceLifetime as well
-- [x] Add batch rendering to the Engine (based on Texture Id)
-- [x] Update the ECS (Extract Animation, fix FixedSprite, ...)
-- [x] Fix Collision detection and update it, to work with smaller hitboxes
-- [ ] Collision-check and render only objects, that are visible by the Camera
+- [x] Add a common Color-Palette
+- [ ] Map Texture overhaul (Use Color Palette, get the Walls and Wall-Tops right)
+- [ ] Map Generator overhaul (Code cleanup)
+- [x] Add some basic GameStates (Intro, Game, Menu)
+- [x] Add User Events to the SDL Event-System
+- [x] Allow switching between the basic states
+- [ ] Add some basic GUI Elements (Label to the Intro, Buttons to the Menu)
+- [ ] Bugfix: Collision detection
+- [ ] Bugfix: Texture-ID to Engine
+- [ ] Render only Tiles visible by the Camera
+- [ ] Cleanup and Test
+- [ ] Cleanup more and Test more
+- [ ] Cleanup even more and Test even more
+- [ ] Add Controller Support
+- [ ] Add a basic Options Menu with a default Keybinding images for Keyboard and Controller
+- [ ] Automatically check if Controller is available / otherwise use Keyboard input
 - [ ] Test, Cleanup, Fix, Optimize
 
 Todo (backlog items)
 --------------------
-- Add Game-States (Game/Menu/Cutscene/...)
-- Add a GUI (Menu and Ingame-Lifebar, etc.)
-- Add Controller Support (Keyboard as fallback)
+- Code fixes: -Wall -Wextra
 - Add NPCs (Enemies with simple AI)
+- Add Pickups and Buffs (Gold, Items, Chests)
+- Add Player Actions (Dodge, Attack, Special-Attack)
+- Add Player GUI (Lifebar, Action-Bar, Skill/Stat Window)
