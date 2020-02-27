@@ -3,6 +3,7 @@
 #define STONECOLD_SPRITECOMPONENTFIXED_H
 
 #include "SDL_Base.hpp"
+#include "Entity.hpp"
 #include "Component.hpp"
 
 namespace StoneCold::Engine {
@@ -13,9 +14,9 @@ namespace StoneCold::Engine {
 // Optional: ---
 //
 // Contains information needed to render a 2D sprite (Texture, SDL_Renderer, ...)
-// This is not updated, so the GameObject has to pass a fixed srcRect and destRect
+// This is not updated, so the Entity has to pass a fixed srcRect and destRect
 //
-class SpriteComponentFixed : public IComponent {
+class SpriteComponentFixed : public Component {
 private:
 	SDL_Renderer* _renderer;
 	SDL_Texture* _texture;
@@ -27,8 +28,8 @@ public:
 	SpriteComponentFixed(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect srcRect, SDL_FRect destRect, SDL_RendererFlip flip)
 		: _renderer(renderer), _texture(texture), _srcRect(srcRect), _destRect(destRect), _flip(flip) { }
 
-	void Init(GameObject* gameObject) override {
-		IComponent::Init(gameObject);
+	void Init(Entity* entity) override {
+		Component::Init(entity);
 	}
 
 	void Render(SDL_FRect camera) override {

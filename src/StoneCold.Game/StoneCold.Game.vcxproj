@@ -39,6 +39,7 @@
   <ItemGroup>
     <ClInclude Include="Background.hpp" />
     <ClInclude Include="GameCore.hpp" />
+    <ClInclude Include="Label.hpp" />
     <ClInclude Include="MapManager.hpp" />
     <ClInclude Include="SDLManager.hpp" />
     <ClInclude Include="SimulationManager.hpp" />

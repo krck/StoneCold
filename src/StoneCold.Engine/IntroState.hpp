@@ -20,9 +20,9 @@ public:
 	virtual void Update(uint frameTime) override { /* Nothing to update. Scene is static */ }
 	virtual void Render() override;
 
-	void SetBackground(std::unique_ptr<GameObject>&& backgroundObject);
-	void SetGameObjects(std::vector<std::shared_ptr<GameObject>>&& gameObjects);
-	void SetGUI(std::vector<std::shared_ptr<GameObject>>&& guiObjects);
+	void SetBackground(std::unique_ptr<Entity>&& backgroundObject);
+	void SetGameObjects(std::vector<std::shared_ptr<Entity>>&& gameObjects);
+	void SetGUI(std::vector<std::shared_ptr<Entity>>&& guiObjects);
 
 	~IntroState() = default;
 
@@ -30,11 +30,11 @@ private:
 	SDL_FRect _camera;
 
 	//
-	// Pointers to all GameObjects (Background images, GUI objects, ...)
+	// Pointers to all Entitys (Background images, GUI objects, ...)
 	//
-	std::unique_ptr<GameObject> _background;
-	std::vector<std::shared_ptr<GameObject>> _gameObjects;
-	std::vector<std::shared_ptr<GameObject>> _guiObjects;
+	std::unique_ptr<Entity> _background;
+	std::vector<std::shared_ptr<Entity>> _gameObjects;
+	std::vector<std::shared_ptr<Entity>> _guiObjects;
 
 };
 

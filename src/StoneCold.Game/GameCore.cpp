@@ -95,7 +95,7 @@ int GameCore::Run() {
 			keyStates = std::vector<uint8>(keyPtr, keyPtr + numKeys);
 			_engine.HandleInputEvent(keyStates);
 
-			// Update and render all GameObjects
+			// Update and render all Entitys
 			_engine.Update(frameTime);
 			_engine.Render();
 

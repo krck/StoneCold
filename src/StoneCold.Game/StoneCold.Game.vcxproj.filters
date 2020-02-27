@@ -11,6 +11,9 @@
     <Filter Include="Managers">
       <UniqueIdentifier>{28017be0-f40b-4fab-827b-98f1e14d0764}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GuiWidgets">
+      <UniqueIdentifier>{4bf1e811-25bc-4618-b774-ef25994a4c50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -50,6 +53,9 @@
     </ClInclude>
     <ClInclude Include="Background.hpp">
       <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.hpp">
+      <Filter>GuiWidgets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

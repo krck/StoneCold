@@ -25,8 +25,9 @@ public:
 	~SDLManager();
 
 private:
-	void SetupWindow();
+	void CreateWindow();
 	void SetupSDL();
+	void SetupSubsystems();
 
 private:
 	std::string _windowName;

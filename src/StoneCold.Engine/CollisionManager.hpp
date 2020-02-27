@@ -11,7 +11,7 @@ namespace StoneCold::Engine {
 //
 // Collision Manager
 //
-// Detects simple 2d collisions between GameObjects (with CollisionComponents) and
+// Detects simple 2d collisions between Entitys (with CollisionComponents) and
 // updates the affected CollisionComponents with a ptr to the object that was hit
 //
 class CollisionManager {

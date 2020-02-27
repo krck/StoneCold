@@ -22,7 +22,7 @@ using namespace StoneCold::Resources;
 // SimulationManager
 //
 // One of the StoneCold::Game centrepieces, the SimulationManager
-// triggers Resource loading and unloading, creates GameObjects 
+// triggers Resource loading and unloading, creates Entitys 
 // from those Resources and adds/removes them to/from (Game) States.
 //
 // Creating the wohle simulation includes: Loading the GUI and PlayerCharacter, 
@@ -43,7 +43,7 @@ public:
 	//
 	// Clear and (Re-)Load all Game Resources (Map Textures, NPC Textures/Animations),
 	// create a new procedurally generated Map and populate that Map with its Tiles 
-	// and Mobs, etc. and finally add those GameObjects to the Engine, if needed.
+	// and Mobs, etc. and finally add those Entitys to the Engine, if needed.
 	//
 	void LoadLevel();
 

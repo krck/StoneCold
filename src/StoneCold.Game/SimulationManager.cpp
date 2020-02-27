@@ -33,7 +33,7 @@ void SimulationManager::CreateIntroState() {
 		_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Intro, BACKGROUND_IMAGE);
 		// ...
 
-		// Create all basic GameObjects from the Resources, needed by the IntroState
+		// Create all basic Entitys from the Resources, needed by the IntroState
 		auto backgroundTexture = _resourceManager->GetResource<TextureResource>(BACKGROUND_IMAGE);
 		SDL_Rect backgroundDimensions = { 0, 0, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT };
 		SDL_FRect backgroundDimensionsF = { 0.f, 0.f, static_cast<float>(WINDOW_SIZE_WIDTH), static_cast<float>(WINDOW_SIZE_HEIGHT) };
@@ -63,7 +63,7 @@ void SimulationManager::CreateGameState() {
 		_resourceManager->LoadResource<AnimationResource>(ResourceLifeTime::Game, PLAYER_ANIMATION);
 		// ...
 
-		// Create all basic GameObjects from the Resources, needed by the GameState
+		// Create all basic Entitys from the Resources, needed by the GameState
 		auto playerTexture = _resourceManager->GetResource<TextureResource>(PLAYER_TEXTURE);
 		auto playerAnimation = _resourceManager->GetResource<AnimationResource>(PLAYER_ANIMATION);
 		auto player = PlayerCharacter(_renderer, playerTexture, playerAnimation, Vec2(), Vec2(32, 32), 3, 200);
@@ -108,7 +108,7 @@ void SimulationManager::LoadLevel() {
 			auto texture = _resourceManager->GetResource<TextureResource>(texturePath);
 
 			// Create the actual MapTiles, based on the Layout and the loaded MapTexture
-			auto mapObjects = std::vector<std::shared_ptr<GameObject>>();
+			auto mapObjects = std::vector<std::shared_ptr<Entity>>();
 			for (int row = 0; row < mapLayout.size(); row++) {
 				for (int column = 0; column < mapLayout[row].size(); column++) {
 					// Map tile position based on row/column within the mapLayout
@@ -123,7 +123,7 @@ void SimulationManager::LoadLevel() {
 
 			// Finally update the Engines GameState with the newly created Level
 			auto gameState = _engine->GetState<GameState>();
-			gameState->SetLevel(std::move(mapObjects), std::vector<std::shared_ptr<GameObject>>(), { spawnPos.X * 96, spawnPos.Y * 96 });
+			gameState->SetLevel(std::move(mapObjects), std::vector<std::shared_ptr<Entity>>(), { spawnPos.X * 96, spawnPos.Y * 96 });
 		}
 	}
 	catch (const std::exception & ex) {

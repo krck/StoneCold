@@ -2,13 +2,13 @@
 #ifndef STONECOLD_RESOURCEMANAGER_H
 #define STONECOLD_RESOURCEMANAGER_H
 
+#include <windows.h>
 #include "Exception.hpp"
 #include "Data_Animations.hpp"
 #include "Data_Textures.hpp"
 #include "AnimationResource.hpp"
 #include "TextureResource.hpp"
 #include "FontResource.hpp"
-#include <windows.h>
 #include <unordered_map>
 #include <algorithm>
 #include <memory>

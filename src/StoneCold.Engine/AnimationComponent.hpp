@@ -3,6 +3,7 @@
 #define STONECOLD_ANIMATIONCOMPONENT_H
 
 #include "SDL_Base.hpp"
+#include "Entity.hpp"
 #include "Component.hpp"
 #include "AnimationResource.hpp"
 
@@ -17,7 +18,7 @@ namespace StoneCold::Engine {
 // The current Animation will be automatically updated (played) with its defined speed and
 // and can be retrieved as Source rectangle by any component via GetCurrentAnimationFrame
 //
-class AnimationComponent : public IComponent {
+class AnimationComponent : public Component {
 private:
 	const std::unordered_map<std::string, StoneCold::Resources::Animation>& _animations;
 	const StoneCold::Resources::Animation* _currentAnimation;
@@ -29,8 +30,8 @@ public:
 	AnimationComponent(const std::unordered_map<std::string, StoneCold::Resources::Animation>& animations)
 		: _animations(animations), _currentAnimation(nullptr), _currentFrame(SDL_Rect()), _currentFrameIndex(0), _timeElapsed(0) { }
 
-	void Init(GameObject* gameObject) override {
-		IComponent::Init(gameObject);
+	void Init(Entity* entity) override {
+		Component::Init(entity);
 	}
 
 	void Update(uint frameTime) override {

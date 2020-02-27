@@ -3,8 +3,7 @@
 #define STONECOLD_ENGINECORE_H
 
 #include "Exception.hpp"
-#include "SDL_Base.hpp"
-#include "Types.hpp"
+#include "State.hpp"
 #include <unordered_map>
 #include <typeindex>
 #include <typeinfo>
@@ -13,36 +12,8 @@
 
 namespace StoneCold::Engine {
 
-class EngineCore;
-
 //
-// State Interface
-//
-// Definition has to be here, because the State needs the Engine and the Engine needs the State. There are 
-// more elegant ways of creating a State-System, but this way State creation and destruction can be in one
-// place (The StoneCold::Game::SimulationManager). Otherwise States have to create and cleanup each other.
-//
-class State {
-public:
-	State(EngineCore* engine) : _engine(engine) { }
-
-	virtual void Init() { } // = 0;
-	virtual void Cleanup() { } // = 0;
-
-	virtual void Pause() { } // = 0;
-	virtual void Resume() { } // = 0;
-
-	virtual bool HandleSDLEvent(const SDL_Event& sdlEvent) = 0;
-	virtual void HandleInputEvent(const std::vector<uint8>& keyStates) = 0;
-	virtual void Update(uint frameTime) = 0;
-	virtual void Render() = 0;
-
-protected:
-	EngineCore* _engine;
-};
-
-//
-// EngineCore (aka. StateManager)
+// EngineCore (and StateManager)
 //
 // Directly called from the games main-loop this holds and manages all GameStates,
 // distributes SDL_Events and Update calls and SDL_RenderPresent's to the screen
@@ -65,8 +36,8 @@ public:
 	void PopState();
 
 	//
-	// Add a new State to the GameObject based on the State Type
-	// Each GameObject can have any State but only one active instance of each Type
+	// Add a new State to the Entity based on the State Type
+	// Each Entity can have any State but only one active instance of each Type
 	// (type_index is a wrapper class around a std::type_info object, that can be used as index)
 	//
 	template<typename T>

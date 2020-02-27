@@ -5,7 +5,7 @@ using namespace StoneCold::Engine;
 
 
 void StoneCold::Engine::CollisionManager::UpdateCollisions(std::vector<CollisionComponent*>& collidableObjects) {
-	// Check all GameObjects with CollisionComponents against each other
+	// Check all Entitys with CollisionComponents against each other
 	for (auto ccMain : collidableObjects) {
 		ccMain->CollisionWith = nullptr;
 		for (auto ccCheck : collidableObjects) {

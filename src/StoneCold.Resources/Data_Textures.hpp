@@ -11,18 +11,18 @@ namespace StoneCold::Resources {
 //
 // All texture names as hardcoded, constant variables
 //
-const std::string PLAYER_TEXTURE = "textures\\player\\Dwarf_Sprite.png";
-const std::string BACKGROUND_IMAGE = "textures\\background\\the_mountain.png";
+const std::string PLAYER_TEXTURE = "player\\Dwarf_Sprite.png";
+const std::string BACKGROUND_IMAGE = "background\\the_mountain.png";
 
 //
 // All Map Textures hardcoded as unorderd_map
 //
 const std::unordered_map<StoneCold::LevelType, std::string> MAP_TEXTURES = {
-	{ StoneCold::LevelType::Grassland, "textures\\map\\grasslands.png" },
-	{ StoneCold::LevelType::Desert, "textures\\map\\desert.png" },
-	{ StoneCold::LevelType::Castle, "textures\\map\\castle.png" },
-	{ StoneCold::LevelType::Highlands, "textures\\map\\highlands.png" },
-	{ StoneCold::LevelType::Arctic, "textures\\map\\arctic.png" }
+	{ StoneCold::LevelType::Grassland, "map\\grasslands.png" },
+	{ StoneCold::LevelType::Desert, "map\\desert.png" },
+	{ StoneCold::LevelType::Castle, "map\\castle.png" },
+	{ StoneCold::LevelType::Highlands, "map\\highlands.png" },
+	{ StoneCold::LevelType::Arctic, "map\\arctic.png" }
 };
 
 }

@@ -8,7 +8,7 @@ IntroState::IntroState(EngineCore* engine)
 	: State(engine)
 	, _camera({ 0.f, 0.f, static_cast<float>(WINDOW_SIZE_WIDTH), static_cast<float>(WINDOW_SIZE_HEIGHT) })
 	, _background(nullptr)
-	, _guiObjects(std::vector<std::shared_ptr<GameObject>>()) { }
+	, _guiObjects(std::vector<std::shared_ptr<Entity>>()) { }
 
 
 void IntroState::HandleInputEvent(const std::vector<uint8>& keyStates) {
@@ -27,7 +27,7 @@ void IntroState::Render() {
 	// First: Render the background image
 	_background->Render(_camera);
 
-	// Second: Render any GameObject (Moving coulds, etc.)
+	// Second: Render any Entity (Moving coulds, etc.)
 	for (const auto& go : _gameObjects)
 		go->Render(_camera);
 
@@ -37,20 +37,20 @@ void IntroState::Render() {
 }
 
 
-void IntroState::SetBackground(std::unique_ptr<GameObject>&& backgroundObject) {
-	// Specific "Add" for the Background GameObject
+void IntroState::SetBackground(std::unique_ptr<Entity>&& backgroundObject) {
+	// Specific "Add" for the Background Entity
 	_background = std::move(backgroundObject);
 }
 
 
-void IntroState::SetGameObjects(std::vector<std::shared_ptr<GameObject>>&& gameObjects) {
+void IntroState::SetGameObjects(std::vector<std::shared_ptr<Entity>>&& gameObjects) {
 	// Refresh all Gameo Objects
 	_gameObjects.clear();
 	_gameObjects = std::move(gameObjects);
 }
 
 
-void IntroState::SetGUI(std::vector<std::shared_ptr<GameObject>>&& guiObjects) {
+void IntroState::SetGUI(std::vector<std::shared_ptr<Entity>>&& guiObjects) {
 	// Refresh all GUI Objects
 	_guiObjects.clear();
 	_guiObjects = std::move(guiObjects);

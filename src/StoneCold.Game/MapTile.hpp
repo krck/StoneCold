@@ -3,6 +3,7 @@
 #define STONECOLD_MAPTILE_H
 
 #include "Vec2.hpp"
+#include "Entity.hpp"
 #include "TextureResource.hpp"
 #include "SpriteComponentFixed.hpp"
 
@@ -10,7 +11,7 @@ namespace StoneCold::Game {
 
 using namespace StoneCold::Resources;
 
-class MapTile : public GameObject {
+class MapTile : public Entity {
 public:
 	MapTile(SDL_Renderer* renderer, TextureResource* texture, SDL_Rect textureFrame, Vec2 position, int scale, SDL_RendererFlip flip, MapTileTypes tileType) {
 		_texture = texture;

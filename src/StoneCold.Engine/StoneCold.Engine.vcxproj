@@ -164,6 +164,7 @@
     <ClInclude Include="AnimationComponent.hpp" />
     <ClInclude Include="CollisionComponent.hpp" />
     <ClInclude Include="CollisionManager.hpp" />
+    <ClInclude Include="Entity.hpp" />
     <ClInclude Include="EventManager.hpp" />
     <ClInclude Include="GameState.hpp" />
     <ClInclude Include="IntroState.hpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="Component.hpp" />
     <ClInclude Include="KeyboardComponent.hpp" />
     <ClInclude Include="SpriteComponentFixed.hpp" />
+    <ClInclude Include="State.hpp" />
     <ClInclude Include="TransformComponent.hpp" />
   </ItemGroup>
   <ItemGroup>

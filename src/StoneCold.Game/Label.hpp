@@ -1,9 +1,9 @@
 
-#ifndef STONECOLD_BACKGROUND_H
-#define STONECOLD_BACKGROUND_H
+#ifndef STONECOLD_LABEL_H
+#define STONECOLD_LABEL_H
 
 #include "Entity.hpp"
-#include "TextureResource.hpp"
+#include "FontResource.hpp"
 #include "SpriteComponentFixed.hpp"
 
 namespace StoneCold::Game {
@@ -11,18 +11,18 @@ namespace StoneCold::Game {
 using namespace StoneCold::Engine;
 using namespace StoneCold::Resources;
 
-class Background : public Entity {
+class Label : public Entity {
 public:
-	Background(SDL_Renderer* renderer, TextureResource* texture, SDL_Rect srcRect, SDL_FRect destRect) {
-		_texture = texture;
+	Label(SDL_Renderer* renderer, FontResource* font, SDL_FRect destRect) {
+		_font = font;
 
-		// Create a fixed Sprite Component, to draw the Background
+		// Create a fixed Sprite Component, to draw the Label
 		auto s = SpriteComponentFixed(renderer, _texture->GetTextureSDL(), srcRect, destRect, SDL_RendererFlip::SDL_FLIP_NONE);
 		AddComponent<SpriteComponentFixed>(std::make_shared<SpriteComponentFixed>(s));
 	}
 
 private:
-	TextureResource* _texture;
+	FontResource* _font;
 };
 
 }
