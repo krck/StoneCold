@@ -52,6 +52,9 @@
     <ClInclude Include="MenuState.hpp">
       <Filter>States</Filter>
     </ClInclude>
+    <ClInclude Include="EventManager.hpp">
+      <Filter>Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
@@ -61,6 +64,9 @@
       <Filter>Managers</Filter>
     </ClCompile>
     <ClCompile Include="GameState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroState.cpp">
       <Filter>States</Filter>
     </ClCompile>
   </ItemGroup>

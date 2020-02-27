@@ -6,6 +6,7 @@ using namespace StoneCold::Engine;
 
 GameState::GameState(EngineCore* engine)
 	: State(engine)
+	, _eventManager(EventManager::GetInstance())
 	, _collisionManager(CollisionManager())
 	, _mapObjects(std::unordered_map<hash64, std::vector<std::shared_ptr<GameObject>>>())
 	, _gameObjects(std::unordered_map<hash64, std::vector<std::shared_ptr<GameObject>>>())
@@ -14,13 +15,18 @@ GameState::GameState(EngineCore* engine)
 	, _player(nullptr), _playerTransformation(nullptr)
 	, _camera({ 0.f, 0.f, (float)WINDOW_SIZE_WIDTH, (float)WINDOW_SIZE_HEIGHT }) { }
 
-void GameState::HandleEvent(const uint8* keyStates) {
-	// Only GameObject that handles input
-	_player->HandleEvent(keyStates);
 
-	//for (auto& go : _gameObjects)
-	//	go->HandleEvent(keyStates);
+void GameState::HandleInputEvent(const std::vector<uint8>& keyStates) {
+	// In case F5 was pressed: Trigger Level-Refresh
+	if (keyStates[SDL_SCANCODE_F5]) {
+		_eventManager.PublishEvent(EventCode::ChangeLevel);
+	}
+	else {
+		// Only GameObject that handles input
+		_player->HandleInputEvent(keyStates);
+	}
 }
+
 
 void GameState::Update(uint frameTime) {
 	// Now check for possible collisions
@@ -36,12 +42,13 @@ void GameState::Update(uint frameTime) {
 	_camera.x = _playerTransformation->Position.X - (WINDOW_SIZE_WIDTH / 2.f);
 	_camera.y = _playerTransformation->Position.Y - (WINDOW_SIZE_HEIGHT / 2.f);
 
-	// Keep the camera in bounds
+	// Keep the camera in bounds (or not?)
 	//if (_camera.x < 0) _camera.x = 0;
 	//if (_camera.y < 0) _camera.y = 0;
 	//if (_camera.x > _camera.w) _camera.x = _camera.w;
 	//if (_camera.y > _camera.h) _camera.y = _camera.h;
 }
+
 
 void GameState::Render() {
 	// First: Render any MapTile batched by Texture hash
@@ -62,12 +69,14 @@ void GameState::Render() {
 		gui->Render(_camera);
 }
 
-void GameState::SetPlayer(std::unique_ptr<GameObject>&& gameObject) {
+
+void GameState::SetPlayer(std::unique_ptr<GameObject>&& playerObject) {
 	// Specific "Add" for the Player GameObject
-	_player = std::move(gameObject);
+	_player = std::move(playerObject);
 	_collidableObjects.push_back(_player->GetComponent<CollisionComponent>());
 	_playerTransformation = _player->GetComponent<TransformComponent>();
 }
+
 
 void GameState::SetLevel(std::vector<std::shared_ptr<GameObject>>&& mapObjects, std::vector<std::shared_ptr<GameObject>>&& gameObjects, Vec2i spawnPoint) {
 	// Reset all MapTiles, NPCs, Objects, ... and CollisionComponents
@@ -113,6 +122,7 @@ void GameState::SetLevel(std::vector<std::shared_ptr<GameObject>>&& mapObjects, 
 	_playerTransformation->Position.X = static_cast<float>(spawnPoint.X);
 	_playerTransformation->Position.Y = static_cast<float>(spawnPoint.Y);
 }
+
 
 void GameState::SetGUI(std::vector<std::shared_ptr<GameObject>>&& guiObjects) {
 	// Refresh all GUI Objects

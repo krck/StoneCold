@@ -5,6 +5,7 @@
 #include "Settings.hpp"
 #include "SDLManager.hpp"
 #include "EngineCore.hpp"
+#include "EventManager.hpp"
 #include "ResourceManager.hpp"
 #include "SimulationManager.hpp"
 
@@ -22,7 +23,16 @@ public:
 	GameCore(const GameCore&) = delete;
 	GameCore& operator=(const GameCore&) = delete;
 
+	//
+	// Setup SDL, create all SDL Resources and show the Window
+	// Also initilaizes the Engine and the Managers in order
+	//
 	bool Initialize(const std::string& windowName);
+
+	//
+	// Run the games main-loop, handle the timer and FPS limiter 
+	// and trigger the Engines Event, Update and Render functions
+	//
 	int Run();
 
 	~GameCore() = default;
@@ -32,6 +42,7 @@ private:
 	EngineCore _engine;
 	ResourceManager _resources;
 	SimulationManager _simulation;
+	EventManager& _eventManager;
 };
 
 }

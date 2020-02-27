@@ -40,7 +40,7 @@ public:
 		}
 	}
 
-	void HandleEvent(const uint8* keyStates) override {
+	void HandleInputEvent(const std::vector<uint8>& keyStates) override {
 		// For each keykeyStates contains a value of 1 if pressed and a value of 0 if not pressed
 		// Add negative and positive velocity so the sprite doesn't move if both are pressed at the same time
 		_transform->Velocity.Y = (-1.0f * keyStates[SDL_SCANCODE_W]) + keyStates[SDL_SCANCODE_S];

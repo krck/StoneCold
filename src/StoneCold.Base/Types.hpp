@@ -4,16 +4,22 @@
 
 namespace StoneCold {
 
-// Additional base types
 typedef unsigned char		byte;
 typedef unsigned int		uint;
 typedef unsigned __int8		uint8;
 typedef unsigned __int64	hash64;
 
 //
-// All the bread-and-butter Video Game level types
+// All the available Level Types
+// (Maybe replace with a runtime-check of which Map-Textures are available)
 //
-enum class LevelType { Grassland, Desert, Castle, Highlands, Arctic };
+enum class LevelType {
+	Grassland,
+	Desert,
+	Castle,
+	Highlands,
+	Arctic
+};
 
 //
 // ResourceLifeTimes
@@ -22,11 +28,25 @@ enum class LevelType { Grassland, Desert, Castle, Highlands, Arctic };
 // - Level:	These Resources are only needed during a specific Level (Ground-Textures, NPC Animations, ...) and will be loaded
 //          and unloaded frequently. Only the Resources for one Level will be held in memory at any given time
 //
-enum class ResourceLifeTime { Intro, Game, Menu, Level };
+enum class ResourceLifeTime {
+	Intro,
+	Game,
+	Menu,
+	Level
+};
+
+//
+// Event Code send with a custom SDL_UserEvent
+// (Not stronly typed, because SDL_Event Codes are int so it must be cast) 
+//
+enum EventCode {
+	Ping,
+	ChangeLevel
+};
 
 //
 // MapTiles used by the Random Map Generator
-// These TileTypes will be mapped to a Texture
+// These TileTypes will be mapped to a part of the Level-Texture
 //
 enum class MapTileTypes {
 	Empty,

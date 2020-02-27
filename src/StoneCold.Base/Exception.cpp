@@ -4,7 +4,10 @@
 using namespace StoneCold;
 
 Exception::Exception(int line, const char* file, std::string message) noexcept
-	: _line(line), _file(file), _errorMessage(message) {}
+	: _line(line)
+	, _file(file)
+	, _errorMessage(message) {}
+
 
 const char* Exception::what() const noexcept
 {
@@ -19,6 +22,3 @@ const char* Exception::what() const noexcept
 	return _whatBuffer.c_str();
 }
 
-int Exception::GetLine() const noexcept { return _line; }
-
-std::string Exception::GetFile() const noexcept { return _file; }

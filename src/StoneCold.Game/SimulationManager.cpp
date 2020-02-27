@@ -6,6 +6,7 @@ using namespace StoneCold::Engine;
 using namespace StoneCold::Resources;
 using namespace StoneCold::Game;
 
+
 bool StoneCold::Game::SimulationManager::Initialize(EngineCore* engine, ResourceManager* resourceManager, SDL_Renderer* renderer) {
 	if (engine != nullptr && resourceManager != nullptr && renderer != nullptr) {
 		_engine = engine;
@@ -18,17 +19,35 @@ bool StoneCold::Game::SimulationManager::Initialize(EngineCore* engine, Resource
 	}
 }
 
+
 void SimulationManager::CreateIntroState() {
 	try {
 		// First clear the Intro Resources
 		_resourceManager->UnloadResources(ResourceLifeTime::Intro);
 		_engine->ClearState<IntroState>();
 
+		// Create a new IntroState;
+		auto into = std::make_shared<IntroState>(_engine);
+
+		// Load all basic Resources needed by the IntroState (Background image, ...)
+		_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Intro, BACKGROUND_IMAGE);
+		// ...
+
+		// Create all basic GameObjects from the Resources, needed by the IntroState
+		auto backgroundTexture = _resourceManager->GetResource<TextureResource>(BACKGROUND_IMAGE);
+		SDL_Rect backgroundDimensions = { 0, 0, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT };
+		SDL_FRect backgroundDimensionsF = { 0.f, 0.f, static_cast<float>(WINDOW_SIZE_WIDTH), static_cast<float>(WINDOW_SIZE_HEIGHT) };
+		auto background = Background(_renderer, backgroundTexture, backgroundDimensions, backgroundDimensionsF);
+		into->SetBackground(std::make_unique<Background>(background));
+
+		// Finally add the new IntroState to the Engines States
+		_engine->AddState<IntroState>(into);
 	}
 	catch (const std::exception & ex) {
 		std::cout << "Loading the Intro failed:\n" << ex.what() << std::endl;
 	}
 }
+
 
 void SimulationManager::CreateGameState() {
 	try {
@@ -37,7 +56,7 @@ void SimulationManager::CreateGameState() {
 		_engine->ClearState<GameState>();
 
 		// Create a new GameState;
-		auto gameState = std::make_shared<GameState>(_engine);
+		auto game = std::make_shared<GameState>(_engine);
 
 		// Load all basic Resources needed by the GameState (Player Character, Player GUI, etc.)
 		_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Game, PLAYER_TEXTURE);
@@ -48,15 +67,17 @@ void SimulationManager::CreateGameState() {
 		auto playerTexture = _resourceManager->GetResource<TextureResource>(PLAYER_TEXTURE);
 		auto playerAnimation = _resourceManager->GetResource<AnimationResource>(PLAYER_ANIMATION);
 		auto player = PlayerCharacter(_renderer, playerTexture, playerAnimation, Vec2(), Vec2(32, 32), 3, 200);
-		gameState->SetPlayer(std::make_unique<PlayerCharacter>(player));
+		game->SetPlayer(std::make_unique<PlayerCharacter>(player));
+		// ...
 
 		// Finally add the new GameState to the Engines States
-		_engine->AddState<GameState>(gameState);
+		_engine->AddState<GameState>(game);
 	}
 	catch (const std::exception & ex) {
 		std::cout << "Loading the Game failed:\n" << ex.what() << std::endl;
 	}
 }
+
 
 void SimulationManager::CreateMenuState() {
 	try {
@@ -69,6 +90,7 @@ void SimulationManager::CreateMenuState() {
 		std::cout << "Loading the Menu failed:\n" << ex.what() << std::endl;
 	}
 }
+
 
 void SimulationManager::LoadLevel() {
 	try {

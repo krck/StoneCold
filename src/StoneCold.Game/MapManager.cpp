@@ -4,6 +4,7 @@
 using namespace StoneCold;
 using namespace StoneCold::Game;
 
+
 const std::vector<std::vector<MapTileTypes>>& MapManager::GenerateMap(Vec2i size) {
 	// Set _grid size and create a _grid with empty spaces and reset the _walkers
 	_mapSize = size;
@@ -16,6 +17,7 @@ const std::vector<std::vector<MapTileTypes>>& MapManager::GenerateMap(Vec2i size
 
 	return _grid;
 }
+
 
 void MapManager::CreateFloor() {
 	// Create and add the first walker (spawn in the center)
@@ -70,6 +72,7 @@ void MapManager::CreateFloor() {
 	}
 }
 
+
 void MapManager::CreateWalls() {
 	// Loop though every _grid space and check if theres a floor, with
 	// empty space around it. This will be changed to a Wall-Placeholder
@@ -122,6 +125,7 @@ void MapManager::CreateWalls() {
 		}
 	}
 }
+
 
 void MapManager::SetMapTiles() {
 	auto spawnPositions = std::vector<Vec2i>();
@@ -224,6 +228,7 @@ void MapManager::SetMapTiles() {
 	_grid[end.Y][end.X] = MapTileTypes::Portal;
 	_mapStartEndPositions = { start, end };
 }
+
 
 Vec2i MapManager::RandomDirection() {
 	// Random direction (Number between 1 and 4)

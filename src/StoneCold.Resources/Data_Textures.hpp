@@ -12,6 +12,7 @@ namespace StoneCold::Resources {
 // All texture names as hardcoded, constant variables
 //
 const std::string PLAYER_TEXTURE = "textures\\player\\Dwarf_Sprite.png";
+const std::string BACKGROUND_IMAGE = "textures\\background\\the_mountain.png";
 
 //
 // All Map Textures hardcoded as unorderd_map

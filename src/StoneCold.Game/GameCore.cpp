@@ -4,7 +4,14 @@
 using namespace StoneCold::Game;
 using namespace StoneCold::Resources;
 
-GameCore::GameCore() : _sdl(SDLManager()), _engine(EngineCore()), _resources(ResourceManager()), _simulation(SimulationManager()) { };
+
+GameCore::GameCore()
+	: _sdl(SDLManager())
+	, _engine(EngineCore())
+	, _eventManager(EventManager::GetInstance())
+	, _resources(ResourceManager())
+	, _simulation(SimulationManager()) { };
+
 
 bool GameCore::Initialize(const std::string& windowName) {
 	try {
@@ -25,7 +32,7 @@ bool GameCore::Initialize(const std::string& windowName) {
 			_simulation.LoadLevel();
 
 			// Push the first State to update and render
-			auto firstState = _engine.GetState<GameState>();
+			auto firstState = _engine.GetState<IntroState>();
 			_engine.PushState(firstState);
 
 			return true;
@@ -40,17 +47,23 @@ bool GameCore::Initialize(const std::string& windowName) {
 	}
 }
 
+
 //
 // Run the main Game-loop
 //
 int GameCore::Run() {
 	try {
-		// Setup loop variables
+		// Setup timing and loop variables
 		bool exit = false;
 		const uint frameLimit = (uint)truncf(1000.0f / FPS);
 		uint timeStamp_new = SDL_GetTicks();
 		uint timeStamp_old = SDL_GetTicks();
 		uint frameTime = 0; // delta in ms
+
+		// Setup Event-Handling variables
+		uint userEventType = _eventManager.UserEventType;
+		auto keyStates = std::vector<uint8>();
+		int numKeys = 0;
 		SDL_Event event;
 
 		// Start the main loop
@@ -66,11 +79,21 @@ int GameCore::Run() {
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT)
 					exit = true;
+
+				// Pass SDL Events on to the Engine/States and do nothing if it was handled there
+				if (!_engine.HandleSDLEvent(event)) {
+					// Handle the custom User-Events
+					if (event.type == userEventType && event.user.code == EventCode::ChangeLevel) {
+						// Load a new Level
+						_simulation.LoadLevel();
+					}
+				}
 			}
 
 			// Get a snapshot of the current state of the keyboard and handle the input
-			const uint8* keyStates = SDL_GetKeyboardState(NULL);
-			_engine.HandleEvent(keyStates);
+			const uint8* keyPtr = SDL_GetKeyboardState(&numKeys);
+			keyStates = std::vector<uint8>(keyPtr, keyPtr + numKeys);
+			_engine.HandleInputEvent(keyStates);
 
 			// Update and render all GameObjects
 			_engine.Update(frameTime);

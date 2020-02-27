@@ -24,7 +24,7 @@ public:
 	IComponent() : _gameObject(nullptr) { }
 
 	virtual void Init(GameObject* gameObject) { _gameObject = gameObject; }
-	virtual void HandleEvent(const uint8* keyStates) { }
+	virtual void HandleInputEvent(const std::vector<uint8>& keyStates) { }
 	virtual void Update(uint frameTime) { }
 	virtual void Render(SDL_FRect camera) { }
 
@@ -47,7 +47,7 @@ public:
 	GameObject() : _components(std::unordered_map<std::type_index, std::shared_ptr<IComponent>>()) { }
 
 	// Pass on main-loop Events to all Components
-	void HandleEvent(const uint8* keyStates) { for (auto& iter : _components) iter.second->HandleEvent(keyStates); }
+	void HandleInputEvent(const std::vector<uint8>& keyStates) { for (auto& iter : _components) iter.second->HandleInputEvent(keyStates); }
 	void Update(uint frameTime) { for (auto& iter : _components) iter.second->Update(frameTime); }
 	void Render(SDL_FRect camera) { for (auto& iter : _components) iter.second->Render(camera); }
 

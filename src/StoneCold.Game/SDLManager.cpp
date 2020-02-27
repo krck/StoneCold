@@ -3,6 +3,7 @@
 
 using namespace StoneCold::Game;
 
+
 //
 // Initializes the SDL Ressources and 
 // creats/show the EngineCore Window
@@ -25,6 +26,7 @@ bool SDLManager::InitializeSDL(const std::string& windowName) {
 	}
 }
 
+
 //
 // Create and Show the EngineCore Window
 //
@@ -43,6 +45,7 @@ void SDLManager::SetupWindow() {
 		throw GameException("SDL Error on window creation: " + std::string(SDL_GetError()));
 }
 
+
 //
 // Create the SDL2 Renderer and a background Texture
 //
@@ -55,6 +58,7 @@ void SDLManager::SetupSDL() {
 	if (_renderer == nullptr)
 		throw GameException("SDL Error on renderer creation: " + std::string(SDL_GetError()));
 }
+
 
 //
 // Cleanup all the SDL2 Ressources

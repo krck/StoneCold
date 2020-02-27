@@ -4,10 +4,12 @@
 using namespace StoneCold;
 using namespace StoneCold::Engine;
 
+
 EngineCore::EngineCore()
 	: _renderer(nullptr)
 	, _stateStack(std::stack<State*>())
 	, _states(std::unordered_map<std::type_index, std::shared_ptr<State>>()) { };
+
 
 bool EngineCore::Initialize(SDL_Renderer* renderer) {
 	if (renderer != nullptr) {
@@ -19,15 +21,24 @@ bool EngineCore::Initialize(SDL_Renderer* renderer) {
 	}
 }
 
-void EngineCore::HandleEvent(const uint8* keyStates) {
-	// Pass Keyboard Events to the current State / Scene
-	_stateStack.top()->HandleEvent(keyStates);
+
+bool EngineCore::HandleSDLEvent(const SDL_Event & sdlEvent) {
+	// Pass SDL Events to the current State / Scene and retrun if they handled it
+	return _stateStack.top()->HandleSDLEvent(sdlEvent);
 }
+
+
+void EngineCore::HandleInputEvent(const std::vector<uint8>& keyStates) {
+	// Pass Keyboard Events to the current State / Scene
+	_stateStack.top()->HandleInputEvent(keyStates);
+}
+
 
 void EngineCore::Update(uint frameTime) {
 	// Update the current State / Scene
 	_stateStack.top()->Update(frameTime);
 }
+
 
 void EngineCore::Render() {
 	// Clear the Frame (white)
@@ -41,6 +52,7 @@ void EngineCore::Render() {
 	SDL_RenderPresent(_renderer);
 }
 
+
 void EngineCore::ChangeState(State* state) {
 	// Cleanup the current state
 	if (!_stateStack.empty()) {
@@ -53,6 +65,7 @@ void EngineCore::ChangeState(State* state) {
 	_stateStack.top()->Init();
 }
 
+
 void EngineCore::PushState(State* state) {
 	// Pause current state
 	if (!_stateStack.empty()) {
@@ -63,6 +76,7 @@ void EngineCore::PushState(State* state) {
 	_stateStack.push(state);
 	_stateStack.top()->Init();
 }
+
 
 void EngineCore::PopState() {
 	// Cleanup the current state

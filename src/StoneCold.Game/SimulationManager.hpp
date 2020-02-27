@@ -8,6 +8,7 @@
 #include "GameState.hpp"
 #include "MenuState.hpp"
 #include "ResourceManager.hpp"
+#include "Background.hpp"
 #include "PlayerCharacter.hpp"
 #include "MapTile.hpp"
 #include <iostream>

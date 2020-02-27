@@ -4,6 +4,7 @@
 using namespace StoneCold;
 using namespace StoneCold::Resources;
 
+
 ResourceManager::ResourceManager()
 	: _resources(std::unordered_map<std::string, std::shared_ptr<Resource>>())
 	, _resouceLifetimes(std::unordered_map<ResourceLifeTime, std::vector<std::string>>())
@@ -22,6 +23,7 @@ ResourceManager::ResourceManager()
 	_basePath += "assets\\";
 }
 
+
 bool ResourceManager::Initialize(SDL_Renderer* renderer) {
 	if (renderer != nullptr) {
 		_renderer = renderer;
@@ -37,6 +39,7 @@ bool ResourceManager::Initialize(SDL_Renderer* renderer) {
 	}
 }
 
+
 void ResourceManager::UnloadResources(ResourceLifeTime resourceLifeTime) {
 	// Remove all Resources that are mapped to the specific lifetime
 	const auto& keys = _resouceLifetimes[resourceLifeTime];
@@ -47,6 +50,7 @@ void ResourceManager::UnloadResources(ResourceLifeTime resourceLifeTime) {
 	// Clear all ResourceLifeTime keys
 	_resouceLifetimes[resourceLifeTime] = std::vector<std::string>();
 }
+
 
 TextureResource ResourceManager::CreateTexture(const std::string& name) {
 	auto fullPath = _basePath + name;
@@ -64,6 +68,7 @@ TextureResource ResourceManager::CreateTexture(const std::string& name) {
 	}
 }
 
+
 AnimationResource ResourceManager::CreateAnimation(const std::string& name) {
 	try {
 		return AnimationResource(name, AnimationData.find(name)->second);
@@ -73,6 +78,7 @@ AnimationResource ResourceManager::CreateAnimation(const std::string& name) {
 
 	}
 }
+
 
 FontResource ResourceManager::CreateFont(const std::string& name) {
 	return FontResource(name);

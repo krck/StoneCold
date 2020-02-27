@@ -28,10 +28,12 @@ public:
 
 	virtual void Init() { } // = 0;
 	virtual void Cleanup() { } // = 0;
+
 	virtual void Pause() { } // = 0;
 	virtual void Resume() { } // = 0;
 
-	virtual void HandleEvent(const uint8* keyStates) = 0;
+	virtual bool HandleSDLEvent(const SDL_Event& sdlEvent) = 0;
+	virtual void HandleInputEvent(const std::vector<uint8>& keyStates) = 0;
 	virtual void Update(uint frameTime) = 0;
 	virtual void Render() = 0;
 
@@ -40,7 +42,7 @@ protected:
 };
 
 //
-// EngineCore
+// EngineCore (aka. StateManager)
 //
 // Directly called from the games main-loop this holds and manages all GameStates,
 // distributes SDL_Events and Update calls and SDL_RenderPresent's to the screen
@@ -52,7 +54,9 @@ public:
 	EngineCore& operator=(const EngineCore&) = delete;
 
 	bool Initialize(SDL_Renderer* renderer);
-	void HandleEvent(const uint8* keyStates);
+
+	bool HandleSDLEvent(const SDL_Event& sdlEvent);
+	void HandleInputEvent(const std::vector<uint8>& keyStates);
 	void Update(uint frameTime);
 	void Render();
 
@@ -77,7 +81,9 @@ public:
 	template<typename T>
 	void ClearState() {
 		auto state = std::type_index(typeid(T));
-		if (_states.find(state) != _states.end()) {
+		auto stateIter = _states.find(state);
+		if (stateIter != _states.end()) {
+			stateIter->second->Cleanup();
 			_states.erase(state);
 		}
 	}

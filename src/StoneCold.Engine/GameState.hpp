@@ -5,6 +5,7 @@
 #include "Types.hpp"
 #include "Settings.hpp"
 #include "EngineCore.hpp"
+#include "EventManager.hpp"
 #include "TransformComponent.hpp"
 #include "CollisionManager.hpp"
 
@@ -16,15 +17,19 @@ public:
 	GameState(const GameState&) = delete;
 	GameState& operator=(const GameState&) = delete;
 
-	virtual void HandleEvent(const uint8* keyStates) override;
+	virtual bool HandleSDLEvent(const SDL_Event& sdlEvent) override { return false; }
+	virtual void HandleInputEvent(const std::vector<uint8>& keyStates) override;
 	virtual void Update(uint frameTime) override;
 	virtual void Render() override;
 
-	void SetPlayer(std::unique_ptr<GameObject>&& gameObject);
+	void SetPlayer(std::unique_ptr<GameObject>&& playerObject);
 	void SetLevel(std::vector<std::shared_ptr<GameObject>>&& mapObjects, std::vector<std::shared_ptr<GameObject>>&& gameObjects, Vec2i spawnPoint);
 	void SetGUI(std::vector<std::shared_ptr<GameObject>>&& guiObjects);
 
+	~GameState() = default;
+
 private:
+	EventManager& _eventManager;
 	CollisionManager _collisionManager;
 	SDL_FRect _camera;
 
