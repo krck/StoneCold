@@ -49,16 +49,18 @@ enum EventCode {
 // These TileTypes will be mapped to a part of the Level-Texture
 //
 enum class MapTileTypes {
-	Empty,
+	Placeholder,
+	Portal,
+
+	Top_Default,
+	Top_Special,
+
 	Floor_Default,
 	Floor_Special_1,
 	Floor_Special_2,
 	Floor_Special_3,
-	Floor_Bottom,
-	Floor_Corner_Left,
-	Floor_Corner_Right,
-	Placeholder,
-	Portal,
+	Floor_Special_4,
+	Floor_Shadow,
 
 	Wall_Top,
 	Wall_Left,

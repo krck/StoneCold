@@ -49,7 +49,7 @@ private:
 	// Finally replace all placeholder Empty, Floors and Walls with the acutal
 	// MapTiles that will later be rendered (Top walls, bottom walls, corners, ...)
 	//
-	void SetMapTiles();
+	void SetFinalMapTiles();
 
 	//
 	// Get a random direction Vector (Up, down, left or right)
@@ -72,7 +72,7 @@ private:
 	Vec2i _mapSize;
 
 	// Could be variable, but these settings yield good results
-	const float _chanceWalkerChangeDir = 0.5;
+	const float _chanceWalkerChangeDir = 0.5f;
 	const float _chanceWalkerUpdate = 0.01f;
 	const float _percentToFill = 0.25f;
 	const int _maxWalkers = 10;

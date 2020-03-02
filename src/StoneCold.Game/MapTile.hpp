@@ -22,7 +22,7 @@ public:
 		SDL_FRect dest = { position.X, position.Y, static_cast<float>(src.w * scale), static_cast<float>(src.h * scale) };
 
 		// Add the CollisionComponent in case its a Wall-Tile
-		if (static_cast<int>(tileType) > static_cast<int>(MapTileTypes::Portal)) {
+		if (static_cast<int>(tileType) > static_cast<int>(MapTileTypes::Floor_Shadow)) {
 			auto c = CollisionComponent("wall", true, Vec2(), dest);
 			AddComponent<CollisionComponent>(std::make_shared<CollisionComponent>(c));
 		}
