@@ -31,11 +31,69 @@ bool ResourceManager::Initialize(SDL_Renderer* renderer) {
 		_resouceLifetimes.insert({ ResourceLifeTime::Intro, std::vector<std::string>() });
 		_resouceLifetimes.insert({ ResourceLifeTime::Game, std::vector<std::string>() });
 		_resouceLifetimes.insert({ ResourceLifeTime::Menu, std::vector<std::string>() });
+		_resouceLifetimes.insert({ ResourceLifeTime::Level, std::vector<std::string>() });
 
 		return true;
 	}
 	else {
 		return false;
+	}
+}
+
+
+template<typename T>
+T* ResourceManager::LoadResource(ResourceLifeTime resourceLifeTime, const std::string& name) {
+	try {
+		// Load each ressource only once
+		if (!IsResourceLoaded(name)) {
+			if (std::is_same<T, TextureResource>::value) {
+				// Create a Texture Resource, loaded from a File (.png or .jpg)
+				_resources.insert({ name, std::make_shared<TextureResource>(CreateTexture(name)) });
+				_resouceLifetimes[resourceLifeTime].push_back(name);
+			}
+			else if (std::is_same<T, AnimationResource>::value) {
+				// Create a Animation Resource loaded from hardcoded resources in Data_Animations
+				_resources.insert({ name, std::make_shared<AnimationResource>(CreateAnimation(name)) });
+				_resouceLifetimes[resourceLifeTime].push_back(name);
+			}
+			else if (std::is_same<T, FontResource>::value) {
+				// Create a Font Resource loaded from a File (.ttf)
+				_resources.insert({ name, std::make_shared<FontResource>(CreateFont(name)) });
+				_resouceLifetimes[resourceLifeTime].push_back(name);
+			}
+		}
+		return static_cast<T*>(_resources[name].get());
+	}
+	catch (...) {
+		throw GameException("SDL Error on Resource creation: " + name
+			+ "\n" + std::string(SDL_GetError())
+			+ "\n" + std::string(IMG_GetError())
+			+ "\n" + std::string(TTF_GetError()));
+	}
+}
+
+
+std::pair<SDL_Rect, TextureResource*> ResourceManager::LoadFontTexture(ResourceLifeTime rlt, const std::string& name, TTF_Font* font, const std::string& text, const SDL_Color& color) {
+	try {
+		SDL_Rect srcRect = { 0, 0, 0, 0 };
+		if (!IsResourceLoaded(name)) {
+			// Create a Texture Resource, based on the Font, Text and Color
+			SDL_Surface* tmpSurface = TTF_RenderText_Solid(font, text.c_str(), color);
+			srcRect.w = tmpSurface->w;
+			srcRect.h = tmpSurface->h;
+			auto tex = std::unique_ptr<SDL_Texture, SDL_TextureDeleter>(SDL_CreateTextureFromSurface(_renderer, tmpSurface));
+			SDL_FreeSurface(tmpSurface);
+
+			// Add the TextureResource to the map based on its Name and LifeTime
+			_resources.insert({ name, std::make_shared<TextureResource>(TextureResource(name, std::move(tex))) });
+			_resouceLifetimes[rlt].push_back(name);
+		}
+		return std::make_pair(srcRect, static_cast<TextureResource*>(_resources[name].get()));
+	}
+	catch (...) {
+		throw GameException("SDL Error on Resource creation: " + name
+			+ "\n" + std::string(SDL_GetError())
+			+ "\n" + std::string(TTF_GetError()));
 	}
 }
 
@@ -54,32 +112,40 @@ void ResourceManager::UnloadResources(ResourceLifeTime resourceLifeTime) {
 
 TextureResource ResourceManager::CreateTexture(const std::string& name) {
 	auto fullPath = _basePath + name;
-	try {
-		// Load file into a SDL_Texture pointer
-		SDL_Surface* tmpSurface = IMG_Load(fullPath.c_str());
-		auto tex = std::unique_ptr<SDL_Texture, SDL_TextureDeleter>(SDL_CreateTextureFromSurface(_renderer, tmpSurface));
-		SDL_FreeSurface(tmpSurface);
 
-		// Create the TextureResource
-		return TextureResource(name, std::move(tex));
-	}
-	catch (...) {
-		throw GameException("SDL Error on Texture creation: " + fullPath + "\n" + std::string(SDL_GetError()));
-	}
+	// Load file into a SDL_Texture pointer
+	SDL_Surface* tmpSurface = IMG_Load(fullPath.c_str());
+	auto tex = std::unique_ptr<SDL_Texture, SDL_TextureDeleter>(SDL_CreateTextureFromSurface(_renderer, tmpSurface));
+	SDL_FreeSurface(tmpSurface);
+
+	// Create the TextureResource
+	return TextureResource(name, std::move(tex));
 }
 
 
 AnimationResource ResourceManager::CreateAnimation(const std::string& name) {
-	try {
-		return AnimationResource(name, AnimationData.find(name)->second);
-	}
-	catch (...) {
-		throw GameException("Error on Animation creation: " + name);
-
-	}
+	return AnimationResource(name, AnimationData.find(name)->second);
 }
 
 
 FontResource ResourceManager::CreateFont(const std::string& name) {
-	return FontResource(name);
+	auto fullPath = (_basePath + name);
+
+	// Create managed Fonts ptrs, in the 3 different sizes (Fontsize must be set on load)
+	auto fontSmall = std::unique_ptr<TTF_Font, SDL_FontDeleter>(TTF_OpenFont(fullPath.c_str(), FONT_SIZE_SMALL));
+	auto fontNormal = std::unique_ptr<TTF_Font, SDL_FontDeleter>(TTF_OpenFont(fullPath.c_str(), FONT_SIZE_NORMAL));
+	auto fontBig = std::unique_ptr<TTF_Font, SDL_FontDeleter>(TTF_OpenFont(fullPath.c_str(), FONT_SIZE_BIG));
+
+	return FontResource(name, std::move(fontSmall), std::move(fontNormal), std::move(fontBig));
 }
+
+
+//
+// Explicitly instanciate every form of LoadResource
+// This has two upsides:
+// - .hpp will not get cluttered with function definitions
+// - There are not many Resource-Types so its easy to provide a concrete interface
+//
+template TextureResource* ResourceManager::LoadResource<TextureResource>(ResourceLifeTime resourceLifeTime, const std::string& name);
+template AnimationResource* ResourceManager::LoadResource<AnimationResource>(ResourceLifeTime resourceLifeTime, const std::string& name);
+template FontResource* ResourceManager::LoadResource<FontResource>(ResourceLifeTime resourceLifeTime, const std::string& name);

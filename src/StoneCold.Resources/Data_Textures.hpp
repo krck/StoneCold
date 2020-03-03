@@ -25,6 +25,11 @@ const std::unordered_map<StoneCold::LevelType, std::string> MAP_TEXTURES = {
 	{ StoneCold::LevelType::Arctic, "map\\arctic.png" }
 };
 
+//
+// All font names as hardcoded, constant variables
+//
+const std::string FONT_CROM = "fonts\\Crom.ttf";
+
 }
 
 #endif

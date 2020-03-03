@@ -8,7 +8,7 @@ IntroState::IntroState(EngineCore* engine)
 	: State(engine)
 	, _camera({ 0.f, 0.f, static_cast<float>(WINDOW_SIZE_WIDTH), static_cast<float>(WINDOW_SIZE_HEIGHT) })
 	, _background(nullptr)
-	, _guiObjects(std::vector<std::shared_ptr<Entity>>()) { }
+	, _guiObjects(std::vector<std::unique_ptr<Entity>>()) { }
 
 
 void IntroState::HandleInputEvent(const std::vector<uint8>& keyStates) {
@@ -43,14 +43,14 @@ void IntroState::SetBackground(std::unique_ptr<Entity>&& backgroundObject) {
 }
 
 
-void IntroState::SetGameObjects(std::vector<std::shared_ptr<Entity>>&& gameObjects) {
+void IntroState::SetGameObjects(std::vector<std::unique_ptr<Entity>>&& gameObjects) {
 	// Refresh all Gameo Objects
 	_gameObjects.clear();
 	_gameObjects = std::move(gameObjects);
 }
 
 
-void IntroState::SetGUI(std::vector<std::shared_ptr<Entity>>&& guiObjects) {
+void IntroState::SetGUI(std::vector<std::unique_ptr<Entity>>&& guiObjects) {
 	// Refresh all GUI Objects
 	_guiObjects.clear();
 	_guiObjects = std::move(guiObjects);

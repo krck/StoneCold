@@ -21,8 +21,8 @@ public:
 	virtual void Render() override;
 
 	void SetBackground(std::unique_ptr<Entity>&& backgroundObject);
-	void SetGameObjects(std::vector<std::shared_ptr<Entity>>&& gameObjects);
-	void SetGUI(std::vector<std::shared_ptr<Entity>>&& guiObjects);
+	void SetGameObjects(std::vector<std::unique_ptr<Entity>>&& gameObjects);
+	void SetGUI(std::vector<std::unique_ptr<Entity>>&& guiObjects);
 
 	~IntroState() = default;
 
@@ -33,8 +33,8 @@ private:
 	// Pointers to all Entitys (Background images, GUI objects, ...)
 	//
 	std::unique_ptr<Entity> _background;
-	std::vector<std::shared_ptr<Entity>> _gameObjects;
-	std::vector<std::shared_ptr<Entity>> _guiObjects;
+	std::vector<std::unique_ptr<Entity>> _gameObjects;
+	std::vector<std::unique_ptr<Entity>> _guiObjects;
 
 };
 

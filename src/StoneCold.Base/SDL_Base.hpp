@@ -15,6 +15,7 @@ namespace StoneCold {
 struct SDL_WindowDeleter { void operator()(SDL_Window* p) { if (p != nullptr) SDL_DestroyWindow(p); } };
 struct SDL_RendererDeleter { void operator()(SDL_Renderer* p) { if (p != nullptr) SDL_DestroyRenderer(p); } };
 struct SDL_TextureDeleter { void operator()(SDL_Texture* p) { if (p != nullptr) SDL_DestroyTexture(p); } };
+struct SDL_FontDeleter { void operator()(TTF_Font* p) { if (p != nullptr) TTF_CloseFont(p); } };
 
 // Custom deleter functions (static) for shared pointers to cleanup the SDL Resources 
 static void SDL_Deleter(SDL_Texture* p) { if (p != nullptr) SDL_DestroyTexture(p); }

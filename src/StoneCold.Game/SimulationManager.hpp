@@ -11,6 +11,7 @@
 #include "Background.hpp"
 #include "PlayerCharacter.hpp"
 #include "MapTile.hpp"
+#include "Label.hpp"
 #include <iostream>
 
 namespace StoneCold::Game {

@@ -27,21 +27,35 @@ void SimulationManager::CreateIntroState() {
 		_engine->ClearState<IntroState>();
 
 		// Create a new IntroState;
-		auto into = std::make_shared<IntroState>(_engine);
+		auto intro = std::make_shared<IntroState>(_engine);
+		auto guiObjects = std::vector<std::unique_ptr<Entity>>();
 
 		// Load all basic Resources needed by the IntroState (Background image, ...)
-		_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Intro, BACKGROUND_IMAGE);
+		auto backgroundTexture = _resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Intro, BACKGROUND_IMAGE);
+		auto fontTTF = _resourceManager->LoadResource<FontResource>(ResourceLifeTime::Intro, FONT_CROM);
 		// ...
 
 		// Create all basic Entitys from the Resources, needed by the IntroState
-		auto backgroundTexture = _resourceManager->GetResource<TextureResource>(BACKGROUND_IMAGE);
+		// Background Image
 		SDL_Rect backgroundDimensions = { 0, 0, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT };
 		SDL_FRect backgroundDimensionsF = { 0.f, 0.f, static_cast<float>(WINDOW_SIZE_WIDTH), static_cast<float>(WINDOW_SIZE_HEIGHT) };
 		auto background = Background(_renderer, backgroundTexture, backgroundDimensions, backgroundDimensionsF);
-		into->SetBackground(std::make_unique<Background>(background));
+		// Label "Press any Button"
+		const std::string labelText = "Press any Button to start ...";
+		const SDL_Color labelColor = { 10, 10, 10 };
+		auto labelTexture = _resourceManager->LoadFontTexture(ResourceLifeTime::Intro, "Label_Intro_Press_Any_Button", fontTTF->GetFontBig(), labelText, labelColor);
+		SDL_Rect src = labelTexture.first;
+		SDL_FRect dest = { (WINDOW_SIZE_WIDTH / 2.f) - (src.w / 2.f), 500, static_cast<float>(src.w), static_cast<float>(src.h) };
+		auto guiLabel = Label(_renderer, labelTexture.second, src, dest);
+		guiObjects.push_back(std::make_unique<Entity>(guiLabel));
+
+
+		intro->SetBackground(std::make_unique<Background>(background));
+		intro->SetGUI(std::move(guiObjects));
+
 
 		// Finally add the new IntroState to the Engines States
-		_engine->AddState<IntroState>(into);
+		_engine->AddState<IntroState>(intro);
 	}
 	catch (const std::exception & ex) {
 		std::cout << "Loading the Intro failed:\n" << ex.what() << std::endl;

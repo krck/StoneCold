@@ -20,9 +20,17 @@ const std::vector<std::vector<MapTileTypes>>& MapManager::GenerateMap(Vec2i size
 
 
 void MapManager::CreateFloor() {
+	// Setup the random directions to pick from
+	const std::vector<Vec2i> directions = {
+		Vec2i(0, -1),	// down
+		Vec2i(-1, 0),	// left
+		Vec2i(0, 1),	// up
+		Vec2i(1, 0)		// right 
+	};
+
 	// Create and add the first walker (spawn in the center)
 	auto newWalker = Walker();
-	newWalker.dir = RandomDirection();
+	newWalker.dir = directions[(rand() % 4 + 1) - 1];
 	newWalker.pos = Vec2i((_mapSize.X / 2), (_mapSize.Y / 2));
 	_walkers.push_back(newWalker);
 
@@ -40,7 +48,7 @@ void MapManager::CreateFloor() {
 			// Random chance: Walker picks a new direction
 			random = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 			if (random < _chanceWalkerChangeDir)
-				walker.dir = RandomDirection();
+				walker.dir = directions[(rand() % 4 + 1) - 1];
 
 			// Update the position, based on the direction
 			walker.pos.X += walker.dir.X;
@@ -61,7 +69,7 @@ void MapManager::CreateFloor() {
 		random = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 		if (random < _chanceWalkerUpdate && _walkers.size() < _maxWalkers) {
 			auto newWalker = Walker();
-			newWalker.dir = RandomDirection();
+			newWalker.dir = directions[(rand() % 4 + 1) - 1];
 			newWalker.pos = _walkers.front().pos;
 			_walkers.push_back(newWalker);
 		}
@@ -202,16 +210,4 @@ void MapManager::SetFinalMapTiles() {
 	_grid[start.Y][start.X] = MapTileTypes::Portal;
 	_grid[end.Y][end.X] = MapTileTypes::Portal;
 	_mapStartEndPositions = { start, end };
-}
-
-
-Vec2i MapManager::RandomDirection() {
-	// Random direction (Number between 1 and 4)
-	int choice = (rand() % 4 + 1);
-	switch (choice) {
-	case 1: return Vec2i(0, -1); break;	// down
-	case 2: return Vec2i(-1, 0); break;	// left
-	case 3: return Vec2i(0, 1); break;	// up
-	default: return Vec2i(1, 0); break;	// right
-	}
 }
