@@ -1,15 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{a1b4e741-00ca-47b9-9540-a46f3785e16f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States">
+      <UniqueIdentifier>{f705c335-f0f5-4f97-9b0a-46218b871260}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Components">
+    <Filter Include="ECS">
       <UniqueIdentifier>{423b9c07-e60d-4eb0-8d75-a7256da8c402}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Managers">
-      <UniqueIdentifier>{a1b4e741-00ca-47b9-9540-a46f3785e16f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -17,48 +20,60 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="TransformComponent.hpp">
-      <Filter>Components</Filter>
+      <Filter>ECS</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardComponent.hpp">
-      <Filter>Components</Filter>
+      <Filter>ECS</Filter>
     </ClInclude>
     <ClInclude Include="Component.hpp">
-      <Filter>Components</Filter>
+      <Filter>ECS</Filter>
     </ClInclude>
     <ClInclude Include="SpriteComponentFixed.hpp">
-      <Filter>Components</Filter>
+      <Filter>ECS</Filter>
     </ClInclude>
     <ClInclude Include="CollisionComponent.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="SDLManager.hpp">
-      <Filter>Managers</Filter>
+      <Filter>ECS</Filter>
     </ClInclude>
     <ClInclude Include="CollisionManager.hpp">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="MapGenerator.hpp">
-      <Filter>Managers</Filter>
-    </ClInclude>
     <ClInclude Include="AnimationComponent.hpp">
-      <Filter>Components</Filter>
+      <Filter>ECS</Filter>
     </ClInclude>
     <ClInclude Include="SpriteComponentMoving.hpp">
-      <Filter>Components</Filter>
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.hpp">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroState.hpp">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuState.hpp">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.hpp">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="State.hpp">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.hpp">
+      <Filter>ECS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="SDLManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="MapGenerator.cpp">
-      <Filter>Managers</Filter>
+    <ClCompile Include="GameState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroState.cpp">
+      <Filter>States</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

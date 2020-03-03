@@ -16,5 +16,5 @@ using namespace StoneCold::Game;
 int main(int argc, const char* argv[]) {
 	// Setup the game and start the main loop
 	GameCore game;
-	return (game.Initialize() ? game.Run() : -1);
+	return (game.Initialize("StoneCold") ? game.Run() : -1);
 }

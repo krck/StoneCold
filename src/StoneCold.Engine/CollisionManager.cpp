@@ -3,8 +3,9 @@
 
 using namespace StoneCold::Engine;
 
+
 void StoneCold::Engine::CollisionManager::UpdateCollisions(std::vector<CollisionComponent*>& collidableObjects) {
-	// Check all GameObjects with CollisionComponents against each other
+	// Check all Entitys with CollisionComponents against each other
 	for (auto ccMain : collidableObjects) {
 		ccMain->CollisionWith = nullptr;
 		for (auto ccCheck : collidableObjects) {
@@ -16,6 +17,7 @@ void StoneCold::Engine::CollisionManager::UpdateCollisions(std::vector<Collision
 		}
 	}
 }
+
 
 bool CollisionManager::CalculateAABB(const SDL_FRect& recA, const SDL_FRect& recB) const {
 	// Check the Axis-Aligned Bounding Boxes for overlap

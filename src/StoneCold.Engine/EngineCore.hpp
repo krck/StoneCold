@@ -2,75 +2,75 @@
 #ifndef STONECOLD_ENGINECORE_H
 #define STONECOLD_ENGINECORE_H
 
-#include "SDLManager.hpp"
 #include "Exception.hpp"
-#include "TransformComponent.hpp"
-#include "CollisionManager.hpp"
-#include "MapGenerator.hpp"
-#include <iostream>
+#include "State.hpp"
+#include <unordered_map>
+#include <typeindex>
+#include <typeinfo>
 #include <memory>
-#include <string>
-#include <vector>
+#include <stack>
 
 namespace StoneCold::Engine {
 
+//
+// EngineCore (and StateManager)
+//
+// Directly called from the games main-loop this holds and manages all GameStates,
+// distributes SDL_Events and Update calls and SDL_RenderPresent's to the screen
+//
 class EngineCore {
 public:
 	EngineCore();
 	EngineCore(const EngineCore&) = delete;
 	EngineCore& operator=(const EngineCore&) = delete;
 
-	inline SDL_Renderer* GetSDLRenderer() { return _renderer; }
+	bool Initialize(SDL_Renderer* renderer);
 
-	bool Initialize(const std::string& windowName);
-	void HandleEvent(const uint8* keyStates);
+	bool HandleSDLEvent(const SDL_Event& sdlEvent);
+	void HandleInputEvent(const std::vector<uint8>& keyStates);
 	void Update(uint frameTime);
 	void Render();
 
-	void AddPlayer(std::unique_ptr<GameObject>&& gameObject);
-	void AddNewMapObject(hash64 textureId, std::shared_ptr<GameObject>&& mapObject);
-	void AddNewGameObject(hash64 textureId, std::shared_ptr<GameObject>&& gameObject);
-	void AddNewGuiObject(hash64 textureId, std::shared_ptr<GameObject>&& guiObject);
+	void ChangeState(State* state);
+	void PushState(State* state);
+	void PopState();
 
-	void UnloadGameObjects(ResourceLifeTime resourceLifeTime);
+	//
+	// Add a new State to the Entity based on the State Type
+	// Each Entity can have any State but only one active instance of each Type
+	// (type_index is a wrapper class around a std::type_info object, that can be used as index)
+	//
+	template<typename T>
+	void AddState(std::shared_ptr<State>&& state) { _states[std::type_index(typeid(T))] = std::move(state); }
 
-	void SetPlayerPosition(Vec2 position);
+	template<typename T>
+	T* GetState() { return static_cast<T*>(_states[std::type_index(typeid(T))].get()); }
+
+	template<typename T>
+	bool HasState() const { return (_states.find(std::type_index(typeid(T))) != _states.end()); }
+
+	template<typename T>
+	void ClearState() {
+		auto state = std::type_index(typeid(T));
+		auto stateIter = _states.find(state);
+		if (stateIter != _states.end()) {
+			stateIter->second->Cleanup();
+			_states.erase(state);
+		}
+	}
 
 	~EngineCore() = default;
 
 private:
-	SDLManager _sdlManager;
-	CollisionManager _collisionManager;
 	SDL_Renderer* _renderer;
-	SDL_FRect _camera;
 
 	//
-	// Pointers to the Player GameObject for fast access
-	// ResourceLifeTime::Global
+	// State Management (as part of the core Engine)
+	// Top is the active state that should be updated and rendered
 	//
-	std::unique_ptr<GameObject> _player;
-	TransformComponent* _playerTransformation;
+	std::stack<State*> _stateStack;
+	std::unordered_map<std::type_index, std::shared_ptr<State>> _states;
 
-	//
-	// unordered_maps with all GameObjects (Player, NPCs, MapTiles, ...)
-	// Each map has a TextureResource hash as key to batch render by Texture
-	//
-	// Each map is (indirectly) linked to a ResourceLifeTime
-	// _mapObjects:		ResourceLifeTime::Level
-	// _gameObjects:	ResourceLifeTime::Level
-	// _guiObjects:		ResourceLifeTime::Global
-	//
-	std::unordered_map<hash64, std::vector<std::shared_ptr<GameObject>>> _mapObjects;
-	std::unordered_map<hash64, std::vector<std::shared_ptr<GameObject>>> _gameObjects;
-	std::vector<std::shared_ptr<GameObject>> _guiObjects;
-
-	//
-	// Based on the GameObject maps, this stores a pointer
-	// to each GameObject, that has a CollisionComponent
-	//
-	// ResourceLifeTime::Level
-	//
-	std::vector<CollisionComponent*> _collidableObjects;
 };
 
 }

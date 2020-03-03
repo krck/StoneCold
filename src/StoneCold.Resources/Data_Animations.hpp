@@ -32,7 +32,7 @@ const auto mapFrames = std::unordered_map<MapTileTypes, std::pair<SDL_Rect, SDL_
 	{MapTileTypes::Middle_Block_Vertical,	{ {64,0,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
 	{MapTileTypes::Endblock_Top,			{ {96,0,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
 	{MapTileTypes::Portal,					{ {128,0,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
-	{MapTileTypes::Empty,					{ {0,32,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
+	{MapTileTypes::Top_Special,				{ {0,32,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
 	{MapTileTypes::Wall_Left,				{ {32,32,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
 	{MapTileTypes::Wall_Right,				{ {32,32,32,32}, SDL_RendererFlip::SDL_FLIP_HORIZONTAL } },
 	{MapTileTypes::Middle_Block_Horizontal,	{ {64,32,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
@@ -44,9 +44,9 @@ const auto mapFrames = std::unordered_map<MapTileTypes, std::pair<SDL_Rect, SDL_
 	{MapTileTypes::Floor_Special_2,			{ {64,64,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
 	{MapTileTypes::Endblock_Left,			{ {96,64,32,32}, SDL_RendererFlip::SDL_FLIP_HORIZONTAL } },
 	{MapTileTypes::Endblock_Right,			{ {96,64,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
-	{MapTileTypes::Floor_Bottom,			{ {0,96,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
-	{MapTileTypes::Floor_Corner_Left,		{ {32,96,32,32}, SDL_RendererFlip::SDL_FLIP_HORIZONTAL } },
-	{MapTileTypes::Floor_Corner_Right,		{ {32,96,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
+	{MapTileTypes::Top_Default,				{ {128,64,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
+	{MapTileTypes::Floor_Shadow,			{ {0,96,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
+	{MapTileTypes::Floor_Special_4,			{ {32,96,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
 	{MapTileTypes::Floor_Default,			{ {64,96,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
 	{MapTileTypes::Floor_Special_1,			{ {96,96,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } }
 });

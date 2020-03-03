@@ -3,6 +3,7 @@
 #define STONECOLD_KEYBOARDCOMPONENT_H
 
 #include "SDL_Base.hpp"
+#include "Entity.hpp"
 #include "Component.hpp"
 #include "TransformComponent.hpp"
 #include "AnimationComponent.hpp"
@@ -18,9 +19,9 @@ namespace StoneCold::Engine {
 // Optional: AnimationComponent
 //
 // Contains logic to process any Keyboard input based on SDL_Events
-// Needs a GameObject with a TransformComponent to store the updates
+// Needs a Entity with a TransformComponent to store the updates
 // 
-class KeyboardComponent : public IComponent {
+class KeyboardComponent : public Component {
 private:
 	TransformComponent* _transform;
 	AnimationComponent* _animationComponent;
@@ -28,19 +29,19 @@ private:
 public:
 	KeyboardComponent() : _transform(nullptr), _animationComponent(nullptr) { }
 
-	void Init(GameObject* gameObject) override {
-		IComponent::Init(gameObject);
+	void Init(Entity* entity) override {
+		Component::Init(entity);
 
 		// Get the TransformComponent to write transformations based on the Keyboard input
-		_transform = _gameObject->GetComponent<TransformComponent>();
+		_transform = _entity->GetComponent<TransformComponent>();
 
 		// Try to get the AnimationComponent to play different animations for different actions
-		if (_gameObject->HasComponent<AnimationComponent>()) {
-			_animationComponent = _gameObject->GetComponent<AnimationComponent>();
+		if (_entity->HasComponent<AnimationComponent>()) {
+			_animationComponent = _entity->GetComponent<AnimationComponent>();
 		}
 	}
 
-	void HandleEvent(const uint8* keyStates) override {
+	void HandleInputEvent(const std::vector<uint8>& keyStates) override {
 		// For each keykeyStates contains a value of 1 if pressed and a value of 0 if not pressed
 		// Add negative and positive velocity so the sprite doesn't move if both are pressed at the same time
 		_transform->Velocity.Y = (-1.0f * keyStates[SDL_SCANCODE_W]) + keyStates[SDL_SCANCODE_S];

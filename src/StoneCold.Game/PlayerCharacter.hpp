@@ -2,6 +2,7 @@
 #ifndef STONECOLD_PLAYERCHARACTER_H
 #define STONECOLD_PLAYERCHARACTER_H
 
+#include "Entity.hpp"
 #include "TransformComponent.hpp"
 #include "KeyboardComponent.hpp"
 #include "SpriteComponentMoving.hpp"
@@ -11,7 +12,7 @@ namespace StoneCold::Game {
 using namespace StoneCold::Engine;
 using namespace StoneCold::Resources;
 
-class PlayerCharacter : public GameObject {
+class PlayerCharacter : public Entity {
 public:
 	PlayerCharacter(SDL_Renderer* renderer, TextureResource* texture, AnimationResource* animation, Vec2 position, Vec2 dimension, int scale, int speed) {
 		_texture = texture;

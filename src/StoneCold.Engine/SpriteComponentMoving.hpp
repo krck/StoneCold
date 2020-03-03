@@ -16,9 +16,9 @@ namespace StoneCold::Engine {
 // Optional: CollisionComponent, AnimationComponent
 //
 // Contains information needed to render a 2D sprite (Texture, SDL_Renderer, ...)
-// Needs a GameObject with a TransformComponent to update the position on screen
+// Needs a Entity with a TransformComponent to update the position on screen
 //
-class SpriteComponentMoving : public IComponent {
+class SpriteComponentMoving : public Component {
 private:
 	AnimationComponent* _animationComponent;
 	CollisionComponent* _collisionComponent;
@@ -34,19 +34,19 @@ public:
 		: _renderer(renderer), _texture(texture), _srcRect(srcRect), _destRect(destRect), _flip(SDL_RendererFlip::SDL_FLIP_NONE)
 		, _animationComponent(nullptr), _collisionComponent(nullptr), _transform(nullptr) { }
 
-	void Init(GameObject* gameObject) override {
-		IComponent::Init(gameObject);
+	void Init(Entity* entity) override {
+		Component::Init(entity);
 
 		// Get the TransformComponent to read transformations based on the Keyboard input
-		_transform = _gameObject->GetComponent<TransformComponent>();
+		_transform = _entity->GetComponent<TransformComponent>();
 
 		// Get the AnimationComponent (if it has one) to get the current framePosition, aka. _srcRect
-		if (gameObject->HasComponent<AnimationComponent>())
-			_animationComponent = gameObject->GetComponent<AnimationComponent>();
+		if (_entity->HasComponent<AnimationComponent>())
+			_animationComponent = _entity->GetComponent<AnimationComponent>();
 
 		// Get the CollisionComponent (if it has one) to keep it up to date with the movement, aka. _destRect
-		if (gameObject->HasComponent<CollisionComponent>())
-			_collisionComponent = gameObject->GetComponent<CollisionComponent>();
+		if (_entity->HasComponent<CollisionComponent>())
+			_collisionComponent = _entity->GetComponent<CollisionComponent>();
 	}
 
 	void Update(uint frameTime) override {

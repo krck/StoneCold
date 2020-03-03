@@ -2,13 +2,14 @@
 #ifndef STONECOLD_RESOURCEMANAGER_H
 #define STONECOLD_RESOURCEMANAGER_H
 
+#include <windows.h>
+#include "Settings.hpp"
 #include "Exception.hpp"
 #include "Data_Animations.hpp"
 #include "Data_Textures.hpp"
 #include "AnimationResource.hpp"
 #include "TextureResource.hpp"
 #include "FontResource.hpp"
-#include <windows.h>
 #include <unordered_map>
 #include <algorithm>
 #include <memory>
@@ -30,30 +31,22 @@ public:
 	bool Initialize(SDL_Renderer* renderer);
 
 	//
-	// Load the specific Resource based on Type
-	// Ensures that any Resource is loaded only once, per LifeTime
+	// Load any Resource based on its Type
+	// Ensures that Resources are loaded only once
 	//
 	template<typename T>
-	void LoadResource(ResourceLifeTime resourceLifeTime, const std::string& name) {
-		// Load each ressource only once
-		if (!IsResourceLoaded(name)) {
-			// Create the specific Resource based on Type
-			if (std::is_same<T, TextureResource>::value) {
-				_resources.insert({ name, std::make_shared<TextureResource>(CreateTexture(name)) });
-				_resouceLifetimes[resourceLifeTime].push_back(name);
-			}
-			else if (std::is_same<T, AnimationResource>::value) {
-				_resources.insert({ name, std::make_shared<AnimationResource>(CreateAnimation(name)) });
-				_resouceLifetimes[resourceLifeTime].push_back(name);
-			}
-			else if (std::is_same<T, FontResource>::value) {
-
-			}
-		}
-	}
+	T* LoadResource(ResourceLifeTime resourceLifeTime, const std::string& name);
 
 	//
-	// Reset a specific Resource Map (LifeTime storage) completely
+	// Load a specific Texture Resource based on a Font, Text and FontColor
+	// Ensures that Resources are loaded only once
+	//
+	// Returns the srcRect (mainly width and height of the Text) and the Texture pointer
+	//
+	std::pair<SDL_Rect, TextureResource*> LoadFontTexture(ResourceLifeTime rlt, const std::string& name, TTF_Font* font, const std::string& text, const SDL_Color& color);
+
+	//
+	// Unload (cleanup) all Resources of a specific LifeTime
 	//
 	void UnloadResources(ResourceLifeTime resourceLifeTime);
 
@@ -65,14 +58,10 @@ public:
 	~ResourceManager() = default;
 
 private:
-	//
-	// Loads a Texture form file into an SDL_Texture object
-	// The returned shared_ptr will automatically call SDL_DestroyTexture on destruction
-	//
 	TextureResource CreateTexture(const std::string& name);
 	AnimationResource CreateAnimation(const std::string& name);
 	FontResource CreateFont(const std::string& name);
-	
+
 private:
 	std::string _basePath;
 	std::unordered_map<std::string, std::shared_ptr<Resource>> _resources;

@@ -20,9 +20,6 @@ struct Animation {
 	const uint FrameTime;
 };
 
-//
-// ...
-//
 class AnimationResource : public Resource {
 public:
 	AnimationResource(const std::string& name, const std::unordered_map<std::string, Animation>& animations)

@@ -157,20 +157,24 @@
   <ItemGroup>
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="EngineCore.cpp" />
-    <ClCompile Include="MapGenerator.cpp" />
-    <ClCompile Include="SDLManager.cpp" />
+    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="IntroState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationComponent.hpp" />
     <ClInclude Include="CollisionComponent.hpp" />
     <ClInclude Include="CollisionManager.hpp" />
-    <ClInclude Include="MapGenerator.hpp" />
+    <ClInclude Include="Entity.hpp" />
+    <ClInclude Include="EventManager.hpp" />
+    <ClInclude Include="GameState.hpp" />
+    <ClInclude Include="IntroState.hpp" />
+    <ClInclude Include="MenuState.hpp" />
     <ClInclude Include="SpriteComponentMoving.hpp" />
     <ClInclude Include="EngineCore.hpp" />
     <ClInclude Include="Component.hpp" />
     <ClInclude Include="KeyboardComponent.hpp" />
-    <ClInclude Include="SDLManager.hpp" />
     <ClInclude Include="SpriteComponentFixed.hpp" />
+    <ClInclude Include="State.hpp" />
     <ClInclude Include="TransformComponent.hpp" />
   </ItemGroup>
   <ItemGroup>

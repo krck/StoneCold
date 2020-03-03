@@ -2,6 +2,7 @@
 #ifndef STONECOLD_TRANSFORMCOMPONENT_H
 #define STONECOLD_TRANSFORMCOMPONENT_H
 
+#include "Entity.hpp"
 #include "CollisionComponent.hpp"
 #include "Vec2.hpp"
 
@@ -13,9 +14,9 @@ namespace StoneCold::Engine {
 // Optional: CollisionComponent
 // 
 // Contains position, velocity (acceleration in each axis) and dimension (width/height) vectors
-// and additionally some information (factors) for scaling and the speed of the GameObject
+// and additionally some information (factors) for scaling and the speed of the Entity
 //
-class TransformComponent : public IComponent {
+class TransformComponent : public Component {
 public:
 	Vec2 Position;
 	Vec2 Velocity;
@@ -30,12 +31,12 @@ public:
 	TransformComponent(Vec2 pos, Vec2 dim, int scale, int speed)
 		: _collisionComponent(nullptr), Position(pos), Velocity(Vec2()), Dimensions(dim), Scale(scale), BaseSpeed(speed), Speed(speed) { }
 
-	void Init(GameObject* gameObject) override {
-		IComponent::Init(gameObject);
+	void Init(Entity* entity) override {
+		Component::Init(entity);
 
 		// Get the CollisionComponent (if it has one) to update the position based on other objects
-		if (gameObject->HasComponent<CollisionComponent>())
-			_collisionComponent = gameObject->GetComponent<CollisionComponent>();
+		if (_entity->HasComponent<CollisionComponent>())
+			_collisionComponent = _entity->GetComponent<CollisionComponent>();
 
 		Velocity.X = 0;
 		Velocity.Y = 0;
@@ -57,10 +58,10 @@ public:
 			auto recB = _collisionComponent->CollisionWith->CollisionBox;
 
 			// Get the edge thats overlapping (positive or negative direction)
-			bool dxP = (recA.x + recA.w - recB.x) < 5.f;
-			bool dxN = (recB.x + recB.w - recA.x) < 5.f;
-			bool dyP = (recA.y + recA.h - recB.y) < 5.f;
-			bool dyN = (recB.y + recB.h - recA.y) < 5.f;
+			bool dxP = (recA.x + recA.w - recB.x) < 10.f;
+			bool dxN = (recB.x + recB.w - recA.x) < 10.f;
+			bool dyP = (recA.y + recA.h - recB.y) < 10.f;
+			bool dyN = (recB.y + recB.h - recA.y) < 10.f;
 
 			// Step the overlapping Axis 1 pixel away, in the opposite direction
 			Position.X += (dxN + (dxP * -1));
