@@ -41,6 +41,7 @@ Some of the Textures are hand drawn (thanks MS Paint and Gimp) but the nice look
 - DawnBringer Color-Palette by Richard Fhager [link to his pixeljoint](http://pixeljoint.com/p/23821.htm)
 - Dwarf Sprites by Elthen (Ahmet Avci) [link to his patreon](https://www.patreon.com/elthen)
 - Mountain Background by NotTandy [link to his pixelart](https://www.pixilart.com/nottandy)
+- UI Textures (RPG Pack) by Kenney Vleugels [link to his art](https://www.kenney.nl)
 - Font Crom by russh (Russell Herschler) [link to his homepage](http://www.dragonfang.com/)
 - Font OldeDethek by Pixel Sagas [link to the homepage](http://www.pixelsagas.com/)
 
