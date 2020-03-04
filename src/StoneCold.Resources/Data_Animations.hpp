@@ -10,6 +10,7 @@ namespace StoneCold::Resources {
 // All animation names as hardcoded, constant variables
 //
 const std::string PLAYER_ANIMATION = "Dwarf_Sprite_Animation";
+const std::string BUTTON_ANIMATION = "Button_Animation";
 
 //
 // Animation data as hardcoded, constat variables
@@ -23,6 +24,11 @@ const auto playerAnimation = std::unordered_map<std::string, Animation>({
 	{"jump", Animation({ {0,160,32,32}, {32,160,32,32}, {64,160,32,32}, {96,160,32,32}, {128,160,32,32} }, 100) },
 	{"hurt", Animation({ {0,192,32,32}, {32,192,32,32}, {64,192,32,32}, {96,192,32,32} }, 100) },
 	{"dead", Animation({ {0,224,32,32}, {32,224,32,32}, {64,224,32,32}, {96,224,32,32}, {128,224,32,32}, {160,224,32,32}, {192,224,32,32} }, 100) }
+});
+
+const auto buttonAnimation = std::unordered_map<std::string, Animation>({
+	{"hover", Animation({ {0,0,194,48} }, 0) },
+	{"idle", Animation({ {0,48,194,52} }, 0) }
 });
 
 const auto mapFrames = std::unordered_map<MapTileTypes, std::pair<SDL_Rect, SDL_RendererFlip>>({
@@ -55,7 +61,8 @@ const auto mapFrames = std::unordered_map<MapTileTypes, std::pair<SDL_Rect, SDL_
 // Map all animation names with their actual animation data
 //
 const auto AnimationData = std::unordered_map<std::string, std::unordered_map<std::string, Animation>>({
-	{ PLAYER_ANIMATION, playerAnimation }
+	{ PLAYER_ANIMATION, playerAnimation },
+	{ BUTTON_ANIMATION, buttonAnimation }
 });
 
 }

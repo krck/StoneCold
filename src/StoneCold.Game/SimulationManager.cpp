@@ -102,7 +102,9 @@ void SimulationManager::CreateMenuState() {
 
 		// Get all basic Resources needed by the MenuState (Background image, Font, ...)
 		auto backgroundTexture = _resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Menu, BACKGROUND_IMAGE);
-		//auto guiTexture = _resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Menu, GUI_TEXTURE);
+		auto stonecoldTexture = _resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Menu, STONECOLD_LOGO);
+		auto buttonAnimation = _resourceManager->LoadResource<AnimationResource>(ResourceLifeTime::Menu, BUTTON_ANIMATION);
+		auto guiTexture = _resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Menu, GUI_TEXTURE);
 		auto fontTTF = _resourceManager->LoadResource<FontResource>(ResourceLifeTime::Menu, FONT_CROM);
 		// ...
 
@@ -111,14 +113,26 @@ void SimulationManager::CreateMenuState() {
 		SDL_Rect backgroundDimensions = { 0, 0, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT };
 		SDL_FRect backgroundDimensionsF = { 0.f, 0.f, static_cast<float>(WINDOW_SIZE_WIDTH), static_cast<float>(WINDOW_SIZE_HEIGHT) };
 		auto background = Background(_renderer, backgroundTexture, backgroundDimensions, backgroundDimensionsF);
-		// Button "Start"
-		//const std::string buttonText = "Start";
-		//auto btnContentTex = _resourceManager->LoadFontTexture(ResourceLifeTime::Intro, "Button_Menu_Start", fontTTF->GetFontBig(), labelText, CL_BLACK);
-		//auto btnAnimation = 0;
-		//SDL_FRect dest = { (WINDOW_SIZE_WIDTH / 2.f) - 200.f, 200.f, 400.f, 200.f };
-		//auto guiButton = Button(_renderer, guiTexture, btnContentTex, btnAnimation, dest);
-		//guiObjects.push_back(std::make_unique<Entity>(guiButton));
-
+		// StoneCold Logo
+		SDL_Rect logoDimensions = { 0, 0, stonecoldTexture->SurfaceSize.X, stonecoldTexture->SurfaceSize.Y };
+		SDL_FRect logoDimensionsF = { (WINDOW_SIZE_WIDTH / 2.f) - 250.f, 100.f, 500.f, 100.f };
+		guiObjects.push_back(std::make_unique<Entity>(Background(_renderer, stonecoldTexture, logoDimensions, logoDimensionsF)));
+		// Button "Play"
+		auto btnContentPlay = _resourceManager->LoadFontTexture(ResourceLifeTime::Menu, "Button_Menu_Start", fontTTF->GetFontBig(), "Play", CL_BLACK);
+		SDL_FRect destPlay = { (WINDOW_SIZE_WIDTH / 2.f) - 150.f, 300.f, 300.f, 50.f };
+		guiObjects.push_back(std::make_unique<Entity>(Button(_renderer, guiTexture, btnContentPlay, buttonAnimation, destPlay, btnContentPlay->SurfaceSize)));
+		// Button "Options"
+		auto btnContentOptions = _resourceManager->LoadFontTexture(ResourceLifeTime::Menu, "Button_Menu_Options", fontTTF->GetFontBig(), "Options", CL_BLACK);
+		SDL_FRect destOptions = { (WINDOW_SIZE_WIDTH / 2.f) - 150.f, 370.f, 300.f, 50.f };
+		guiObjects.push_back(std::make_unique<Entity>(Button(_renderer, guiTexture, btnContentOptions, buttonAnimation, destOptions, btnContentOptions->SurfaceSize)));
+		// Button "Credits"
+		auto btnContentCredits = _resourceManager->LoadFontTexture(ResourceLifeTime::Menu, "Button_Menu_Credits", fontTTF->GetFontBig(), "Credits", CL_BLACK);
+		SDL_FRect destCredits = { (WINDOW_SIZE_WIDTH / 2.f) - 150.f, 440.f, 300.f, 50.f };
+		guiObjects.push_back(std::make_unique<Entity>(Button(_renderer, guiTexture, btnContentCredits, buttonAnimation, destCredits, btnContentCredits->SurfaceSize)));
+		// Button "Quit"
+		auto btnContentQuit = _resourceManager->LoadFontTexture(ResourceLifeTime::Menu, "Button_Menu_Quit", fontTTF->GetFontBig(), "Quit", CL_BLACK);
+		SDL_FRect destQuit = { (WINDOW_SIZE_WIDTH / 2.f) - 150.f, 510.f, 300.f, 50.f };
+		guiObjects.push_back(std::make_unique<Entity>(Button(_renderer, guiTexture, btnContentQuit, buttonAnimation, destQuit, btnContentQuit->SurfaceSize)));
 
 		// Add all Entities to the MenuState for updating and rendering
 		menu->SetBackground(std::make_unique<Background>(background));

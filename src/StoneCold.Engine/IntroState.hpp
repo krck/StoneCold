@@ -4,7 +4,7 @@
 
 #include "Component.hpp"
 #include "EngineCore.hpp"
-#include "GameState.hpp"
+#include "MenuState.hpp"
 #include <algorithm>
 
 namespace StoneCold::Engine {

@@ -14,9 +14,9 @@ IntroState::IntroState(EngineCore* engine)
 void IntroState::HandleInputEvent(const std::vector<uint8>& keyStates) {
 	// Check if any key was pressed ...
 	if (std::any_of(keyStates.begin(), keyStates.end(), [](uint8 i) {return (i == 1); })) {
-		// and switch from Intro to Game state, if its available
-		if (_engine->HasState<GameState>()) {
-			auto gamePtr = _engine->GetState<GameState>();
+		// and switch from Intro to MenuState, if its available
+		if (_engine->HasState<MenuState>()) {
+			auto gamePtr = _engine->GetState<MenuState>();
 			_engine->ChangeState(gamePtr);
 		}
 	}

@@ -12,6 +12,7 @@ namespace StoneCold::Resources {
 // All texture names as hardcoded, constant variables
 //
 const std::string PLAYER_TEXTURE = "player\\Dwarf_Sprite.png";
+const std::string STONECOLD_LOGO = "ui\\StoneCold.png";
 const std::string BACKGROUND_IMAGE = "ui\\the_mountain.png";
 const std::string GUI_TEXTURE = "ui\\gui_textures.png";
 
