@@ -159,6 +159,7 @@
     <ClCompile Include="EngineCore.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="IntroState.cpp" />
+    <ClCompile Include="MenuState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationComponent.hpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="GameState.hpp" />
     <ClInclude Include="IntroState.hpp" />
     <ClInclude Include="MenuState.hpp" />
+    <ClInclude Include="SpriteComponentGui.hpp" />
     <ClInclude Include="SpriteComponentMoving.hpp" />
     <ClInclude Include="EngineCore.hpp" />
     <ClInclude Include="Component.hpp" />

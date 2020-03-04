@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.hpp" />
+    <ClInclude Include="Button.hpp" />
     <ClInclude Include="GameCore.hpp" />
     <ClInclude Include="Label.hpp" />
     <ClInclude Include="MapManager.hpp" />

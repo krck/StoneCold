@@ -15,7 +15,7 @@ namespace StoneCold::Engine {
 //
 // EngineCore (and StateManager)
 //
-// Directly called from the games main-loop this holds and manages all GameStates,
+// Directly called from the games main-loop, this holds and manages all GameStates,
 // distributes SDL_Events and Update calls and SDL_RenderPresent's to the screen
 //
 class EngineCore {
@@ -66,7 +66,7 @@ private:
 
 	//
 	// State Management (as part of the core Engine)
-	// Top is the active state that should be updated and rendered
+	// Top of the stack is the active state thats updated and rendered
 	//
 	std::stack<State*> _stateStack;
 	std::unordered_map<std::type_index, std::shared_ptr<State>> _states;

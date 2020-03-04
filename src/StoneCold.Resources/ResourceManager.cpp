@@ -73,22 +73,21 @@ T* ResourceManager::LoadResource(ResourceLifeTime resourceLifeTime, const std::s
 }
 
 
-std::pair<SDL_Rect, TextureResource*> ResourceManager::LoadFontTexture(ResourceLifeTime rlt, const std::string& name, TTF_Font* font, const std::string& text, const SDL_Color& color) {
+TextureResource* ResourceManager::LoadFontTexture(ResourceLifeTime rlt, const std::string& name, TTF_Font* font, const std::string& text, const SDL_Color& color) {
 	try {
 		SDL_Rect srcRect = { 0, 0, 0, 0 };
 		if (!IsResourceLoaded(name)) {
 			// Create a Texture Resource, based on the Font, Text and Color
 			SDL_Surface* tmpSurface = TTF_RenderText_Solid(font, text.c_str(), color);
-			srcRect.w = tmpSurface->w;
-			srcRect.h = tmpSurface->h;
+			auto surfaceSize = Vec2i(tmpSurface->w, tmpSurface->h);
 			auto tex = std::unique_ptr<SDL_Texture, SDL_TextureDeleter>(SDL_CreateTextureFromSurface(_renderer, tmpSurface));
 			SDL_FreeSurface(tmpSurface);
 
 			// Add the TextureResource to the map based on its Name and LifeTime
-			_resources.insert({ name, std::make_shared<TextureResource>(TextureResource(name, std::move(tex))) });
+			_resources.insert({ name, std::make_shared<TextureResource>(TextureResource(name, std::move(tex), surfaceSize)) });
 			_resouceLifetimes[rlt].push_back(name);
 		}
-		return std::make_pair(srcRect, static_cast<TextureResource*>(_resources[name].get()));
+		return static_cast<TextureResource*>(_resources[name].get());
 	}
 	catch (...) {
 		throw GameException("SDL Error on Resource creation: " + name
@@ -115,11 +114,12 @@ TextureResource ResourceManager::CreateTexture(const std::string& name) {
 
 	// Load file into a SDL_Texture pointer
 	SDL_Surface* tmpSurface = IMG_Load(fullPath.c_str());
+	auto surfaceSize = Vec2i(tmpSurface->w, tmpSurface->h);
 	auto tex = std::unique_ptr<SDL_Texture, SDL_TextureDeleter>(SDL_CreateTextureFromSurface(_renderer, tmpSurface));
 	SDL_FreeSurface(tmpSurface);
 
 	// Create the TextureResource
-	return TextureResource(name, std::move(tex));
+	return TextureResource(name, std::move(tex), surfaceSize);
 }
 
 

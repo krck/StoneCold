@@ -57,5 +57,8 @@
     <ClInclude Include="Label.hpp">
       <Filter>GuiWidgets</Filter>
     </ClInclude>
+    <ClInclude Include="Button.hpp">
+      <Filter>GuiWidgets</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -26,33 +26,30 @@ void SimulationManager::CreateIntroState() {
 		_resourceManager->UnloadResources(ResourceLifeTime::Intro);
 		_engine->ClearState<IntroState>();
 
-		// Create a new IntroState;
+		// Create a new IntroState
 		auto intro = std::make_shared<IntroState>(_engine);
 		auto guiObjects = std::vector<std::unique_ptr<Entity>>();
 
-		// Load all basic Resources needed by the IntroState (Background image, ...)
+		// Get all basic Resources needed by the IntroState (Background image, Font, ...)
 		auto backgroundTexture = _resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Intro, BACKGROUND_IMAGE);
 		auto fontTTF = _resourceManager->LoadResource<FontResource>(ResourceLifeTime::Intro, FONT_CROM);
 		// ...
 
-		// Create all basic Entitys from the Resources, needed by the IntroState
+		// Create all basic Entities from the Resources, needed by the IntroState
 		// Background Image
 		SDL_Rect backgroundDimensions = { 0, 0, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT };
 		SDL_FRect backgroundDimensionsF = { 0.f, 0.f, static_cast<float>(WINDOW_SIZE_WIDTH), static_cast<float>(WINDOW_SIZE_HEIGHT) };
 		auto background = Background(_renderer, backgroundTexture, backgroundDimensions, backgroundDimensionsF);
 		// Label "Press any Button"
 		const std::string labelText = "Press any Button to start ...";
-		const SDL_Color labelColor = { 10, 10, 10 };
-		auto labelTexture = _resourceManager->LoadFontTexture(ResourceLifeTime::Intro, "Label_Intro_Press_Any_Button", fontTTF->GetFontBig(), labelText, labelColor);
-		SDL_Rect src = labelTexture.first;
-		SDL_FRect dest = { (WINDOW_SIZE_WIDTH / 2.f) - (src.w / 2.f), 500, static_cast<float>(src.w), static_cast<float>(src.h) };
-		auto guiLabel = Label(_renderer, labelTexture.second, src, dest);
+		auto lbTex = _resourceManager->LoadFontTexture(ResourceLifeTime::Intro, "Label_Intro_Press_Any_Button", fontTTF->GetFontBig(), labelText, CL_BLACK);
+		SDL_FRect dest = { (WINDOW_SIZE_WIDTH / 2.f) - (lbTex->SurfaceSize.X / 2.f), 500.f, static_cast<float>(lbTex->SurfaceSize.X), static_cast<float>(lbTex->SurfaceSize.Y) };
+		auto guiLabel = Label(_renderer, lbTex, lbTex->SurfaceSize, dest);
 		guiObjects.push_back(std::make_unique<Entity>(guiLabel));
 
-
+		// Add all Entities to the IntroState for updating and rendering
 		intro->SetBackground(std::make_unique<Background>(background));
 		intro->SetGUI(std::move(guiObjects));
-
 
 		// Finally add the new IntroState to the Engines States
 		_engine->AddState<IntroState>(intro);
@@ -69,10 +66,10 @@ void SimulationManager::CreateGameState() {
 		_resourceManager->UnloadResources(ResourceLifeTime::Game);
 		_engine->ClearState<GameState>();
 
-		// Create a new GameState;
+		// Create a new GameState
 		auto game = std::make_shared<GameState>(_engine);
 
-		// Load all basic Resources needed by the GameState (Player Character, Player GUI, etc.)
+		// Get all basic Resources needed by the GameState (Player Character, Player GUI, etc.)
 		_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Game, PLAYER_TEXTURE);
 		_resourceManager->LoadResource<AnimationResource>(ResourceLifeTime::Game, PLAYER_ANIMATION);
 		// ...
@@ -80,7 +77,7 @@ void SimulationManager::CreateGameState() {
 		// Create all basic Entitys from the Resources, needed by the GameState
 		auto playerTexture = _resourceManager->GetResource<TextureResource>(PLAYER_TEXTURE);
 		auto playerAnimation = _resourceManager->GetResource<AnimationResource>(PLAYER_ANIMATION);
-		auto player = PlayerCharacter(_renderer, playerTexture, playerAnimation, Vec2(), Vec2(32, 32), 3, 200);
+		auto player = PlayerCharacter(_renderer, playerTexture, playerAnimation, Vec2(), Vec2(32, 32), 3, 250);
 		game->SetPlayer(std::make_unique<PlayerCharacter>(player));
 		// ...
 
@@ -99,6 +96,36 @@ void SimulationManager::CreateMenuState() {
 		_resourceManager->UnloadResources(ResourceLifeTime::Menu);
 		_engine->ClearState<MenuState>();
 
+		// Create a new MenuState
+		auto menu = std::make_shared<MenuState>(_engine);
+		auto guiObjects = std::vector<std::unique_ptr<Entity>>();
+
+		// Get all basic Resources needed by the MenuState (Background image, Font, ...)
+		auto backgroundTexture = _resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Menu, BACKGROUND_IMAGE);
+		//auto guiTexture = _resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Menu, GUI_TEXTURE);
+		auto fontTTF = _resourceManager->LoadResource<FontResource>(ResourceLifeTime::Menu, FONT_CROM);
+		// ...
+
+		// Create all basic Entitys from the Resources, needed by the MenuState
+		// Background Image
+		SDL_Rect backgroundDimensions = { 0, 0, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT };
+		SDL_FRect backgroundDimensionsF = { 0.f, 0.f, static_cast<float>(WINDOW_SIZE_WIDTH), static_cast<float>(WINDOW_SIZE_HEIGHT) };
+		auto background = Background(_renderer, backgroundTexture, backgroundDimensions, backgroundDimensionsF);
+		// Button "Start"
+		//const std::string buttonText = "Start";
+		//auto btnContentTex = _resourceManager->LoadFontTexture(ResourceLifeTime::Intro, "Button_Menu_Start", fontTTF->GetFontBig(), labelText, CL_BLACK);
+		//auto btnAnimation = 0;
+		//SDL_FRect dest = { (WINDOW_SIZE_WIDTH / 2.f) - 200.f, 200.f, 400.f, 200.f };
+		//auto guiButton = Button(_renderer, guiTexture, btnContentTex, btnAnimation, dest);
+		//guiObjects.push_back(std::make_unique<Entity>(guiButton));
+
+
+		// Add all Entities to the MenuState for updating and rendering
+		menu->SetBackground(std::make_unique<Background>(background));
+		menu->SetGUI(std::move(guiObjects));
+
+		// Finally add the new MenuState to the Engines States
+		_engine->AddState<MenuState>(menu);
 	}
 	catch (const std::exception & ex) {
 		std::cout << "Loading the Menu failed:\n" << ex.what() << std::endl;
