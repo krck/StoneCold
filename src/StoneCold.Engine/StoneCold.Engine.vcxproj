@@ -72,12 +72,13 @@
   <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include;$(SolutionDir)StoneCold.Base;$(SolutionDir)StoneCold.Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,7 +134,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>MinSpace</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -141,6 +142,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include;$(SolutionDir)StoneCold.Base;$(SolutionDir)StoneCold.Resources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

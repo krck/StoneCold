@@ -164,8 +164,8 @@ void SimulationManager::LoadLevel() {
 
 			// Create the actual MapTiles, based on the Layout and the loaded MapTexture
 			auto mapObjects = std::vector<std::shared_ptr<Entity>>();
-			for (int row = 0; row < mapLayout.size(); row++) {
-				for (int column = 0; column < mapLayout[row].size(); column++) {
+			for (uint64 row = 0; row < mapLayout.size(); row++) {
+				for (uint64 column = 0; column < mapLayout[row].size(); column++) {
 					// Map tile position based on row/column within the mapLayout
 					const auto type = mapFrames.find(mapLayout[row][column]);
 					const auto frame = type->second;

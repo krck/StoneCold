@@ -87,6 +87,7 @@ public:
 
 typedef _Vec2<uint8> Pixel;
 typedef _Vec2<int> Vec2i;
+typedef _Vec2<uint> Vec2u;
 typedef _Vec2<float> Vec2;
 typedef _Vec2<double> Vec2d;
 

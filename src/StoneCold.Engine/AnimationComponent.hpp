@@ -24,7 +24,7 @@ private:
 	const StoneCold::Resources::Animation* _currentAnimation;
 	const bool _automaticUpdate;
 	SDL_Rect _currentFrame;
-	int _currentFrameIndex;
+	uint _currentFrameIndex;
 	uint _timeElapsed;
 
 public:

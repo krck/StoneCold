@@ -68,7 +68,7 @@ private:
 			// Documentation SDL_PushEvent:
 			// The event is copied into the queue, and the caller may dispose of the memory pointed to after SDL_PushEvent() returns
 			// ... So its save to just publish the Event and return its success state, even tho the &event is no use after this.
-			return SDL_PushEvent(&event);
+			return (SDL_PushEvent(&event) >= 0);
 		}
 		catch (...) {
 			return false;

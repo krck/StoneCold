@@ -118,7 +118,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
@@ -126,6 +126,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,7 +157,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>MinSpace</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -166,6 +167,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
