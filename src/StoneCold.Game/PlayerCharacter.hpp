@@ -25,7 +25,7 @@ public:
 
 		// Create the Components needed by the PlayerCharacter
 		auto c = CollisionComponent("player", false, Vec2(14.f, 18.f), defaultDestRect);
-		auto a = AnimationComponent(_animation->Animations);
+		auto a = AnimationComponent(_animation->Animations, true);
 		auto t = TransformComponent(position, dimension, scale, speed);
 		auto s = SpriteComponentMoving(renderer, _texture->GetTextureSDL(), defaultSrcRect, defaultDestRect);
 		auto k = KeyboardComponent();

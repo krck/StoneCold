@@ -21,10 +21,10 @@ namespace StoneCold::Engine {
 class CollisionComponent : public Component {
 public:
 	const std::string Tag;
-	const bool IsFixed;
 	const Vec2 Hitbox;
 	SDL_FRect CollisionBox;
 	CollisionComponent* CollisionWith;
+	const bool IsFixed;
 
 	CollisionComponent(const std::string& tag, bool isFixed, Vec2 hitbox, SDL_FRect collisionBox)
 		: Tag(tag), IsFixed(isFixed), Hitbox(hitbox), CollisionBox(collisionBox), CollisionWith(nullptr) { }

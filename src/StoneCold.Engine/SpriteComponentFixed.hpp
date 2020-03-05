@@ -34,15 +34,15 @@ public:
 
 	void Render(SDL_FRect camera) override {
 		// Get the Destination rectangle (render position on screen) relative to the camera (as int)
-		SDL_Rect currentDest = {
-			static_cast<int>(floorf(_destRect.x - camera.x)),
-			static_cast<int>(floorf(_destRect.y - camera.y)),
-			static_cast<int>(floorf(_destRect.w)),
-			static_cast<int>(floorf(_destRect.h))
+		SDL_FRect currentDest = {
+			floorf(_destRect.x - camera.x),
+			floorf(_destRect.y - camera.y),
+			floorf(_destRect.w),
+			floorf(_destRect.h)
 		};
 
 		// Add Sprite to the SDL Renderer
-		SDL_RenderCopyEx(_renderer, _texture, &_srcRect, &currentDest, 0, nullptr, _flip);
+		SDL_RenderCopyExF(_renderer, _texture, &_srcRect, &currentDest, 0, nullptr, _flip);
 	}
 };
 

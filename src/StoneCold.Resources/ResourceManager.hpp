@@ -41,9 +41,7 @@ public:
 	// Load a specific Texture Resource based on a Font, Text and FontColor
 	// Ensures that Resources are loaded only once
 	//
-	// Returns the srcRect (mainly width and height of the Text) and the Texture pointer
-	//
-	std::pair<SDL_Rect, TextureResource*> LoadFontTexture(ResourceLifeTime rlt, const std::string& name, TTF_Font* font, const std::string& text, const SDL_Color& color);
+	TextureResource* LoadFontTexture(ResourceLifeTime rlt, const std::string& name, TTF_Font* font, const std::string& text, const SDL_Color& color);
 
 	//
 	// Unload (cleanup) all Resources of a specific LifeTime

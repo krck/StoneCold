@@ -22,24 +22,25 @@ class AnimationComponent : public Component {
 private:
 	const std::unordered_map<std::string, StoneCold::Resources::Animation>& _animations;
 	const StoneCold::Resources::Animation* _currentAnimation;
+	const bool _automaticUpdate;
 	SDL_Rect _currentFrame;
-	int _currentFrameIndex;
+	uint _currentFrameIndex;
 	uint _timeElapsed;
 
 public:
-	AnimationComponent(const std::unordered_map<std::string, StoneCold::Resources::Animation>& animations)
-		: _animations(animations), _currentAnimation(nullptr), _currentFrame(SDL_Rect()), _currentFrameIndex(0), _timeElapsed(0) { }
+	AnimationComponent(const std::unordered_map<std::string, StoneCold::Resources::Animation>& animations, bool automaticUpdate)
+		: _animations(animations), _automaticUpdate(automaticUpdate), _currentAnimation(nullptr), _currentFrame(SDL_Rect()), _currentFrameIndex(0), _timeElapsed(0) { }
 
 	void Init(Entity* entity) override {
 		Component::Init(entity);
 	}
 
 	void Update(uint frameTime) override {
-		// Udpate the Animation index based on its "play-speed"
 		_timeElapsed += frameTime;
-		if (_timeElapsed > _currentAnimation->FrameTime) {
+		// Udpate the Animation index based on its "play-speed" in case its set to automaticUpdate
+		if (_automaticUpdate && _timeElapsed > _currentAnimation->FrameTime) {
 			_timeElapsed -= _currentAnimation->FrameTime;
-			_currentFrameIndex = (_currentFrameIndex < _currentAnimation->FrameCount ? _currentFrameIndex + 1 : 0);
+			SetNextAnimationFrame();
 		}
 	}
 
@@ -48,6 +49,14 @@ public:
 		_currentAnimation = &_animations.find(name)->second;
 		if (_currentFrameIndex > _currentAnimation->FrameCount)
 			_currentFrameIndex = 0;
+	}
+
+	//
+	// In case the Animation does not have a automaticUpdate / replay based on its FrameTime
+	// A switch to the next Animation-Frame can be triggert manually (e.g. Button hover/not hover)
+	//
+	void SetNextAnimationFrame() {
+		_currentFrameIndex = (_currentFrameIndex < _currentAnimation->FrameCount ? _currentFrameIndex + 1 : 0);
 	}
 
 	SDL_Rect GetCurrentAnimationFrame() {

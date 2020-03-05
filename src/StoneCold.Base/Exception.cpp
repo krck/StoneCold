@@ -3,6 +3,7 @@
 
 using namespace StoneCold;
 
+
 Exception::Exception(int line, const char* file, std::string message) noexcept
 	: _line(line)
 	, _file(file)

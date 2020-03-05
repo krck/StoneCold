@@ -45,9 +45,8 @@ public:
 private:
 	// Private default ctr used to register a user-defined SDL Event
 	EventManager() : UserEventType(SDL_RegisterEvents(1)) {
+		// Check if Registration worked (Should never be a problem with only one User-Event)
 		if (UserEventType != ((uint)-1)) {
-			// Registration worked. But should never be a problem with only one User-Event
-
 			// It is theoretically possible to register around 32k different User-Events (event.type)
 			// but not necessary, because User-Events can also hold different codes (event.user.code)
 			// Therefore: Register one User-Event-Type and distinguish by Event-Code
@@ -69,7 +68,7 @@ private:
 			// Documentation SDL_PushEvent:
 			// The event is copied into the queue, and the caller may dispose of the memory pointed to after SDL_PushEvent() returns
 			// ... So its save to just publish the Event and return its success state, even tho the &event is no use after this.
-			return SDL_PushEvent(&event);
+			return (SDL_PushEvent(&event) >= 0);
 		}
 		catch (...) {
 			return false;

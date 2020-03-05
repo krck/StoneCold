@@ -5,8 +5,9 @@
 namespace StoneCold {
 
 typedef unsigned char		byte;
-typedef unsigned int		uint;
+typedef unsigned int		uint;		// aka. uint32
 typedef unsigned __int8		uint8;
+typedef unsigned __int64	uint64;		// aka. size_t
 typedef unsigned __int64	hash64;
 
 //
@@ -79,6 +80,15 @@ enum class MapTileTypes {
 
 	Middle_Block_Horizontal,
 	Middle_Block_Vertical,
+};
+
+//
+// UI Element Attribute
+//
+enum class UiElementAttribute {
+	UIE_Idle,
+	UIE_Hover,
+	UIE_Selected
 };
 
 }

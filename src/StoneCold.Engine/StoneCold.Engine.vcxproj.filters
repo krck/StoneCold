@@ -61,6 +61,12 @@
     <ClInclude Include="Entity.hpp">
       <Filter>ECS</Filter>
     </ClInclude>
+    <ClInclude Include="SpriteComponentGui.hpp">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="AttributeComponentUI.hpp">
+      <Filter>ECS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
@@ -73,6 +79,9 @@
       <Filter>States</Filter>
     </ClCompile>
     <ClCompile Include="IntroState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuState.cpp">
       <Filter>States</Filter>
     </ClCompile>
   </ItemGroup>

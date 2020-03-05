@@ -55,8 +55,8 @@ void MapManager::CreateFloor() {
 			walker.pos.Y += walker.dir.Y;
 			// Avoid the boarder of the _grid
 			// Clamp x,y to leave at least 1 space to the boarder (Room for walls)
-			walker.pos.X = std::clamp(walker.pos.X, 7, _mapSize.X - 8);
-			walker.pos.Y = std::clamp(walker.pos.Y, 7, _mapSize.Y - 8);
+			walker.pos.X = std::clamp<uint>(walker.pos.X, 7, _mapSize.X - 8);
+			walker.pos.Y = std::clamp<uint>(walker.pos.Y, 7, _mapSize.Y - 8);
 
 			// Create a Floor at the position of every walker, if there is non already
 			if (_grid[walker.pos.X][walker.pos.Y] != MapTileTypes::Floor_Default) {
@@ -84,8 +84,8 @@ void MapManager::CreateFloor() {
 void MapManager::CreateWalls() {
 	// Loop though every _grid space and check if theres a floor, with
 	// empty space around it. This will be changed to a Wall-Placeholder
-	for (int i = 0; i < _grid.size(); i++) {
-		for (int j = 0; j < _grid[i].size(); j++) {
+	for (uint64 i = 0; i < _grid.size(); i++) {
+		for (uint64 j = 0; j < _grid[i].size(); j++) {
 			if (_grid[i][j] == MapTileTypes::Floor_Default) {
 				if (_grid[i - 1][j] == MapTileTypes::Top_Default) {
 					_grid[i - 1][j] = MapTileTypes::Placeholder;
@@ -112,8 +112,8 @@ void MapManager::SetFinalMapTiles() {
 	auto floorCheck = std::vector<bool>();
 
 	// Loop the whole Map and update any Wall-Placeholder to its actual Tile-Type
-	for (int i = 0; i < _grid.size(); i++) {
-		for (int j = 0; j < _grid[i].size(); j++) {
+	for (uint64 i = 0; i < _grid.size(); i++) {
+		for (uint64 j = 0; j < _grid[i].size(); j++) {
 			// If Wall-Placeholder:
 			// Check all the Floor Tiles nearby and update the Placeholder to a specific Type of Wall
 			if (_grid[i][j] == MapTileTypes::Placeholder) {
@@ -164,8 +164,8 @@ void MapManager::SetFinalMapTiles() {
 	}
 
 	// Loop one last time, to update the Floor and Top Tiles (add Shadow, random Specials, ...)
-	for (int i = 1; i < _grid.size() - 1; i++) {
-		for (int j = 1; j < _grid[i].size() - 1; j++) {
+	for (uint64 i = 1; i < _grid.size() - 1; i++) {
+		for (uint64 j = 1; j < _grid[i].size() - 1; j++) {
 			// If Top:
 			// Check if there is at least one Wall nearby and change the Default-Top to the Special-Top
 			if (_grid[i][j] == MapTileTypes::Top_Default) {
