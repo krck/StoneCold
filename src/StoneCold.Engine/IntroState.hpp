@@ -15,8 +15,8 @@ public:
 	IntroState(const IntroState&) = delete;
 	IntroState& operator=(const IntroState&) = delete;
 
-	virtual bool HandleSDLEvent(const SDL_Event& sdlEvent) override { return false; }
-	virtual void HandleInputEvent(const std::vector<uint8>& keyStates) override;
+	virtual bool HandleSDLEvent(const SDL_Event& sdlEvent) override;
+	virtual void HandleInputEvent(const std::vector<uint8>& keyStates) override { }
 	virtual void Update(uint frameTime) override { /* Nothing to update. Scene is static */ }
 	virtual void Render() override;
 

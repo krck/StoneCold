@@ -82,6 +82,15 @@ enum class MapTileTypes {
 	Middle_Block_Vertical,
 };
 
+//
+// UI Element Attribute
+//
+enum class UiElementAttribute {
+	UIE_Idle,
+	UIE_Hover,
+	UIE_Selected
+};
+
 }
 
 #endif

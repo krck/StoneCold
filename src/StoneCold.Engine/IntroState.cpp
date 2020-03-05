@@ -11,15 +11,18 @@ IntroState::IntroState(EngineCore* engine)
 	, _guiObjects(std::vector<std::unique_ptr<Entity>>()) { }
 
 
-void IntroState::HandleInputEvent(const std::vector<uint8>& keyStates) {
+bool IntroState::HandleSDLEvent(const SDL_Event& sdlEvent) {
 	// Check if any key was pressed ...
-	if (std::any_of(keyStates.begin(), keyStates.end(), [](uint8 i) {return (i == 1); })) {
-		// and switch from Intro to MenuState, if its available
+	if (sdlEvent.type == SDL_KEYDOWN) {
 		if (_engine->HasState<MenuState>()) {
-			auto gamePtr = _engine->GetState<MenuState>();
-			_engine->ChangeState(gamePtr);
+			auto menuPtr = _engine->GetState<MenuState>();
+			_engine->ChangeState(menuPtr);
+
+			return true;
 		}
 	}
+
+	return false;
 }
 
 

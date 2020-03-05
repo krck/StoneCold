@@ -170,6 +170,7 @@
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="EventManager.hpp" />
     <ClInclude Include="GameState.hpp" />
+    <ClInclude Include="AttributeComponentUI.hpp" />
     <ClInclude Include="IntroState.hpp" />
     <ClInclude Include="MenuState.hpp" />
     <ClInclude Include="SpriteComponentGui.hpp" />

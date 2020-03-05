@@ -11,21 +11,28 @@ MenuState::MenuState(EngineCore* engine)
 	, _guiObjects(std::vector<std::unique_ptr<Entity>>()) { }
 
 
-void MenuState::HandleInputEvent(const std::vector<uint8>& keyStates) {
-	// Check if any key was pressed ...
+bool MenuState::HandleSDLEvent(const SDL_Event& sdlEvent) {
 	// Up/Down to select the Buttons
 	// Enter to confirm,
 	// Backspace to go back (to the Intro)
+
+	// Check if any key was pressed ...
+	if (sdlEvent.type == SDL_KEYDOWN) {
+		if (_engine->HasState<GameState>()) {
+			auto gamePtr = _engine->GetState<GameState>();
+			_engine->ChangeState(gamePtr);
+
+			return true;
+		}
+	}
+
+	return false;
 }
 
 
 void MenuState::Render() {
 	// First: Render the background image
 	_background->Render(_camera);
-
-	// Second: Render any Entity (Moving coulds, etc.)
-	for (const auto& go : _gameObjects)
-		go->Render(_camera);
 
 	// Last: Render the GUI (always top Layer)
 	for (const auto& gui : _guiObjects)
@@ -39,10 +46,8 @@ void MenuState::SetBackground(std::unique_ptr<Entity>&& backgroundObject) {
 }
 
 
-void MenuState::SetGameObjects(std::vector<std::unique_ptr<Entity>>&& gameObjects) {
-	// Refresh all Game Objects
-	_gameObjects.clear();
-	_gameObjects = std::move(gameObjects);
+void MenuState::SetButton(std::unique_ptr<Entity>&& buttonObject) {
+
 }
 
 
