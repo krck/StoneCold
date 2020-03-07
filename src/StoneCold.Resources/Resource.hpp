@@ -8,6 +8,8 @@
 
 namespace StoneCold::Resources {
 
+using namespace StoneCold::Types;
+
 class Resource {
 public:
 	Resource(const std::string& name)

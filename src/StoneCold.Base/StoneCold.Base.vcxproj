@@ -160,6 +160,7 @@
     <ClInclude Include="Exception.hpp" />
     <ClInclude Include="SDL_Base.hpp" />
     <ClInclude Include="Settings.hpp" />
+    <ClInclude Include="ArrayTP.hpp" />
     <ClInclude Include="Types.hpp" />
     <ClInclude Include="Vec2.hpp" />
   </ItemGroup>

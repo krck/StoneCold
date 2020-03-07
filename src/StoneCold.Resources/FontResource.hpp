@@ -7,12 +7,14 @@
 
 namespace StoneCold::Resources {
 
+using namespace StoneCold::Base;
+
 class FontResource : public Resource {
 public:
 	FontResource(const std::string& name
-				, std::unique_ptr<TTF_Font, SDL_FontDeleter>&& fontSmall
-				, std::unique_ptr<TTF_Font, SDL_FontDeleter>&& fontNormal
-				, std::unique_ptr<TTF_Font, SDL_FontDeleter>&& fontBig)
+		, std::unique_ptr<TTF_Font, SDL_FontDeleter>&& fontSmall
+		, std::unique_ptr<TTF_Font, SDL_FontDeleter>&& fontNormal
+		, std::unique_ptr<TTF_Font, SDL_FontDeleter>&& fontBig)
 		: Resource(name), _fontSmall(std::move(fontSmall)), _fontNormal(std::move(fontNormal)), _fontBig(std::move(fontBig)) { }
 
 	//

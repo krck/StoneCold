@@ -12,6 +12,8 @@
 
 namespace StoneCold::Game {
 
+using namespace StoneCold::Base;
+
 class SDLManager {
 public:
 	SDLManager() : _window(nullptr), _renderer(nullptr) {}

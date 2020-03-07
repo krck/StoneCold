@@ -6,7 +6,7 @@
 #include <sstream>
 #include <string>
 
-namespace StoneCold {
+namespace StoneCold::Base {
 
 class Exception : public std::exception {
 public:

@@ -9,7 +9,7 @@
 
 #include <memory>
 
-namespace StoneCold {
+namespace StoneCold::Base {
 
 // Custom deleter functions (struct) for unique pointers to cleanup the SDL Resources 
 struct SDL_WindowDeleter { void operator()(SDL_Window* p) { if (p != nullptr) SDL_DestroyWindow(p); } };

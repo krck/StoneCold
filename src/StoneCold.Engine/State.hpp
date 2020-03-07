@@ -8,6 +8,8 @@
 
 namespace StoneCold::Engine {
 
+using namespace StoneCold::Types;
+
 class EngineCore;
 
 //

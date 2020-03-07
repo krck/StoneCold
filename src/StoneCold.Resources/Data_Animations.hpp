@@ -7,6 +7,8 @@
 
 namespace StoneCold::Resources {
 
+using namespace StoneCold::Types;
+
 //
 // All animation names as hardcoded, constant variables
 //
@@ -64,7 +66,7 @@ const auto mapFrames = std::unordered_map<MapTileTypes, std::pair<SDL_Rect, SDL_
 const auto AnimationData = std::unordered_map<std::string, std::unordered_map<std::string, Animation>>({
 	{ PLAYER_ANIMATION, playerAnimation },
 	{ BUTTON_ANIMATION, buttonAnimation }
-	});
+});
 
 }
 

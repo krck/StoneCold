@@ -2,7 +2,7 @@
 #ifndef STONECOLD_TYPES_H
 #define STONECOLD_TYPES_H
 
-namespace StoneCold {
+namespace StoneCold::Types {
 
 typedef unsigned char		byte;
 typedef unsigned int		uint;		// aka. uint32

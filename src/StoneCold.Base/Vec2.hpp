@@ -6,7 +6,7 @@
 #include <utility>
 #include <cmath>
 
-namespace StoneCold {
+namespace StoneCold::Types {
 
 template <class T>
 struct _Vec2 {

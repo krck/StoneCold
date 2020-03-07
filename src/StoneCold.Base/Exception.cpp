@@ -1,7 +1,7 @@
 
 #include "Exception.hpp"
 
-using namespace StoneCold;
+using namespace StoneCold::Base;
 
 
 Exception::Exception(int line, const char* file, std::string message) noexcept
