@@ -11,37 +11,16 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="ECS">
-      <UniqueIdentifier>{423b9c07-e60d-4eb0-8d75-a7256da8c402}</UniqueIdentifier>
+    <Filter Include="Components">
+      <UniqueIdentifier>{2121b212-4e85-45e7-a69e-e60e6116fa6a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="TransformComponent.hpp">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyboardComponent.hpp">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.hpp">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteComponentFixed.hpp">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionComponent.hpp">
-      <Filter>ECS</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionManager.hpp">
       <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationComponent.hpp">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteComponentMoving.hpp">
-      <Filter>ECS</Filter>
     </ClInclude>
     <ClInclude Include="GameState.hpp">
       <Filter>States</Filter>
@@ -58,14 +37,38 @@
     <ClInclude Include="State.hpp">
       <Filter>States</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.hpp">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteComponentGui.hpp">
-      <Filter>ECS</Filter>
+    <ClInclude Include="AnimationComponent.hpp">
+      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="AttributeComponentUI.hpp">
-      <Filter>ECS</Filter>
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionComponent.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardComponent.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteComponentFixed.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteComponentGui.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteComponentMoving.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityComponentManager.hpp">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +86,9 @@
     </ClCompile>
     <ClCompile Include="MenuState.cpp">
       <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityComponentManager.cpp">
+      <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -29,7 +29,7 @@
     <ClInclude Include="Types.hpp">
       <Filter>Types</Filter>
     </ClInclude>
-    <ClInclude Include="ArrayTP.hpp">
+    <ClInclude Include="EntityComponentArray.hpp">
       <Filter>Types</Filter>
     </ClInclude>
   </ItemGroup>

@@ -159,6 +159,7 @@
   <ItemGroup>
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="EngineCore.cpp" />
+    <ClCompile Include="EntityComponentManager.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="IntroState.cpp" />
     <ClCompile Include="MenuState.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="CollisionComponent.hpp" />
     <ClInclude Include="CollisionManager.hpp" />
     <ClInclude Include="Entity.hpp" />
+    <ClInclude Include="EntityComponentManager.hpp" />
     <ClInclude Include="EventManager.hpp" />
     <ClInclude Include="GameState.hpp" />
     <ClInclude Include="AttributeComponentUI.hpp" />
