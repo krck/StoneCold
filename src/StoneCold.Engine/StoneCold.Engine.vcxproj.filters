@@ -11,7 +11,10 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Components">
+    <Filter Include="ECS">
+      <UniqueIdentifier>{dbc41c99-f0a3-460d-9d04-1e28348eb8bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Components">
       <UniqueIdentifier>{2121b212-4e85-45e7-a69e-e60e6116fa6a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -38,37 +41,40 @@
       <Filter>States</Filter>
     </ClInclude>
     <ClInclude Include="AnimationComponent.hpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="AttributeComponentUI.hpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="CollisionComponent.hpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="Component.hpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardComponent.hpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="SpriteComponentFixed.hpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="SpriteComponentGui.hpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="SpriteComponentMoving.hpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="TransformComponent.hpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="Entity.hpp">
-      <Filter>Components</Filter>
+      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="EntityComponentManager.hpp">
-      <Filter>Managers</Filter>
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StoneCold.Base\EntityComponentArray.hpp">
+      <Filter>ECS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -88,7 +94,7 @@
       <Filter>States</Filter>
     </ClCompile>
     <ClCompile Include="EntityComponentManager.cpp">
-      <Filter>Managers</Filter>
+      <Filter>ECS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

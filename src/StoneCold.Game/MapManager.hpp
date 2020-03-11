@@ -10,7 +10,7 @@
 
 namespace StoneCold::Game {
 
-using namespace StoneCold::Types;
+using namespace StoneCold::Base;
 
 //
 // 2d procedural Map Generator

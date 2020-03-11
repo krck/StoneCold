@@ -165,6 +165,7 @@
     <ClCompile Include="MenuState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\StoneCold.Base\EntityComponentArray.hpp" />
     <ClInclude Include="AnimationComponent.hpp" />
     <ClInclude Include="CollisionComponent.hpp" />
     <ClInclude Include="CollisionManager.hpp" />

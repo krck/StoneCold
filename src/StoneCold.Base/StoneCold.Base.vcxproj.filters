@@ -9,7 +9,7 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Types">
+    <Filter Include="Math">
       <UniqueIdentifier>{1ac2cf9e-e0d4-4c70-9673-be5b593cdd05}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -21,16 +21,16 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="Vec2.hpp">
-      <Filter>Types</Filter>
+      <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="Exception.hpp">
       <Filter>Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="Types.hpp">
-      <Filter>Types</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="EntityComponentArray.hpp">
-      <Filter>Types</Filter>
+    <ClInclude Include="Vec4.hpp">
+      <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

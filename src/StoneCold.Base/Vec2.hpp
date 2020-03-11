@@ -2,13 +2,14 @@
 #ifndef STONECOLD_VEC2_H
 #define STONECOLD_VEC2_H
 
+#include "SDL_Base.hpp"
 #include "Types.hpp"
 #include <utility>
 #include <cmath>
 
-namespace StoneCold::Types {
+namespace StoneCold::Base {
 
-template <class T>
+template <typename T>
 struct _Vec2 {
 public:
 	T X, Y;
@@ -81,6 +82,16 @@ public:
 	T cross(const _Vec2& rhs) const { return (X * rhs.Y) - (Y * rhs.X); }
 	void normalize() { X = (X / length()); Y = (Y / length()); }
 	_Vec2 normal() const { return _Vec2(X / length(), Y / length()); }
+
+	//
+	// SDL2 specific transformations
+	// Pos: x and y values of the SDL_Rect will be filled
+	// Dim: w and h values of the SDL_Rect will be filled
+	//
+	SDL_Rect ToSDLRectPos() { return SDL_Rect{ static_cast<int>(X), static_cast<int>(Y), 0, 0 }; }
+	SDL_Rect ToSDLRectDim() { return SDL_Rect{ 0, 0, static_cast<int>(X), static_cast<int>(Y) }; }
+	SDL_FRect ToSDLFRectPos() { return SDL_FRect{ static_cast<float>(X), static_cast<float>(Y), 0, 0 }; }
+	SDL_FRect ToSDLFRectDim() { return SDL_FRect{ 0, 0, static_cast<float>(X), static_cast<float>(Y) }; }
 
 	~_Vec2() = default;
 };

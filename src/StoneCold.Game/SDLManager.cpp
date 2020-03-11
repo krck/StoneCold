@@ -3,7 +3,6 @@
 
 using namespace StoneCold::Base;
 using namespace StoneCold::Game;
-using namespace StoneCold::Types;
 
 //
 // Initializes the SDL Ressources and 

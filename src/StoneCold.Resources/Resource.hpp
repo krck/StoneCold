@@ -8,7 +8,7 @@
 
 namespace StoneCold::Resources {
 
-using namespace StoneCold::Types;
+using namespace StoneCold::Base;
 
 class Resource {
 public:

@@ -160,9 +160,9 @@
     <ClInclude Include="Exception.hpp" />
     <ClInclude Include="SDL_Base.hpp" />
     <ClInclude Include="Settings.hpp" />
-    <ClInclude Include="EntityComponentArray.hpp" />
     <ClInclude Include="Types.hpp" />
     <ClInclude Include="Vec2.hpp" />
+    <ClInclude Include="Vec4.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Exception.cpp" />

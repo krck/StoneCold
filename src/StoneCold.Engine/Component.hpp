@@ -8,7 +8,7 @@
 
 namespace StoneCold::Engine {
 
-using namespace StoneCold::Types;
+using namespace StoneCold::Base;
 
 class Entity;
 

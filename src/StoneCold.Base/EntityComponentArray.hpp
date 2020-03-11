@@ -3,78 +3,115 @@
 #define STONECOLD_ENTITYCOMPONENTARRAY_H
 
 #include "Types.hpp"
-#include <exception>
+#include <stdexcept>
 #include <unordered_map>
 #include <algorithm>
 
-namespace StoneCold::Types {
+namespace StoneCold::Engine {
 
+using namespace StoneCold::Base;
+
+//
+// IEntityComponentArray
+//
+// Simple interface with only one purpose: If a Entity (ID) gets destroyed
+// all EntityComponentArray<T>s must remove the Entities compoents. This is done
+// in a loop by the EntityComponentManager and not possible with templated classes
+//
+class IEntityComponentArray {
+public:
+	virtual ~IEntityComponentArray() = default;
+	virtual void EntityDestroyed(Entity_ entity) = 0;
+};
+
+//
+// EntityComponentArray
+// based on: https://austinmorlan.com/posts/entity_component_system/
+//
+// Array-like container thats always "packed" in memory
+// and maps any Entity-ID to a corresponding array index. 
+//
+// This way random access [] can be done directly with the Entities and iterating
+// from 0 to .size() operates only on valid Components for great caching-results.
+//
 template <typename T>
-class EntityComponentArray {
+class EntityComponentArray : public IEntityComponentArray {
 public:
 	EntityComponentArray(size_t ms) noexcept
-		: _entityIndexMap(std::unordered_map<Entity, size_t>()), _maxSize(ms), _size(0), _data(new T[ms]) {
+		: _entityIndexMap(std::unordered_map<Entity_, size_t>()), _maxSize(ms), _size(0), _data(new T[ms]) {
 		// Always initialize the array with empty values
 		for (size_t i = 0; i < _maxSize; i++)
 			_data[i] = {};
 	}
 
-	inline T& operator[](Entity entity) { return _data[_entityIndexMap[entity]]; }
-	inline const T& operator[](Entity entity) const { return _data[_entityIndexMap[entity]]; }
+	inline T& operator[](Entity_ entity) { return _data[_entityIndexMap[entity]]; }
+	inline const T& operator[](Entity_ entity) const { return _data[_entityIndexMap[entity]]; }
 
-	T& at(Entity entity) {
+	T& at(Entity_ entity) {
 		if (_entityIndexMap.find(entity) != _entityIndexMap.end())
 			return _data[_entityIndexMap[entity]];
 		throw std::out_of_range("Index not available");
 	}
 
-	const T& at(Entity entity) const {
+	const T& at(Entity_ entity) const {
 		if (_entityIndexMap.find(entity) != _entityIndexMap.end())
 			return _data[_entityIndexMap[entity]];
 		throw std::out_of_range("Index not available");
 	}
 
 	inline constexpr size_t max_size() const noexcept { return _maxSize; }
-	inline constexpr size_t size() const noexcept { return _size; }
-	inline constexpr bool empty() const noexcept { return (_size == 0); }
+	inline size_t size() const noexcept { return _size; }
+	inline bool empty() const noexcept { return (_size == 0); }
 
-	bool insert(Entity entity, T component) {
+	//
+	// Add a new Component to the back of the Array. The Component can be accessed via
+	// its Entity (and a Entity-Index pair will be created automatically, based on size())
+	//
+	// In case the Entity has a Component (and index) already, the value will be updated
+	//
+	bool insert(Entity_ entity, T component) {
 		if (_size >= _maxSize)
 			return false;
 
 		if (_entityIndexMap.find(entity) == _entityIndexMap.end()) {
-			// Create a new Entity - Index pair and store the Compnent value, if the Entity
-			// has no Component in this array already(Use the current size as the index)
 			_entityIndexMap[entity] = _size;
 			_data[_size] = component;
 			_size++;
 		}
 		else {
-			// If Entity has an index already ? Just update the Component value
 			_data[_entityIndexMap[entity]] = component;
 		}
 		return true;
 	}
 
-	void erase(Entity entity) {
-		if (_entityIndexMap.find(entity) != _entityIndexMap.end()) {
-			// Get the last Entity-Index value, based on the last item in the _data array (_size - 1)
-			auto lastEntity = std::find_if(_entityIndexMap.begin(), _entityIndexMap.end(), [](const auto& p) { return p.second == (_size - 1); });
-			auto currentIndex = _entityIndexMap[entity];
+	//
+	// Remove a Component from the Array. The Component data and Entity-Index pair will
+	// be deleted and the last Component from the array will be swapped in its place, to
+	// keep the "tightly packed" memory.
+	//
+	bool erase(Entity_ entity) {
+		if (_entityIndexMap.find(entity) == _entityIndexMap.end())
+			return false;
 
-			// Swap the last Component value with the one to erase (and clear the last)
-			_data[_entityIndexMap[entity]] = _data[_entityIndexMap[lastEntity.first]];
-			_data[_entityIndexMap[lastEntity.first]] = {};
-			_size--;
+		// Get the last Entity-Index value, based on the last item in the _data array (_size - 1)
+		auto lastEntity = std::find_if(_entityIndexMap.begin(), _entityIndexMap.end(), [this](const auto& p) { return p.second == (_size - 1); });
+		auto currentIndex = _entityIndexMap[entity];
 
-			// Swap the last Entities Index value with the one to erase (and clear from map)
-			_entityIndexMap[lastEntity.first] = currentIndex;
-			_entityIndexMap.erase(entity);
-		}
+		// Swap the last Component value with the one to erase (and clear the last)
+		_data[_entityIndexMap[entity]] = _data[_entityIndexMap[lastEntity->first]];
+		_data[_entityIndexMap[lastEntity->first]] = {};
+		_size--;
+
+		// Swap the last Entities Index value with the one to erase (and clear from map)
+		_entityIndexMap[lastEntity->first] = currentIndex;
+		_entityIndexMap.erase(entity);
+		return true;
 	}
 
+	inline void EntityDestroyed(Entity_ entity) override { erase(entity); }
+
 	inline const T* GetRawData() const noexcept { return _data; }
-	inline const std::unordered_map<Entity, size_t>& GetEntityIndexMap() const noexcept { return _entityIndexMap; }
+	inline const std::unordered_map<Entity_, size_t>& GetEntityIndexMap() const noexcept { return _entityIndexMap; }
 
 	~EntityComponentArray() {
 		delete[] _data;
@@ -84,7 +121,7 @@ public:
 	}
 
 private:
-	std::unordered_map<Entity, size_t> _entityIndexMap;
+	std::unordered_map<Entity_, size_t> _entityIndexMap;
 	size_t _maxSize;
 	size_t _size;
 	T* _data;

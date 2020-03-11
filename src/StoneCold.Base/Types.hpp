@@ -4,17 +4,17 @@
 
 #include <bitset>
 
-namespace StoneCold::Types {
+namespace StoneCold::Base {
 
 typedef unsigned char		byte;
-typedef unsigned int		uint;		// aka. uint32
+typedef unsigned int		uint;			// aka. uint32
 typedef unsigned __int8		uint8;
-typedef unsigned __int64	uint64;		// aka. size_t
+typedef unsigned __int64	uint64;			// aka. size_t
 typedef unsigned __int64	hash64;
 
-typedef unsigned __int32	Entity;
+typedef unsigned __int32	Entity_;
 typedef unsigned __int8		ComponentType;
-typedef std::bitset<32>		ComponentMask;
+typedef std::bitset<256>	ComponentMask;	// 256 Bits for the 256 different Component-Types
 
 //
 // All the available Level Types
