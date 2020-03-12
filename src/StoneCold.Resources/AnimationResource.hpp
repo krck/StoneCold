@@ -4,6 +4,7 @@
 
 #include "SDL_Base.hpp"
 #include "Resource.hpp"
+#include <utility>
 
 namespace StoneCold::Resources {
 
@@ -12,8 +13,7 @@ namespace StoneCold::Resources {
 // to define which part of a full Texture image is part of the Animation / should be rendered
 //
 struct Animation {
-	Animation(const std::vector<SDL_Rect>& framePositions, uint32 frameTime)
-		: FramePositions(framePositions), FrameCount(framePositions.size() - 1), FrameTime(frameTime) {}
+	Animation(const std::vector<SDL_Rect>& fp, uint32 ft) : FramePositions(fp), FrameCount(fp.size() - 1), FrameTime(ft) {}
 
 	const std::vector<SDL_Rect> FramePositions;
 	const size_t FrameCount;

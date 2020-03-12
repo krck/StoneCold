@@ -41,7 +41,7 @@ public:
 		: _entityIndexMap(std::unordered_map<entity, size_t>()), _maxSize(ms), _size(0), _data(new T[ms]) {
 		// Always initialize the array with empty values
 		for (size_t i = 0; i < _maxSize; i++)
-			_data[i] = {};
+			_data[i] = T();
 	}
 
 	inline T& operator[](entity entity) { return _data[_entityIndexMap[entity]]; }
@@ -99,7 +99,7 @@ public:
 
 		// Swap the last Component value with the one to erase (and clear the last)
 		_data[_entityIndexMap[entity]] = _data[_entityIndexMap[lastEntity->first]];
-		_data[_entityIndexMap[lastEntity->first]] = {};
+		_data[_entityIndexMap[lastEntity->first]] = T();
 		_size--;
 
 		// Swap the last Entities Index value with the one to erase (and clear from map)

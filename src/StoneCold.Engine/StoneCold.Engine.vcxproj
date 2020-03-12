@@ -159,7 +159,7 @@
   <ItemGroup>
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="EngineCore.cpp" />
-    <ClCompile Include="EntityComponentManager.cpp" />
+    <ClCompile Include="EntityComponentSystem.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="IntroState.cpp" />
     <ClCompile Include="MenuState.cpp" />
@@ -169,8 +169,9 @@
     <ClInclude Include="AnimationComponent.hpp" />
     <ClInclude Include="CollisionComponent.hpp" />
     <ClInclude Include="CollisionManager.hpp" />
+    <ClInclude Include="Components.hpp" />
     <ClInclude Include="Entity.hpp" />
-    <ClInclude Include="EntityComponentManager.hpp" />
+    <ClInclude Include="EntityComponentSystem.hpp" />
     <ClInclude Include="EventManager.hpp" />
     <ClInclude Include="GameState.hpp" />
     <ClInclude Include="AttributeComponentUI.hpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="KeyboardComponent.hpp" />
     <ClInclude Include="SpriteComponentFixed.hpp" />
     <ClInclude Include="State.hpp" />
+    <ClInclude Include="System.hpp" />
     <ClInclude Include="TransformComponent.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -17,6 +17,9 @@
     <Filter Include="ECS\Components">
       <UniqueIdentifier>{2121b212-4e85-45e7-a69e-e60e6116fa6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ECS\Systems">
+      <UniqueIdentifier>{9ad92817-5025-4d69-bd85-d11e1c4f5577}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore.hpp">
@@ -70,10 +73,16 @@
     <ClInclude Include="Entity.hpp">
       <Filter>ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="EntityComponentManager.hpp">
+    <ClInclude Include="..\StoneCold.Base\EntityComponentArray.hpp">
       <Filter>ECS</Filter>
     </ClInclude>
-    <ClInclude Include="..\StoneCold.Base\EntityComponentArray.hpp">
+    <ClInclude Include="Components.hpp">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="System.hpp">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityComponentSystem.hpp">
       <Filter>ECS</Filter>
     </ClInclude>
   </ItemGroup>
@@ -93,7 +102,7 @@
     <ClCompile Include="MenuState.cpp">
       <Filter>States</Filter>
     </ClCompile>
-    <ClCompile Include="EntityComponentManager.cpp">
+    <ClCompile Include="EntityComponentSystem.cpp">
       <Filter>ECS</Filter>
     </ClCompile>
   </ItemGroup>
