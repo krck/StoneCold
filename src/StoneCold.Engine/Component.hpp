@@ -24,7 +24,7 @@ public:
 
 	virtual void Init(Entity* entity) { _entity = entity; }
 	virtual void HandleInputEvent(const std::vector<uint8>& keyStates) { }
-	virtual void Update(uint frameTime) { }
+	virtual void Update(uint32 frameTime) { }
 	virtual void Render(SDL_FRect camera) { }
 
 	inline Entity* GetEntity() { return _entity; }

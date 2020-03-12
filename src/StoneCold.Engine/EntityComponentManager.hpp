@@ -16,7 +16,7 @@ using namespace StoneCold::Base;
 
 //
 // Entity-Component Manager
-// based on: https://austinmorlan.com/posts/entity_component_system/
+// based on: https://austinmorlan.com/posts/entitycomponent_system/
 //
 // Managing the creation and destruction of Entities. This includes distributing
 // Entity IDs and keeping record of which IDs are in use and which are not.
@@ -24,16 +24,17 @@ using namespace StoneCold::Base;
 class EntityComponentManager {
 public:
 	EntityComponentManager()
-		: _availableEntities(std::queue<Entity_>()), _entityComponentMasks(std::array<ComponentMask, MAX_ENTITIES>())
+		: _availableEntities(std::queue<entity>())
+		, _entityComponents(std::array<mask, MAX_ENTITIES>())
 		, _componentArrays(std::unordered_map<std::type_index, std::shared_ptr<IEntityComponentArray>>())
-		, _componentTypes(std::unordered_map<std::type_index, ComponentType>()) { }
+		, _componentMasks(std::unordered_map<std::type_index, mask>()) { }
 
 	EntityComponentManager(const EntityComponentManager&) = delete;
 	EntityComponentManager& operator=(const EntityComponentManager&) = delete;
 
 	void Init() {
 		// Initialize the queue with all possible entity IDs
-		for (Entity_ entity = 0; entity < MAX_ENTITIES; ++entity)
+		for (entity entity = 0; entity < MAX_ENTITIES; ++entity)
 			_availableEntities.push(entity);
 
 		//// Add this component type to the component type map (hardcoded for each Component)
@@ -44,16 +45,16 @@ public:
 		//_componentArrays.insert({ std::type_index(typeid(TransformComponent)), std::make_shared<EntityComponentArray<TransformComponent>>() });
 	}
 
-	Entity_ CreateEntity() {
+	entity CreateEntity() {
 		// Get the first available ID of the queue
-		Entity_ id = _availableEntities.front();
+		entity id = _availableEntities.front();
 		_availableEntities.pop();
 		// Reset the new Entities Component-ComponentMask
-		_entityComponentMasks[id] = ComponentMask();
+		_entityComponents[id] = 0;
 		return id;
 	}
 
-	void DestroyEntity(Entity_ entity) {
+	void DestroyEntity(entity entity) {
 		// Notify each component array that an entity has been destroyed
 		// If it has a component for that entity, it will remove it
 		for (auto const& pair : _componentArrays) {
@@ -62,35 +63,35 @@ public:
 		}
 
 		// Invalidate the destroyed entity's ComponentMask
-		_entityComponentMasks[entity].reset();
+		_entityComponents[entity] = 0;
 		// Put the destroyed ID at the back of the queue
 		_availableEntities.push(entity);
 	}
 
 	template<typename T>
-	void AddComponent(Entity_ entity, T component) {
+	void AddComponent(entity entity, T component) {
 		// Add a component to the array for an Entity and update the ComponentMask
 		GetComponentArray<T>()->insert(entity, component);
-		_entityComponentMasks[entity].set(GetComponentType<T>(), true);
+		_entityComponents[entity].set(GetComponentMask<T>(), true);
 	}
 
 	template<typename T>
-	void RemoveComponent(Entity_ entity) {
+	void RemoveComponent(entity entity) {
 		// Remove a component from the array for an Entity and update the ComponentMask
 		GetComponentArray<T>()->erase(entity);
-		_entityComponentMasks[entity].set(GetComponentType<T>(), false);
+		_entityComponents[entity].set(GetComponentMask<T>(), false);
 	}
 
 	template<typename T>
-	inline T& GetComponent(Entity_ entity) {
+	inline T& GetComponent(entity entity) {
 		// Get a reference to a component from the array for an entity
 		return GetComponentArray<T>()->GetData(entity);
 	}
 
 	template<typename T>
-	inline ComponentType GetComponentType() { return _componentTypes[std::type_index(typeid(T))]; }
+	inline mask GetComponentMask() { return _componentMasks[std::type_index(typeid(T))]; }
 
-	inline ComponentMask GetComponentMask(Entity_ entity) const { return _entityComponentMasks[entity]; }
+	inline mask GetEntityComponents(entity entity) const { return _entityComponents[entity]; }
 
 	~EntityComponentManager() = default;
 
@@ -101,10 +102,10 @@ private:
 
 private:
 	// Entity variables
-	std::queue<Entity_> _availableEntities;
-	std::array<ComponentMask, MAX_ENTITIES> _entityComponentMasks;
+	std::queue<entity> _availableEntities;
+	std::array<mask, MAX_ENTITIES> _entityComponents;
 	// Component variables
-	std::unordered_map<std::type_index, ComponentType> _componentTypes;
+	std::unordered_map<std::type_index, mask> _componentMasks;
 	std::unordered_map<std::type_index, std::shared_ptr<IEntityComponentArray>> _componentArrays;
 };
 

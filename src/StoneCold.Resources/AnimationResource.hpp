@@ -12,12 +12,12 @@ namespace StoneCold::Resources {
 // to define which part of a full Texture image is part of the Animation / should be rendered
 //
 struct Animation {
-	Animation(const std::vector<SDL_Rect>& framePositions, uint frameTime)
+	Animation(const std::vector<SDL_Rect>& framePositions, uint32 frameTime)
 		: FramePositions(framePositions), FrameCount(framePositions.size() - 1), FrameTime(frameTime) {}
 
 	const std::vector<SDL_Rect> FramePositions;
 	const size_t FrameCount;
-	const uint FrameTime;
+	const uint32 FrameTime;
 };
 
 class AnimationResource : public Resource {

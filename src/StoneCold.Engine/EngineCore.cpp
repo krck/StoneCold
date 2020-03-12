@@ -34,7 +34,7 @@ void EngineCore::HandleInputEvent(const std::vector<uint8>& keyStates) {
 }
 
 
-void EngineCore::Update(uint frameTime) {
+void EngineCore::Update(uint32 frameTime) {
 	// Update the current State / Scene
 	_stateStack.top()->Update(frameTime);
 }

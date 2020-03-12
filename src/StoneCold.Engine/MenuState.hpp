@@ -17,7 +17,7 @@ public:
 
 	virtual bool HandleSDLEvent(const SDL_Event& sdlEvent) override;
 	virtual void HandleInputEvent(const std::vector<uint8>& keyStates) override { }
-	virtual void Update(uint frameTime) override { /* Nothing to update. Scene is static */ }
+	virtual void Update(uint32 frameTime) override { /* Nothing to update. Scene is static */ }
 	virtual void Render() override;
 
 	void SetBackground(std::unique_ptr<Entity>&& backgroundObject);

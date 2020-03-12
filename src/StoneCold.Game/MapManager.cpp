@@ -55,8 +55,8 @@ void MapManager::CreateFloor() {
 			walker.pos.Y += walker.dir.Y;
 			// Avoid the boarder of the _grid
 			// Clamp x,y to leave at least 1 space to the boarder (Room for walls)
-			walker.pos.X = std::clamp<uint>(walker.pos.X, 7, _mapSize.X - 8);
-			walker.pos.Y = std::clamp<uint>(walker.pos.Y, 7, _mapSize.Y - 8);
+			walker.pos.X = std::clamp<uint32>(walker.pos.X, 7, _mapSize.X - 8);
+			walker.pos.Y = std::clamp<uint32>(walker.pos.Y, 7, _mapSize.Y - 8);
 
 			// Create a Floor at the position of every walker, if there is non already
 			if (_grid[walker.pos.X][walker.pos.Y] != MapTileTypes::Floor_Default) {

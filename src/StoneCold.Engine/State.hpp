@@ -33,7 +33,7 @@ public:
 
 	virtual bool HandleSDLEvent(const SDL_Event& sdlEvent) = 0;
 	virtual void HandleInputEvent(const std::vector<uint8>& keyStates) = 0;
-	virtual void Update(uint frameTime) = 0;
+	virtual void Update(uint32 frameTime) = 0;
 	virtual void Render() = 0;
 
 protected:

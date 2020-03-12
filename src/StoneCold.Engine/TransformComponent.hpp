@@ -42,7 +42,7 @@ public:
 		Velocity.Y = 0;
 	}
 
-	void Update(uint frameTime) override {
+	void Update(uint32 frameTime) override {
 		// Add a simple form of numerical integration (Explicit Euler) to speeds at different FPSs
 		// (Explicit Euler works well as long as the speeds is constant or the frameTime is low)
 		const float deltaSec = frameTime / 1000.0f;

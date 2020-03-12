@@ -55,13 +55,13 @@ int GameCore::Run() {
 	try {
 		// Setup timing and loop variables
 		bool exit = false;
-		const uint frameLimit = (uint)truncf(1000.0f / FPS);
-		uint timeStamp_new = SDL_GetTicks();
-		uint timeStamp_old = SDL_GetTicks();
-		uint frameTime = 0; // delta in ms
+		const uint32 frameLimit = (uint32)truncf(1000.0f / FPS);
+		uint32 timeStamp_new = SDL_GetTicks();
+		uint32 timeStamp_old = SDL_GetTicks();
+		uint32 frameTime = 0; // delta in ms
 
 		// Setup Event-Handling variables
-		uint userEventType = _eventManager.UserEventType;
+		uint32 userEventType = _eventManager.UserEventType;
 		auto keyStates = std::vector<uint8>();
 		int numKeys = 0;
 		SDL_Event event;

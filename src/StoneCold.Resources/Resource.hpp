@@ -16,7 +16,7 @@ public:
 		: Id(std::hash<std::string>()(name)), Name(name) {}
 
 public:
-	const hash64 Id;
+	const hash Id;
 	const std::string Name;
 };
 

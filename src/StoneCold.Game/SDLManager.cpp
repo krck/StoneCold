@@ -38,8 +38,8 @@ bool SDLManager::InitializeSDL(const std::string& windowName) {
 //
 void SDLManager::CreateWindow() {
 	// Create and Show the main Window
-	const uint pos = SDL_WINDOWPOS_CENTERED;
-	const uint flags = 0;
+	const uint32 pos = SDL_WINDOWPOS_CENTERED;
+	const uint32 flags = 0;
 
 	auto tmpWin = std::unique_ptr<SDL_Window, SDL_WindowDeleter>(SDL_CreateWindow(_windowName.c_str(), pos, pos, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT, flags));
 	_window.swap(tmpWin);

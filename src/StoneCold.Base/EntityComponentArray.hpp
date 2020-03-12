@@ -21,12 +21,12 @@ using namespace StoneCold::Base;
 class IEntityComponentArray {
 public:
 	virtual ~IEntityComponentArray() = default;
-	virtual void EntityDestroyed(Entity_ entity) = 0;
+	virtual void EntityDestroyed(entity entity) = 0;
 };
 
 //
 // EntityComponentArray
-// based on: https://austinmorlan.com/posts/entity_component_system/
+// based on: https://austinmorlan.com/posts/entitycomponent_system/
 //
 // Array-like container thats always "packed" in memory
 // and maps any Entity-ID to a corresponding array index. 
@@ -38,22 +38,22 @@ template <typename T>
 class EntityComponentArray : public IEntityComponentArray {
 public:
 	EntityComponentArray(size_t ms) noexcept
-		: _entityIndexMap(std::unordered_map<Entity_, size_t>()), _maxSize(ms), _size(0), _data(new T[ms]) {
+		: _entityIndexMap(std::unordered_map<entity, size_t>()), _maxSize(ms), _size(0), _data(new T[ms]) {
 		// Always initialize the array with empty values
 		for (size_t i = 0; i < _maxSize; i++)
 			_data[i] = {};
 	}
 
-	inline T& operator[](Entity_ entity) { return _data[_entityIndexMap[entity]]; }
-	inline const T& operator[](Entity_ entity) const { return _data[_entityIndexMap[entity]]; }
+	inline T& operator[](entity entity) { return _data[_entityIndexMap[entity]]; }
+	inline const T& operator[](entity entity) const { return _data[_entityIndexMap[entity]]; }
 
-	T& at(Entity_ entity) {
+	T& at(entity entity) {
 		if (_entityIndexMap.find(entity) != _entityIndexMap.end())
 			return _data[_entityIndexMap[entity]];
 		throw std::out_of_range("Index not available");
 	}
 
-	const T& at(Entity_ entity) const {
+	const T& at(entity entity) const {
 		if (_entityIndexMap.find(entity) != _entityIndexMap.end())
 			return _data[_entityIndexMap[entity]];
 		throw std::out_of_range("Index not available");
@@ -69,7 +69,7 @@ public:
 	//
 	// In case the Entity has a Component (and index) already, the value will be updated
 	//
-	bool insert(Entity_ entity, T component) {
+	bool insert(entity entity, T component) {
 		if (_size >= _maxSize)
 			return false;
 
@@ -89,7 +89,7 @@ public:
 	// be deleted and the last Component from the array will be swapped in its place, to
 	// keep the "tightly packed" memory.
 	//
-	bool erase(Entity_ entity) {
+	bool erase(entity entity) {
 		if (_entityIndexMap.find(entity) == _entityIndexMap.end())
 			return false;
 
@@ -108,10 +108,10 @@ public:
 		return true;
 	}
 
-	inline void EntityDestroyed(Entity_ entity) override { erase(entity); }
+	inline void EntityDestroyed(entity entity) override { erase(entity); }
 
 	inline const T* GetRawData() const noexcept { return _data; }
-	inline const std::unordered_map<Entity_, size_t>& GetEntityIndexMap() const noexcept { return _entityIndexMap; }
+	inline const std::unordered_map<entity, size_t>& GetEntityIndexMap() const noexcept { return _entityIndexMap; }
 
 	~EntityComponentArray() {
 		delete[] _data;
@@ -121,7 +121,7 @@ public:
 	}
 
 private:
-	std::unordered_map<Entity_, size_t> _entityIndexMap;
+	std::unordered_map<entity, size_t> _entityIndexMap;
 	size_t _maxSize;
 	size_t _size;
 	T* _data;

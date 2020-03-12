@@ -24,8 +24,8 @@ private:
 	const StoneCold::Resources::Animation* _currentAnimation;
 	const bool _automaticUpdate;
 	SDL_Rect _currentFrame;
-	uint _currentFrameIndex;
-	uint _timeElapsed;
+	uint32 _currentFrameIndex;
+	uint32 _timeElapsed;
 
 public:
 	AnimationComponent(const std::unordered_map<std::string, StoneCold::Resources::Animation>& animations, bool automaticUpdate)
@@ -35,7 +35,7 @@ public:
 		Component::Init(entity);
 	}
 
-	void Update(uint frameTime) override {
+	void Update(uint32 frameTime) override {
 		_timeElapsed += frameTime;
 		// Udpate the Animation index based on its "play-speed" in case its set to automaticUpdate
 		if (_automaticUpdate && _timeElapsed > _currentAnimation->FrameTime) {

@@ -8,8 +8,8 @@ GameState::GameState(EngineCore* engine)
 	: State(engine)
 	, _eventManager(EventManager::GetInstance())
 	, _collisionManager(CollisionManager())
-	, _mapObjects(std::unordered_map<hash64, std::vector<std::shared_ptr<Entity>>>())
-	, _gameObjects(std::unordered_map<hash64, std::vector<std::shared_ptr<Entity>>>())
+	, _mapObjects(std::unordered_map<hash, std::vector<std::shared_ptr<Entity>>>())
+	, _gameObjects(std::unordered_map<hash, std::vector<std::shared_ptr<Entity>>>())
 	, _guiObjects(std::vector<std::shared_ptr<Entity>>())
 	, _collidableObjects(std::vector<CollisionComponent*>())
 	, _player(nullptr), _playerTransformation(nullptr)
@@ -28,7 +28,7 @@ void GameState::HandleInputEvent(const std::vector<uint8>& keyStates) {
 }
 
 
-void GameState::Update(uint frameTime) {
+void GameState::Update(uint32 frameTime) {
 	// Now check for possible collisions
 	_collisionManager.UpdateCollisions(_collidableObjects);
 
@@ -80,8 +80,8 @@ void GameState::SetPlayer(std::unique_ptr<Entity>&& playerObject) {
 
 void GameState::SetLevel(std::vector<std::shared_ptr<Entity>>&& mapObjects, std::vector<std::shared_ptr<Entity>>&& gameObjects, Vec2i spawnPoint) {
 	// Reset all MapTiles, NPCs, Objects, ... and CollisionComponents
-	_mapObjects = std::unordered_map<hash64, std::vector<std::shared_ptr<Entity>>>();
-	_gameObjects = std::unordered_map<hash64, std::vector<std::shared_ptr<Entity>>>();
+	_mapObjects = std::unordered_map<hash, std::vector<std::shared_ptr<Entity>>>();
+	_gameObjects = std::unordered_map<hash, std::vector<std::shared_ptr<Entity>>>();
 	_collidableObjects = std::vector<CollisionComponent*>();
 
 	// Add the Levels MapObjects
@@ -91,7 +91,7 @@ void GameState::SetLevel(std::vector<std::shared_ptr<Entity>>&& mapObjects, std:
 			_collidableObjects.push_back(mo->GetComponent<CollisionComponent>());
 
 		// Get the MapTiles TextureId and add it to the _mapObjects, grouped by Texture
-		hash64 textureId = 1;
+		hash textureId = 1;
 		if (_mapObjects.find(textureId) == _mapObjects.end() || _mapObjects[textureId].empty()) {
 			_mapObjects[textureId] = std::vector<std::shared_ptr<Entity>>{ std::move(mo) };
 		}
@@ -107,7 +107,7 @@ void GameState::SetLevel(std::vector<std::shared_ptr<Entity>>&& mapObjects, std:
 			_collidableObjects.push_back(go->GetComponent<CollisionComponent>());
 
 		// Get the Entitys TextureId and add it to the _gameObjects, grouped by Texture
-		hash64 textureId = 1;
+		hash textureId = 1;
 		if (_gameObjects.find(textureId) == _gameObjects.end() || _gameObjects[textureId].empty()) {
 			_gameObjects[textureId] = std::vector<std::shared_ptr<Entity>>{ std::move(go) };
 		}

@@ -1,6 +1,6 @@
 
-#ifndef STONECOLD_ENTITY_H
-#define STONECOLD_ENTITY_H
+#ifndef STONECOLD_entityH
+#define STONECOLD_entityH
 
 #include "Component.hpp"
 #include <memory>
@@ -27,11 +27,11 @@ public:
 	// GetId is not mandatory on the Entity Level. This refers to a Resource Id 
 	// (like Texture) and can be overwritten if the GameObject/GUI Object has one
 	//
-	inline virtual hash64 GetId() const { return 0; }
+	inline virtual hash GetId() const { return 0; }
 
 	// Pass on main-loop Events to all Components
 	void HandleInputEvent(const std::vector<uint8>& keyStates) { for (auto& iter : _components) iter.second->HandleInputEvent(keyStates); }
-	void Update(uint frameTime) { for (auto& iter : _components) iter.second->Update(frameTime); }
+	void Update(uint32 frameTime) { for (auto& iter : _components) iter.second->Update(frameTime); }
 	void Render(SDL_FRect camera) { for (auto& iter : _components) iter.second->Render(camera); }
 
 	//

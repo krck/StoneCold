@@ -49,7 +49,7 @@ public:
 			_collisionComponent = _entity->GetComponent<CollisionComponent>();
 	}
 
-	void Update(uint frameTime) override {
+	void Update(uint32 frameTime) override {
 		// Update the Sprite position on screen based on the transformations
 		_destRect.x = _transform->Position.X;
 		_destRect.y = _transform->Position.Y;

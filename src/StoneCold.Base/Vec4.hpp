@@ -90,7 +90,7 @@ public:
 
 typedef _Vec4<uint8> Rect;
 typedef _Vec4<int> Vec4i;
-typedef _Vec4<uint> Vec4u;
+typedef _Vec4<uint32> Vec4u;
 typedef _Vec4<float> Vec4;
 typedef _Vec4<double> Vec4d;
 

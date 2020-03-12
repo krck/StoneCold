@@ -2,19 +2,25 @@
 #ifndef STONECOLD_TYPES_H
 #define STONECOLD_TYPES_H
 
-#include <bitset>
+#include <cstdint>
 
 namespace StoneCold::Base {
 
-typedef unsigned char		byte;
-typedef unsigned int		uint;			// aka. uint32
-typedef unsigned __int8		uint8;
-typedef unsigned __int64	uint64;			// aka. size_t
-typedef unsigned __int64	hash64;
-
-typedef unsigned __int32	Entity_;
-typedef unsigned __int8		ComponentType;
-typedef std::bitset<256>	ComponentMask;	// 256 Bits for the 256 different Component-Types
+// StoneCold signed integer typedefs (fastest option, with a width of at least (!) 8, 16, 32 and 64 bits) 
+using int8 = std::int_fast8_t;
+using int16 = std::int_fast16_t;
+using int32 = std::int_fast32_t;
+using int64 = std::int_fast64_t;
+// StoneCold unsigned integer typedefs (fastest option, with a width of at least (!) 8, 16, 32 and 64 bits) 
+using uint8 = std::uint_fast8_t;
+using uint16 = std::uint_fast16_t;
+using uint32 = std::uint_fast32_t;
+using uint64 = std::uint_fast64_t;
+// StoneCold custom integer typedefs
+using byte = std::uint_fast8_t;
+using hash = std::uint_fast64_t;
+using mask = std::uint_fast64_t;
+using entity = std::uint_fast32_t;
 
 //
 // All the available Level Types
