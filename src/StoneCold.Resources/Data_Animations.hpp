@@ -27,12 +27,12 @@ const auto playerAnimation = std::unordered_map<std::string, Animation>({
 	{"jump", Animation({ {0,160,32,32}, {32,160,32,32}, {64,160,32,32}, {96,160,32,32}, {128,160,32,32} }, 100) },
 	{"hurt", Animation({ {0,192,32,32}, {32,192,32,32}, {64,192,32,32}, {96,192,32,32} }, 100) },
 	{"dead", Animation({ {0,224,32,32}, {32,224,32,32}, {64,224,32,32}, {96,224,32,32}, {128,224,32,32}, {160,224,32,32}, {192,224,32,32} }, 100) }
-});
+	});
 
 const auto buttonAnimation = std::unordered_map<std::string, Animation>({
-	{"hover", Animation({ {0,0,194,48} }, 0) },
-	{"idle", Animation({ {0,48,194,52} }, 0) }
-});
+	{"idle", Animation({ {0,0,200,50} }, 0) },
+	{"hover", Animation({ {0,50,200,50} }, 0) }
+	});
 
 const auto mapFrames = std::unordered_map<MapTileTypes, std::pair<SDL_Rect, SDL_RendererFlip>>({
 	{ MapTileTypes::Wall_Top,				{ {0,0,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
@@ -58,7 +58,7 @@ const auto mapFrames = std::unordered_map<MapTileTypes, std::pair<SDL_Rect, SDL_
 	{ MapTileTypes::Floor_Special_4,		{ {32,96,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
 	{ MapTileTypes::Floor_Default,			{ {64,96,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } },
 	{ MapTileTypes::Floor_Special_1,		{ {96,96,32,32}, SDL_RendererFlip::SDL_FLIP_NONE } }
-});
+	});
 
 //
 // Map all animation names with their actual animation data
@@ -66,7 +66,7 @@ const auto mapFrames = std::unordered_map<MapTileTypes, std::pair<SDL_Rect, SDL_
 const auto AnimationData = std::unordered_map<std::string, std::unordered_map<std::string, Animation>>({
 	{ PLAYER_ANIMATION, playerAnimation },
 	{ BUTTON_ANIMATION, buttonAnimation }
-});
+	});
 
 }
 

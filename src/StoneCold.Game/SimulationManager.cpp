@@ -119,19 +119,19 @@ void SimulationManager::CreateMenuState() {
 		guiObjects.push_back(std::make_unique<Entity>(Background(_renderer, stonecoldTexture, logoDimensions, logoDimensionsF)));
 		// Button "Play"
 		auto btnContentPlay = _resourceManager->LoadFontTexture(ResourceLifeTime::Menu, "Button_Menu_Start", fontTTF->GetFontBig(), "Play", CL_BLACK);
-		SDL_FRect destPlay = { (WINDOW_SIZE_WIDTH / 2.f) - 150.f, 300.f, 300.f, 50.f };
+		SDL_FRect destPlay = { (WINDOW_SIZE_WIDTH / 2.f) - 100.f, 300.f, 200.f, 50.f };
 		guiObjects.push_back(std::make_unique<Entity>(Button(_renderer, guiTexture, btnContentPlay, buttonAnimation, destPlay, btnContentPlay->SurfaceSize)));
 		// Button "Options"
 		auto btnContentOptions = _resourceManager->LoadFontTexture(ResourceLifeTime::Menu, "Button_Menu_Options", fontTTF->GetFontBig(), "Options", CL_BLACK);
-		SDL_FRect destOptions = { (WINDOW_SIZE_WIDTH / 2.f) - 150.f, 370.f, 300.f, 50.f };
+		SDL_FRect destOptions = { (WINDOW_SIZE_WIDTH / 2.f) - 100.f, 370.f, 200.f, 50.f };
 		guiObjects.push_back(std::make_unique<Entity>(Button(_renderer, guiTexture, btnContentOptions, buttonAnimation, destOptions, btnContentOptions->SurfaceSize)));
 		// Button "Credits"
 		auto btnContentCredits = _resourceManager->LoadFontTexture(ResourceLifeTime::Menu, "Button_Menu_Credits", fontTTF->GetFontBig(), "Credits", CL_BLACK);
-		SDL_FRect destCredits = { (WINDOW_SIZE_WIDTH / 2.f) - 150.f, 440.f, 300.f, 50.f };
+		SDL_FRect destCredits = { (WINDOW_SIZE_WIDTH / 2.f) - 100.f, 440.f, 200.f, 50.f };
 		guiObjects.push_back(std::make_unique<Entity>(Button(_renderer, guiTexture, btnContentCredits, buttonAnimation, destCredits, btnContentCredits->SurfaceSize)));
 		// Button "Quit"
 		auto btnContentQuit = _resourceManager->LoadFontTexture(ResourceLifeTime::Menu, "Button_Menu_Quit", fontTTF->GetFontBig(), "Quit", CL_BLACK);
-		SDL_FRect destQuit = { (WINDOW_SIZE_WIDTH / 2.f) - 150.f, 510.f, 300.f, 50.f };
+		SDL_FRect destQuit = { (WINDOW_SIZE_WIDTH / 2.f) - 100.f, 510.f, 200.f, 50.f };
 		guiObjects.push_back(std::make_unique<Entity>(Button(_renderer, guiTexture, btnContentQuit, buttonAnimation, destQuit, btnContentQuit->SurfaceSize)));
 
 		// Add all Entities to the MenuState for updating and rendering
