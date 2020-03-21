@@ -14,11 +14,14 @@
     <Filter Include="ECS">
       <UniqueIdentifier>{dbc41c99-f0a3-460d-9d04-1e28348eb8bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ECS\Components">
-      <UniqueIdentifier>{2121b212-4e85-45e7-a69e-e60e6116fa6a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ECS\Systems">
       <UniqueIdentifier>{9ad92817-5025-4d69-bd85-d11e1c4f5577}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Components_OLD">
+      <UniqueIdentifier>{2121b212-4e85-45e7-a69e-e60e6116fa6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Components">
+      <UniqueIdentifier>{d54d844e-8f05-4bec-bc63-8146c5594e56}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -44,39 +47,36 @@
       <Filter>States</Filter>
     </ClInclude>
     <ClInclude Include="AnimationComponent.hpp">
-      <Filter>ECS\Components</Filter>
+      <Filter>ECS\Components_OLD</Filter>
     </ClInclude>
     <ClInclude Include="AttributeComponentUI.hpp">
-      <Filter>ECS\Components</Filter>
+      <Filter>ECS\Components_OLD</Filter>
     </ClInclude>
     <ClInclude Include="CollisionComponent.hpp">
-      <Filter>ECS\Components</Filter>
+      <Filter>ECS\Components_OLD</Filter>
     </ClInclude>
     <ClInclude Include="Component.hpp">
-      <Filter>ECS\Components</Filter>
+      <Filter>ECS\Components_OLD</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardComponent.hpp">
-      <Filter>ECS\Components</Filter>
+      <Filter>ECS\Components_OLD</Filter>
     </ClInclude>
     <ClInclude Include="SpriteComponentFixed.hpp">
-      <Filter>ECS\Components</Filter>
+      <Filter>ECS\Components_OLD</Filter>
     </ClInclude>
     <ClInclude Include="SpriteComponentGui.hpp">
-      <Filter>ECS\Components</Filter>
+      <Filter>ECS\Components_OLD</Filter>
     </ClInclude>
     <ClInclude Include="SpriteComponentMoving.hpp">
-      <Filter>ECS\Components</Filter>
+      <Filter>ECS\Components_OLD</Filter>
     </ClInclude>
     <ClInclude Include="TransformComponent.hpp">
-      <Filter>ECS\Components</Filter>
+      <Filter>ECS\Components_OLD</Filter>
     </ClInclude>
     <ClInclude Include="Entity.hpp">
-      <Filter>ECS\Components</Filter>
+      <Filter>ECS\Components_OLD</Filter>
     </ClInclude>
     <ClInclude Include="..\StoneCold.Base\EntityComponentArray.hpp">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="Components.hpp">
       <Filter>ECS</Filter>
     </ClInclude>
     <ClInclude Include="System.hpp">
@@ -84,6 +84,12 @@
     </ClInclude>
     <ClInclude Include="EntityComponentSystem.hpp">
       <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformationSystem.hpp">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Components.hpp">
+      <Filter>ECS\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

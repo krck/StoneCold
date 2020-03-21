@@ -129,7 +129,7 @@ void MapManager::SetFinalMapTiles() {
 				case 4:
 					// If Wall is completely surrounded by Floor tiles: Replace it with Floor (Clear all single walls)
 					_grid[i][j] = MapTileTypes::Floor_Default;
-					break; 
+					break;
 				case 3:
 					// If floor is in 3 locations around: Must be a "Endblock"
 					if (!floorCheck[0]) _grid[i][j] = MapTileTypes::Endblock_Bottom;
@@ -159,7 +159,7 @@ void MapManager::SetFinalMapTiles() {
 
 			// Save all the possible spawn positions. Always below a Endblock_Bottom
 			if (_grid[i][j] == MapTileTypes::Endblock_Bottom)
-				spawnPositions.push_back(Vec2i(j, i + 1));
+				spawnPositions.push_back(Vec2i(static_cast<int>(j), static_cast<int>(i + 1)));
 		}
 	}
 

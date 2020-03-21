@@ -1,6 +1,8 @@
 
 #include "pch.h"
-#include "gtest/gtest.h"
+
+//#include "test_EntityComponentArray.hpp"
+#include "test_EntityComponentSystem.hpp"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);

@@ -13,42 +13,16 @@ namespace StoneCold::Engine {
 using namespace StoneCold::Base;
 using namespace StoneCold::Resources;
 
-// COMPONENT Examples:
-// - Position(x, y)
-// - Velocity(x, y)
-// - Physics(body)
-// - Sprite(images, animations)
-// - Health(value)
-// - Character(name, level)
-// - Player(empty)
-
-// ENTITY Examples:
-// - Rock(Position, Sprite)
-// - Crate(Position, Sprite, Health)
-// - Sign(Position, Sprite, Text)
-// - Ball(Position, Velocity, Physics, Sprite)
-// - Enemy(Position, Velocity, Sprite, Character, Input, AI)
-// - Player(Position, Velocity, Sprite, Character, Input, Player)
-
-// SYSTEM Examples:
-// - Movement(Position, Velocity) - Adds velocity to position
-// - Gravity(Velocity) - Accelerates velocity due to gravity
-// - Render(Position, Sprite) - Draws sprites
-// - PlayerControl(Input, Player) - Sets the player - controlled entity's input according to a controller
-// - BotControl(Input, AI) - Sets a bot - controlled entity's input according to an AI agent
-
-
-
 const mask COMP_MASK_ANIMATION = 0x0000000000000001;
-const mask COMP_MASK_UI_ATTRIB = 0x0000000000000002;
+const mask COMP_MASK_UI_ATTRIBUTE = 0x0000000000000002;
 const mask COMP_MASK_COLLISION = 0x0000000000000004;
-const mask COMP_MASK_KEYBOARD_ = 0x0000000000000008;
-const mask COMP_MASK_SPRITE___ = 0x0000000000000010;
-const mask COMP_MASK_SPRITE_LY = 0x0000000000000020;
-const mask COMP_MASK_TRANSFORM = 0x0000000000000040;
-const mask COMP_MASK_VELOCITY_ = 0x0000000000000080;
-const mask COMP_MASK_POSITION_ = 0x0000000000000100;
-const mask COMP_MASK_POS_LAYER = 0x0000000000000200;
+const mask COMP_MASK_KEYBOARD = 0x0000000000000008;
+const mask COMP_MASK_SPRITE = 0x0000000000000010;
+const mask COMP_MASK_SPRITE_LAYERED = 0x0000000000000020;
+const mask COMP_MASK_TRANSFORMATION = 0x0000000000000040;
+const mask COMP_MASK_VELOCITY = 0x0000000000000080;
+const mask COMP_MASK_POSITION = 0x0000000000000100;
+const mask COMP_MASK_POSITION_LAYERED = 0x0000000000000200;
 
 struct AnimationComponent_x {
 	const std::unordered_map<std::string, Animation>* Animations;
@@ -87,7 +61,7 @@ struct SpriteLayeredComponent_x {
 
 struct TransformationComponent_x {
 	Vec2 Position;
-	const uint32 BaseSpeed;
+	uint32 BaseSpeed;
 	uint32 Speed;
 	float Scale;
 };

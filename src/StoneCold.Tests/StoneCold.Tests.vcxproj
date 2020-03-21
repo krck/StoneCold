@@ -34,9 +34,10 @@
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="test_EntityComponentSystem.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="test_EntityComponentArray.cpp" />
+    <ClCompile Include="test_EntityComponentArray.hpp" />
     <ClCompile Include="test_main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -67,7 +68,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Game;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Game;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -84,7 +85,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Game;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Game;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -100,7 +101,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Game;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Game;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -118,7 +119,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Game;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Game;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

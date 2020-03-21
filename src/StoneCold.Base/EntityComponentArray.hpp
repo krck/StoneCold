@@ -21,7 +21,7 @@ using namespace StoneCold::Base;
 class IEntityComponentArray {
 public:
 	virtual ~IEntityComponentArray() = default;
-	virtual void EntityDestroyed(entity entity) = 0;
+	virtual void DestroyEntity(entity entity) = 0;
 };
 
 //
@@ -29,7 +29,7 @@ public:
 // based on: https://austinmorlan.com/posts/entitycomponent_system/
 //
 // Array-like container thats always "packed" in memory
-// and maps any Entity-ID to a corresponding array index. 
+// and maps any Entity-ID to a corresponding array index.
 //
 // This way random access [] can be done directly with the Entities and iterating
 // from 0 to .size() operates only on valid Components for great caching-results.
@@ -108,9 +108,10 @@ public:
 		return true;
 	}
 
-	inline void EntityDestroyed(entity entity) override { erase(entity); }
+	inline void DestroyEntity(entity entity) override { erase(entity); }
 
 	inline const T* GetRawData() const noexcept { return _data; }
+
 	inline const std::unordered_map<entity, size_t>& GetEntityIndexMap() const noexcept { return _entityIndexMap; }
 
 	~EntityComponentArray() {
@@ -125,7 +126,6 @@ private:
 	size_t _maxSize;
 	size_t _size;
 	T* _data;
-
 };
 
 }
