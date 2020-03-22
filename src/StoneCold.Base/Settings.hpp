@@ -6,7 +6,7 @@
 #define WINDOW_SIZE_WIDTH		1280
 #define WINDOW_SIZE_HEIGHT		720
 
-#define MAX_ENTITIES			5000
+#define RNG_SEED				12345
 
 #define FONT_SIZE_SMALL			10
 #define FONT_SIZE_NORMAL		18

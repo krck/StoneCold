@@ -16,6 +16,8 @@ namespace StoneCold::Engine {
 
 using namespace StoneCold::Base;
 
+const uint32 MAX_ENTITIES = 5000;
+
 //
 // Entity-Component Manager
 // based on: https://austinmorlan.com/posts/entitycomponent_system/

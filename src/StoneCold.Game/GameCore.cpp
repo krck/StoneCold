@@ -24,6 +24,9 @@ bool GameCore::Initialize(const std::string& windowName) {
 			_resources.Initialize(rendererPtr);
 			_simulation.Initialize(&_engine, &_resources, rendererPtr);
 
+			// Setup the randomizer with a seed
+			std::srand(RNG_SEED);
+
 			// Load all global Resources and create the basic States
 			_simulation.CreateIntroState();
 			_simulation.CreateGameState();

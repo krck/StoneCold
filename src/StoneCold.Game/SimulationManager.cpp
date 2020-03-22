@@ -153,12 +153,27 @@ void SimulationManager::LoadLevel() {
 		_resourceManager->UnloadResources(ResourceLifeTime::Level);
 		if (_engine->HasState<GameState>()) {
 			// Get a new, randomly generated Map Texture
-			auto levelType = (LevelType)(rand() % 5 + 0);
+			const auto levelType = (LevelType)(rand() % 5 + 0);
 			std::string texturePath = MAP_TEXTURES.find(levelType)->second;
 			_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Level, texturePath);
 
+			// Pre-defined map patterns
+			std::pair<float, float> pattern = { 0.f, 0.f };
+			const std::vector<std::pair<float, float>> mapPatterns = {
+				{ 0.6f, 0.01f }, // 1) ROCKY: Map with few open spaces, very jagged edges and lots of corridors and obstacles
+				{ 0.75f, 0.1f }, // 2) MIXED: Map with bigger open spaces, some jagged edges and few obstacles
+				{ 0.95f, 0.2f }	 // 3) FLAT: Map with one massive, open space, smoothe-ish edges and no corridors/obstacles
+			};
+
+			// Grassland and Arctic can be FLAT or MIXED
+			if (levelType == LevelType::Grassland || levelType == LevelType::Arctic) { pattern = mapPatterns[(rand() & 1) + 1]; }
+			// Highlands or Desert can be ROCKY or MIXED
+			else if (levelType == LevelType::Highlands || levelType == LevelType::Desert) { pattern = mapPatterns[(rand() & 1)]; }
+			// Castle can only be ROCKY (default)
+			else { pattern = mapPatterns[0]; }
+
 			// Get a new, randomly generated Map Layout
-			auto mapLayout = _mapManager.GenerateMap(Vec2i(60, 60));
+			auto mapLayout = _mapManager.GenerateMap(Vec2i(70, 70), pattern.first, pattern.second);
 			auto spawnPos = _mapManager.GetStartEndPositions().first;
 			auto texture = _resourceManager->GetResource<TextureResource>(texturePath);
 

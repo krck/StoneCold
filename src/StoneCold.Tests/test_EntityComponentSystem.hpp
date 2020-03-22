@@ -29,9 +29,9 @@ TEST(EntityComponentSystem, CreateAllEntitiesAndMore) {
 	ecs.Init();
 
 	auto testEs = std::vector<uint32_t>();
-	testEs.reserve(MAX_ENTITIES + 10);
+	testEs.reserve(5000 + 10);
 
-	for (uint32_t i = 0; i < MAX_ENTITIES; i++) {
+	for (uint32_t i = 0; i < 5000; i++) {
 		testEs.push_back(ecs.CreateEntity());
 	}
 
