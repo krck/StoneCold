@@ -53,8 +53,8 @@ public:
 
 private:
 	MapManager _mapManager;
-	ResourceManager* _resourceManager;
 	EngineCore* _engine;
+	ResourceManager* _resourceManager;
 	SDL_Renderer* _renderer;
 };
 

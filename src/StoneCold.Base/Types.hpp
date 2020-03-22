@@ -3,6 +3,8 @@
 #define STONECOLD_TYPES_H
 
 #include <cstdint>
+#include <typeindex>
+#include <typeinfo>
 
 namespace StoneCold::Base {
 
@@ -20,7 +22,10 @@ using uint64 = std::uint_fast64_t;
 using byte = std::uint_fast8_t;
 using hash = std::uint_fast64_t;
 using mask = std::uint_fast64_t;
-using entity = std::uint_fast32_t;
+using entityId = std::uint_fast32_t;
+
+template<typename T>
+inline hash GetTypeHash() noexcept { return std::type_index(typeid(T)).hash_code(); }
 
 //
 // All the available Level Types

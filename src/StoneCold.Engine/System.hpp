@@ -5,6 +5,7 @@
 #include "SDL_Base.hpp"
 #include "Types.hpp"
 #include <algorithm>
+#include <iterator>
 #include <vector>
 
 namespace StoneCold::Engine {
@@ -27,14 +28,14 @@ public:
 	inline mask GetComponentMask() const { return _componentMask; }
 	inline size_t GetEntitiesSize() const { return _entities.size(); }
 
-	inline void AddEntity(entity entity) { _entities.push_back(entity); }
-	inline void RemoveEntity(entity entity) { _entities.erase(std::remove(_entities.begin(), _entities.end(), entity), _entities.end()); }
+	inline void AddEntity(entityId entityId) { _entities.push_back(entityId); }
+	inline void RemoveEntity(entityId entityId) { _entities.erase(std::remove(_entities.begin(), _entities.end(), entityId), _entities.end()); }
 
 	virtual ~System() {}
 
 protected:
 	const mask _componentMask;
-	std::vector<entity> _entities;
+	std::vector<entityId> _entities;
 };
 
 }

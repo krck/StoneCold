@@ -10,14 +10,14 @@ namespace StoneCold::Engine {
 
 class TransformationSystem : public System {
 public:
-	TransformationSystem(mask componentMask, EntityComponentArray<TransformationComponent_x>& trans, EntityComponentArray<VelocityComponent_x>& velocity)
+	TransformationSystem(mask componentMask, EntityComponentArray<TransformationComponent>& trans, EntityComponentArray<VelocityComponent>& velocity)
 		: System(componentMask), _transformComponents(trans), _velocityComponents(velocity) { }
 
 	TransformationSystem(const TransformationSystem&) = delete;
 	TransformationSystem& operator=(const TransformationSystem&) = delete;
 
 	virtual void Update(uint32 frameTime) override {
-		for (const auto& entity : _entities) {
+		for (const auto& entityId : _entities) {
 			//auto& transf = _transformComponents[entity]; //->at(entity);
 			//auto& velocity = _velocityComponents[entity];
 			//velocity.Velocity += (transf.Scale + transf.Speed);
@@ -25,8 +25,8 @@ public:
 	}
 
 private:
-	EntityComponentArray<TransformationComponent_x>& _transformComponents;
-	EntityComponentArray<VelocityComponent_x>& _velocityComponents;
+	EntityComponentArray<TransformationComponent>& _transformComponents;
+	EntityComponentArray<VelocityComponent>& _velocityComponents;
 };
 
 }

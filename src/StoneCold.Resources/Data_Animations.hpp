@@ -18,7 +18,7 @@ const std::string BUTTON_ANIMATION = "Button_Animation";
 //
 // Animation data as hardcoded, constat variables
 //
-const auto playerAnimation = std::unordered_map<std::string, Animation>({
+const static auto playerAnimation = std::unordered_map<std::string, Animation>({
 	{"idle", Animation({ {0,0,32,32}, {32,0,32,32}, {64,0,32,32}, {96,0,32,32}, {128,0,32,32} }, 180) },
 	{"walk", Animation({ {0,32,32,32}, {32,32,32,32}, {64,32,32,32}, {96,32,32,32}, {128,32,32,32}, {160,32,32,32}, {192,32,32,32}, {224,32,32,32} }, 80) },
 	{"atk2", Animation({ {0,64,32,32}, {32,64,32,32}, {64,64,32,32}, {96,64,32,32}, {128,64,32,32}, {160,64,32,32}, {192,64,32,32} }, 100) },
@@ -29,7 +29,7 @@ const auto playerAnimation = std::unordered_map<std::string, Animation>({
 	{"dead", Animation({ {0,224,32,32}, {32,224,32,32}, {64,224,32,32}, {96,224,32,32}, {128,224,32,32}, {160,224,32,32}, {192,224,32,32} }, 100) }
 	});
 
-const auto buttonAnimation = std::unordered_map<std::string, Animation>({
+const static auto buttonAnimation = std::unordered_map<std::string, Animation>({
 	{"idle", Animation({ {0,0,200,50} }, 0) },
 	{"hover", Animation({ {0,50,200,50} }, 0) }
 	});
@@ -63,9 +63,9 @@ const auto mapFrames = std::unordered_map<MapTileTypes, std::pair<SDL_Rect, SDL_
 //
 // Map all animation names with their actual animation data
 //
-const auto AnimationData = std::unordered_map<std::string, std::unordered_map<std::string, Animation>>({
-	{ PLAYER_ANIMATION, playerAnimation },
-	{ BUTTON_ANIMATION, buttonAnimation }
+const auto AnimationData = std::unordered_map<std::string, const std::unordered_map<std::string, Animation>*>({
+	{ PLAYER_ANIMATION, &playerAnimation },
+	{ BUTTON_ANIMATION, &buttonAnimation }
 	});
 
 }

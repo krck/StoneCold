@@ -27,7 +27,8 @@ void SimulationManager::CreateIntroState() {
 		_engine->ClearState<IntroState>();
 
 		// Create a new IntroState
-		auto intro = std::make_shared<IntroState>(_engine);
+		auto intro = std::make_shared<IntroState>(20, _renderer, _engine);
+		auto introECS = intro->GetECS();
 		auto guiObjects = std::vector<std::unique_ptr<Entity>>();
 
 		// Get all basic Resources needed by the IntroState (Background image, Font, ...)
@@ -39,17 +40,13 @@ void SimulationManager::CreateIntroState() {
 		// Background Image
 		SDL_Rect backgroundDimensions = { 0, 0, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT };
 		SDL_FRect backgroundDimensionsF = { 0.f, 0.f, static_cast<float>(WINDOW_SIZE_WIDTH), static_cast<float>(WINDOW_SIZE_HEIGHT) };
-		auto background = Background(_renderer, backgroundTexture, backgroundDimensions, backgroundDimensionsF);
+		auto background = Background(introECS, backgroundTexture, backgroundDimensions, backgroundDimensionsF);
 		// Label "Press any Button"
 		const std::string labelText = "Press any Button to start ...";
 		auto lbTex = _resourceManager->LoadFontTexture(ResourceLifeTime::Intro, "Label_Intro_Press_Any_Button", fontTTF->GetFontBig(), labelText, CL_BLACK);
 		SDL_FRect dest = { (WINDOW_SIZE_WIDTH / 2.f) - (lbTex->SurfaceSize.X / 2.f), 500.f, static_cast<float>(lbTex->SurfaceSize.X), static_cast<float>(lbTex->SurfaceSize.Y) };
-		auto guiLabel = Label(_renderer, lbTex, lbTex->SurfaceSize, dest);
+		auto guiLabel = Label(introECS, lbTex, lbTex->SurfaceSize, dest);
 		guiObjects.push_back(std::make_unique<Entity>(guiLabel));
-
-		// Add all Entities to the IntroState for updating and rendering
-		intro->SetBackground(std::make_unique<Background>(background));
-		intro->SetGUI(std::move(guiObjects));
 
 		// Finally add the new IntroState to the Engines States
 		_engine->AddState<IntroState>(intro);
@@ -67,7 +64,9 @@ void SimulationManager::CreateGameState() {
 		_engine->ClearState<GameState>();
 
 		// Create a new GameState
-		auto game = std::make_shared<GameState>(_engine);
+		auto game = std::make_shared<GameState>(5000, _renderer, _engine);
+		auto gameECS = game->GetECS();
+		game->Initialize();
 
 		// Get all basic Resources needed by the GameState (Player Character, Player GUI, etc.)
 		_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Game, PLAYER_TEXTURE);
@@ -77,7 +76,7 @@ void SimulationManager::CreateGameState() {
 		// Create all basic Entitys from the Resources, needed by the GameState
 		auto playerTexture = _resourceManager->GetResource<TextureResource>(PLAYER_TEXTURE);
 		auto playerAnimation = _resourceManager->GetResource<AnimationResource>(PLAYER_ANIMATION);
-		auto player = PlayerCharacter(_renderer, playerTexture, playerAnimation, Vec2(), Vec2(32, 32), 3, 250);
+		auto player = PlayerCharacter(gameECS, playerTexture, playerAnimation, Vec2(), Vec2(32, 32), 3, 250);
 		game->SetPlayer(std::make_unique<PlayerCharacter>(player));
 		// ...
 
@@ -97,7 +96,8 @@ void SimulationManager::CreateMenuState() {
 		_engine->ClearState<MenuState>();
 
 		// Create a new MenuState
-		auto menu = std::make_shared<MenuState>(_engine);
+		auto menu = std::make_shared<MenuState>(50, _renderer, _engine);
+		auto menuECS = menu->GetECS();
 		auto guiObjects = std::vector<std::unique_ptr<Entity>>();
 
 		// Get all basic Resources needed by the MenuState (Background image, Font, ...)
@@ -112,31 +112,27 @@ void SimulationManager::CreateMenuState() {
 		// Background Image
 		SDL_Rect backgroundDimensions = { 0, 0, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT };
 		SDL_FRect backgroundDimensionsF = { 0.f, 0.f, static_cast<float>(WINDOW_SIZE_WIDTH), static_cast<float>(WINDOW_SIZE_HEIGHT) };
-		auto background = Background(_renderer, backgroundTexture, backgroundDimensions, backgroundDimensionsF);
+		auto background = Background(menuECS, backgroundTexture, backgroundDimensions, backgroundDimensionsF);
 		// StoneCold Logo
 		SDL_Rect logoDimensions = { 0, 0, stonecoldTexture->SurfaceSize.X, stonecoldTexture->SurfaceSize.Y };
 		SDL_FRect logoDimensionsF = { (WINDOW_SIZE_WIDTH / 2.f) - 250.f, 100.f, 500.f, 100.f };
-		guiObjects.push_back(std::make_unique<Entity>(Background(_renderer, stonecoldTexture, logoDimensions, logoDimensionsF)));
+		guiObjects.push_back(std::make_unique<Entity>(Background(menuECS, stonecoldTexture, logoDimensions, logoDimensionsF)));
 		// Button "Play"
 		auto btnContentPlay = _resourceManager->LoadFontTexture(ResourceLifeTime::Menu, "Button_Menu_Start", fontTTF->GetFontBig(), "Play", CL_BLACK);
 		SDL_FRect destPlay = { (WINDOW_SIZE_WIDTH / 2.f) - 100.f, 300.f, 200.f, 50.f };
-		guiObjects.push_back(std::make_unique<Entity>(Button(_renderer, guiTexture, btnContentPlay, buttonAnimation, destPlay, btnContentPlay->SurfaceSize)));
+		guiObjects.push_back(std::make_unique<Entity>(Button(menuECS, guiTexture, btnContentPlay, buttonAnimation, destPlay, btnContentPlay->SurfaceSize)));
 		// Button "Options"
 		auto btnContentOptions = _resourceManager->LoadFontTexture(ResourceLifeTime::Menu, "Button_Menu_Options", fontTTF->GetFontBig(), "Options", CL_BLACK);
 		SDL_FRect destOptions = { (WINDOW_SIZE_WIDTH / 2.f) - 100.f, 370.f, 200.f, 50.f };
-		guiObjects.push_back(std::make_unique<Entity>(Button(_renderer, guiTexture, btnContentOptions, buttonAnimation, destOptions, btnContentOptions->SurfaceSize)));
+		guiObjects.push_back(std::make_unique<Entity>(Button(menuECS, guiTexture, btnContentOptions, buttonAnimation, destOptions, btnContentOptions->SurfaceSize)));
 		// Button "Credits"
 		auto btnContentCredits = _resourceManager->LoadFontTexture(ResourceLifeTime::Menu, "Button_Menu_Credits", fontTTF->GetFontBig(), "Credits", CL_BLACK);
 		SDL_FRect destCredits = { (WINDOW_SIZE_WIDTH / 2.f) - 100.f, 440.f, 200.f, 50.f };
-		guiObjects.push_back(std::make_unique<Entity>(Button(_renderer, guiTexture, btnContentCredits, buttonAnimation, destCredits, btnContentCredits->SurfaceSize)));
+		guiObjects.push_back(std::make_unique<Entity>(Button(menuECS, guiTexture, btnContentCredits, buttonAnimation, destCredits, btnContentCredits->SurfaceSize)));
 		// Button "Quit"
 		auto btnContentQuit = _resourceManager->LoadFontTexture(ResourceLifeTime::Menu, "Button_Menu_Quit", fontTTF->GetFontBig(), "Quit", CL_BLACK);
 		SDL_FRect destQuit = { (WINDOW_SIZE_WIDTH / 2.f) - 100.f, 510.f, 200.f, 50.f };
-		guiObjects.push_back(std::make_unique<Entity>(Button(_renderer, guiTexture, btnContentQuit, buttonAnimation, destQuit, btnContentQuit->SurfaceSize)));
-
-		// Add all Entities to the MenuState for updating and rendering
-		menu->SetBackground(std::make_unique<Background>(background));
-		menu->SetGUI(std::move(guiObjects));
+		guiObjects.push_back(std::make_unique<Entity>(Button(menuECS, guiTexture, btnContentQuit, buttonAnimation, destQuit, btnContentQuit->SurfaceSize)));
 
 		// Finally add the new MenuState to the Engines States
 		_engine->AddState<MenuState>(menu);
@@ -152,6 +148,9 @@ void SimulationManager::LoadLevel() {
 		// First clear the Level Resources and check, if the Engine has a GameState that runs the Level
 		_resourceManager->UnloadResources(ResourceLifeTime::Level);
 		if (_engine->HasState<GameState>()) {
+			auto gameState = _engine->GetState<GameState>();
+			auto gameECS = gameState->GetECS();
+
 			// Get a new, randomly generated Map Texture
 			const auto levelType = (LevelType)(rand() % 5 + 0);
 			std::string texturePath = MAP_TEXTURES.find(levelType)->second;
@@ -184,15 +183,24 @@ void SimulationManager::LoadLevel() {
 					// Map tile position based on row/column within the mapLayout
 					const auto type = mapFrames.find(mapLayout[row][column]);
 					const auto frame = type->second;
-					auto tile = MapTile(_renderer, texture, frame.first, Vec2(column * 96.f, row * 96.f), 3, frame.second, type->first);
-					mapObjects.push_back(std::make_shared<MapTile>(tile));
+
+					// Set the Source rectange frame inside the texture (Pixels to take, from the .png)
+					SDL_Rect src = frame.first;
+					// Set the Destination rectangle with the actual position on screen with scaling (Where to put the Pixels)
+					SDL_FRect dest = { column * 96.f, row * 96.f, static_cast<float>(src.w * 3), static_cast<float>(src.h * 3) };
+
+					auto mapTileEntity = gameECS->CreateEntity();
+					gameECS->AddComponent<ScreenPositionComponent>(mapTileEntity, { src, dest });
+					gameECS->AddComponent<SpriteComponent>(mapTileEntity, { texture->GetTextureSDL(), frame.second });
+					// Add the CollisionComponent in case its a Wall-Tile
+					if (static_cast<int>(type->first) > static_cast<int>(MapTileTypes::Floor_Shadow))
+						gameECS->AddComponent<CollisionComponent>(mapTileEntity, { "wall", Vec2(), dest, nullptr, true });
 				}
 			}
 
 			// ...
 
 			// Finally update the Engines GameState with the newly created Level
-			auto gameState = _engine->GetState<GameState>();
 			gameState->SetLevel(std::move(mapObjects), std::vector<std::shared_ptr<Entity>>(), { spawnPos.X * 96, spawnPos.Y * 96 });
 		}
 	}

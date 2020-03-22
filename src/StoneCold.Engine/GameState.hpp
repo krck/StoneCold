@@ -3,19 +3,21 @@
 #define STONECOLD_GAMESTATE_H
 
 #include "Types.hpp"
+#include "Entity.hpp"
 #include "Settings.hpp"
 #include "EngineCore.hpp"
 #include "EventManager.hpp"
-#include "TransformComponent.hpp"
-#include "CollisionManager.hpp"
+#include "RenderSystem.hpp"
 
 namespace StoneCold::Engine {
 
 class GameState : public State {
 public:
-	GameState(EngineCore* engine);
+	GameState(uint16 maxEntities, SDL_Renderer* renderer, EngineCore* engine);
 	GameState(const GameState&) = delete;
 	GameState& operator=(const GameState&) = delete;
+
+	virtual void Initialize() override;
 
 	virtual bool HandleSDLEvent(const SDL_Event& sdlEvent) override { return false; }
 	virtual void HandleInputEvent(const std::vector<uint8>& keyStates) override;
@@ -30,14 +32,12 @@ public:
 
 private:
 	EventManager& _eventManager;
-	CollisionManager _collisionManager;
 	SDL_FRect _camera;
 
 	//
 	// Pointers to the Players Entity for fast access
 	//
 	std::unique_ptr<Entity> _player;
-	TransformComponent* _playerTransformation;
 
 	//
 	// unordered_maps with all Entitys (Player, NPCs, MapTiles, ...)

@@ -1,55 +1,35 @@
 
-#ifndef STONECOLD_entityH
-#define STONECOLD_entityH
+#ifndef STONECOLD_ENTITY_H
+#define STONECOLD_ENTITY_H
 
-#include "Component.hpp"
-#include <memory>
-#include <typeindex>
-#include <typeinfo>
-#include <unordered_map>
+#include "Types.hpp"
+#include "EntityComponentSystem.hpp"
 
 namespace StoneCold::Engine {
 
+using namespace StoneCold::Base;
+
 //
-// Entity
+// Entity (entityId wrapper)
 //
-// A Entity can be any Game or GUI object imaginable
-// The actual behaviour is defined by its Components
+// This is a base class for any GameObject or GuiObject holding a 
+// entityId within the ECS and allows to add or remove Components
 //
 class Entity {
-protected:
-	std::unordered_map<std::type_index, std::shared_ptr<Component>> _components;
-
 public:
-	Entity() : _components(std::unordered_map<std::type_index, std::shared_ptr<Component>>()) { }
-
-	//
-	// GetId is not mandatory on the Entity Level. This refers to a Resource Id 
-	// (like Texture) and can be overwritten if the GameObject/GUI Object has one
-	//
-	inline virtual hash GetId() const { return 0; }
-
-	// Pass on main-loop Events to all Components
-	void HandleInputEvent(const std::vector<uint8>& keyStates) { for (auto& iter : _components) iter.second->HandleInputEvent(keyStates); }
-	void Update(uint32 frameTime) { for (auto& iter : _components) iter.second->Update(frameTime); }
-	void Render(SDL_FRect camera) { for (auto& iter : _components) iter.second->Render(camera); }
-
-	//
-	// Add a new Component to the Entity based on the Component Type
-	// Each Entity can have any Component but only one active instance of each Type
-	// (type_index is a wrapper class around a std::type_info object, that can be used as index)
-	//
-	template<typename T>
-	void AddComponent(std::shared_ptr<Component>&& component) {
-		component->Init(this);
-		_components[std::type_index(typeid(T))] = std::move(component);
-	}
+	Entity(EntityComponentSystem* ecs) : _ecs(ecs), _entityId(ecs->CreateEntity()) { }
 
 	template<typename T>
-	T* GetComponent() { return static_cast<T*>(_components[std::type_index(typeid(T))].get()); }
+	inline void AddComponent(T component) { _ecs->AddComponent<T>(_entityId, component); }
 
 	template<typename T>
-	bool HasComponent() const { return (_components.find(std::type_index(typeid(T))) != _components.end()); }
+	inline void RemoveComponent() { _ecs->RemoveComponent<T>(_entityId); }
+
+	virtual ~Entity() { _ecs->DestroyEntity(_entityId); }
+
+private:
+	const entityId _entityId;
+	EntityComponentSystem* _ecs;
 };
 
 }

@@ -6,6 +6,7 @@
 #include "Types.hpp"
 #include "Vec2.hpp"
 #include "AnimationResource.hpp"
+#include <unordered_map>
 #include <vector>
 
 namespace StoneCold::Engine {
@@ -13,67 +14,56 @@ namespace StoneCold::Engine {
 using namespace StoneCold::Base;
 using namespace StoneCold::Resources;
 
-const mask COMP_MASK_ANIMATION = 0x0000000000000001;
-const mask COMP_MASK_UI_ATTRIBUTE = 0x0000000000000002;
-const mask COMP_MASK_COLLISION = 0x0000000000000004;
-const mask COMP_MASK_KEYBOARD = 0x0000000000000008;
-const mask COMP_MASK_SPRITE = 0x0000000000000010;
-const mask COMP_MASK_SPRITE_LAYERED = 0x0000000000000020;
-const mask COMP_MASK_TRANSFORMATION = 0x0000000000000040;
-const mask COMP_MASK_VELOCITY = 0x0000000000000080;
-const mask COMP_MASK_POSITION = 0x0000000000000100;
-const mask COMP_MASK_POSITION_LAYERED = 0x0000000000000200;
-
-struct AnimationComponent_x {
+struct AnimationComponent {
 	const std::unordered_map<std::string, Animation>* Animations;
 	Animation* CurrentAnimation;
 	uint32 CurrentFrameIndex;
 	uint32 TimeElapsed;
 };
 
-struct AttributeComponentUI_x {
+struct AttributeComponentUI {
 	UiElementAttribute UiAttribute;
 };
 
-struct CollisionComponent_x {
-	const std::string Tag;	// USE ENUM TYPE
-	const Vec2 Hitbox;
+struct CollisionComponent {
+	std::string Tag;	// USE ENUM TYPE
+	Vec2 Hitbox;
 	SDL_FRect CollisionBox;
-	CollisionComponent_x* CollisionWith;
-	const bool IsFixed;		// REMOVE
+	CollisionComponent* CollisionWith;
+	bool IsFixed;		// REMOVE
 };
 
-struct KeyboardComponent_x {
-	const std::vector<uint8>& KeyStates;	// FIXED use array?
+struct KeyboardComponent {
+	const std::vector<uint8>* KeyStates;	// FIXED use array?
 };
 
-struct SpriteComponent_x {
+struct SpriteComponent {
 	SDL_Texture* Texture;
 	SDL_RendererFlip Flip;
 };
 
-struct SpriteLayeredComponent_x {
+struct SpriteLayeredComponent {
 	SDL_Texture* TextureBottom;
 	SDL_RendererFlip FlipBottom;
 	SDL_Texture* TextureTop;
 	SDL_RendererFlip FlipTop;
 };
 
-struct TransformationComponent_x {
+struct TransformationComponent {
 	Vec2 Position;
+	Vec2 Dimension;
 	uint32 BaseSpeed;
 	uint32 Speed;
-	float Scale;
+	uint32 Scale;
 };
 
-struct VelocityComponent_x {
+struct VelocityComponent {
 	Vec2 Velocity;
 };
 
 struct ScreenPositionComponent {
 	SDL_Rect SrcRect;
 	SDL_FRect DestRect;
-
 };
 
 struct ScreenPositionLayeredComponent {
@@ -81,8 +71,23 @@ struct ScreenPositionLayeredComponent {
 	SDL_FRect DestRectBottom;
 	SDL_Rect SrcRectTop;
 	SDL_FRect DestRectTop;
-
 };
+
+//
+// Component (Bit-)Masks
+//
+static auto ComponentMasks = std::unordered_map<hash, const mask>({
+	{ GetTypeHash<AnimationComponent>(),				0x0000000000000001 },
+	{ GetTypeHash<AttributeComponentUI>(),				0x0000000000000002 },
+	{ GetTypeHash<CollisionComponent>(),				0x0000000000000004 },
+	{ GetTypeHash<KeyboardComponent>(),					0x0000000000000008 },
+	{ GetTypeHash<SpriteComponent>(),					0x0000000000000010 },
+	{ GetTypeHash<SpriteLayeredComponent>(),			0x0000000000000020 },
+	{ GetTypeHash<TransformationComponent>(),			0x0000000000000040 },
+	{ GetTypeHash<VelocityComponent>(),					0x0000000000000080 },
+	{ GetTypeHash<ScreenPositionComponent>(),			0x0000000000000100 },
+	{ GetTypeHash<ScreenPositionLayeredComponent>(),	0x0000000000000200 }
+	});
 
 }
 

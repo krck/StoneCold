@@ -4,11 +4,15 @@
 using namespace StoneCold;
 using namespace StoneCold::Engine;
 
-MenuState::MenuState(EngineCore* engine)
-	: State(engine)
-	, _camera({ 0.f, 0.f, static_cast<float>(WINDOW_SIZE_WIDTH), static_cast<float>(WINDOW_SIZE_HEIGHT) })
-	, _background(nullptr)
-	, _guiObjects(std::vector<std::unique_ptr<Entity>>()) { }
+MenuState::MenuState(uint16 maxEntities, SDL_Renderer* renderer, EngineCore* engine)
+	: State(maxEntities, renderer, engine)
+	, _camera({ 0.f, 0.f, static_cast<float>(WINDOW_SIZE_WIDTH), static_cast<float>(WINDOW_SIZE_HEIGHT) }) { }
+
+
+void MenuState::Initialize() {
+	// SETUP ECS SYSTEMS
+
+}
 
 
 bool MenuState::HandleSDLEvent(const SDL_Event& sdlEvent) {
@@ -31,28 +35,12 @@ bool MenuState::HandleSDLEvent(const SDL_Event& sdlEvent) {
 
 
 void MenuState::Render() {
-	// First: Render the background image
-	_background->Render(_camera);
+	// GET RENDER SYSTEM
 
-	// Last: Render the GUI (always top Layer)
-	for (const auto& gui : _guiObjects)
-		gui->Render(_camera);
-}
+	//// First: Render the background image
+	//_background->Render(_camera);
 
-
-void MenuState::SetBackground(std::unique_ptr<Entity>&& backgroundObject) {
-	// Specific "Add" for the Background Entity
-	_background = std::move(backgroundObject);
-}
-
-
-void MenuState::SetButton(std::unique_ptr<Entity>&& buttonObject) {
-
-}
-
-
-void MenuState::SetGUI(std::vector<std::unique_ptr<Entity>>&& guiObjects) {
-	// Refresh all GUI Objects
-	_guiObjects.clear();
-	_guiObjects = std::move(guiObjects);
+	//// Last: Render the GUI (always top Layer)
+	//for (const auto& gui : _guiObjects)
+	//	gui->Render(_camera);
 }

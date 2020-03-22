@@ -35,8 +35,9 @@ bool GameCore::Initialize(const std::string& windowName) {
 			_simulation.LoadLevel();
 
 			// Push the first State to update and render
-			auto firstState = _engine.GetState<IntroState>();
-			_engine.PushState(firstState);
+			//auto firstState = _engine.GetState<IntroState>();
+			auto test = _engine.GetState<GameState>();
+			_engine.PushState(test);
 
 			return true;
 		}

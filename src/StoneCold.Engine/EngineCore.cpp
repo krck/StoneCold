@@ -62,7 +62,7 @@ void EngineCore::ChangeState(State* state) {
 
 	// Store and init the new state
 	_stateStack.push(state);
-	_stateStack.top()->Init();
+	_stateStack.top()->Initialize();
 }
 
 
@@ -74,7 +74,7 @@ void EngineCore::PushState(State* state) {
 
 	// Store and init the new state
 	_stateStack.push(state);
-	_stateStack.top()->Init();
+	_stateStack.top()->Initialize();
 }
 
 

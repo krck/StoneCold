@@ -9,8 +9,7 @@ using StoneCold::Engine::EntityComponentSystem;
 // ...
 //
 TEST(EntityComponentSystem, InitializeAndCreateEntity) {
-	EntityComponentSystem ecs{};
-	ecs.Init();
+	EntityComponentSystem ecs(10);
 
 	auto e1 = ecs.CreateEntity();
 	auto e2 = ecs.CreateEntity();
@@ -25,8 +24,7 @@ TEST(EntityComponentSystem, InitializeAndCreateEntity) {
 // ...
 //
 TEST(EntityComponentSystem, CreateAllEntitiesAndMore) {
-	EntityComponentSystem ecs{};
-	ecs.Init();
+	EntityComponentSystem ecs(10);
 
 	auto testEs = std::vector<uint32_t>();
 	testEs.reserve(5000 + 10);

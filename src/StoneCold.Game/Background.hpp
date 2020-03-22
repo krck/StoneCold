@@ -4,7 +4,6 @@
 
 #include "Entity.hpp"
 #include "TextureResource.hpp"
-#include "SpriteComponentFixed.hpp"
 
 namespace StoneCold::Game {
 
@@ -13,12 +12,13 @@ using namespace StoneCold::Resources;
 
 class Background : public Entity {
 public:
-	Background(SDL_Renderer* renderer, TextureResource* texture, SDL_Rect srcRect, SDL_FRect destRect) {
-		_texture = texture;
+	Background(EntityComponentSystem* ecs, TextureResource* texture, SDL_Rect srcRect, SDL_FRect destRect)
+		: Entity(ecs), _texture(texture) {
 
 		// Create a fixed Sprite Component, to draw the Background
-		auto s = SpriteComponentFixed(renderer, _texture->GetTextureSDL(), srcRect, destRect, SDL_RendererFlip::SDL_FLIP_NONE);
-		AddComponent<SpriteComponentFixed>(std::make_shared<SpriteComponentFixed>(s));
+		auto flip = SDL_RendererFlip::SDL_FLIP_NONE;
+		AddComponent<ScreenPositionComponent>({ srcRect, destRect });
+		AddComponent<SpriteComponent>({ _texture->GetTextureSDL(), flip });
 	}
 
 private:

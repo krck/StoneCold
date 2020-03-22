@@ -2,8 +2,9 @@
 #ifndef STONECOLD_STATE_H
 #define STONECOLD_STATE_H
 
-#include "SDL_Base.hpp"
 #include "Types.hpp"
+#include "SDL_Base.hpp"
+#include "EntityComponentSystem.hpp"
 #include <vector>
 
 namespace StoneCold::Engine {
@@ -23,9 +24,12 @@ class EngineCore;
 //
 class State {
 public:
-	State(EngineCore* engine) : _engine(engine) { }
+	State(uint16 maxEntities, SDL_Renderer* renderer, EngineCore* engine) 
+		: _ecs(EntityComponentSystem(maxEntities)), _renderer(renderer), _engine(engine) { }
 
-	virtual void Init() { } // = 0;
+	inline EntityComponentSystem* GetECS() { return &_ecs; }
+
+	virtual void Initialize() = 0;
 	virtual void Cleanup() { } // = 0;
 
 	virtual void Pause() { } // = 0;
@@ -37,6 +41,8 @@ public:
 	virtual void Render() = 0;
 
 protected:
+	EntityComponentSystem _ecs;
+	SDL_Renderer* _renderer;
 	EngineCore* _engine;
 };
 

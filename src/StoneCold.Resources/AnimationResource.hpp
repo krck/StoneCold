@@ -22,11 +22,11 @@ struct Animation {
 
 class AnimationResource : public Resource {
 public:
-	AnimationResource(const std::string& name, const std::unordered_map<std::string, Animation>& animations)
+	AnimationResource(const std::string& name, const std::unordered_map<std::string, Animation>* animations)
 		:  Resource(name), Animations(animations) {}
 
 public:
-	const std::unordered_map<std::string, Animation>& Animations;
+	const std::unordered_map<std::string, Animation>* Animations;
 };
 
 }
