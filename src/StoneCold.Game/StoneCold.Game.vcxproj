@@ -44,8 +44,6 @@
     <ClInclude Include="MapManager.hpp" />
     <ClInclude Include="SDLManager.hpp" />
     <ClInclude Include="SimulationManager.hpp" />
-    <ClInclude Include="MapTile.hpp" />
-    <ClInclude Include="PlayerCharacter.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

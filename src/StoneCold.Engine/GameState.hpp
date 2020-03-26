@@ -7,6 +7,8 @@
 #include "Settings.hpp"
 #include "EngineCore.hpp"
 #include "EventManager.hpp"
+#include "TransformationSystem.hpp"
+#include "ScreenPositionSystem.hpp"
 #include "RenderSystem.hpp"
 
 namespace StoneCold::Engine {
@@ -24,35 +26,25 @@ public:
 	virtual void Update(uint32 frameTime) override;
 	virtual void Render() override;
 
-	void SetPlayer(std::unique_ptr<Entity>&& playerObject);
-	void SetLevel(std::vector<std::shared_ptr<Entity>>&& mapObjects, std::vector<std::shared_ptr<Entity>>&& gameObjects, Vec2i spawnPoint);
-	void SetGUI(std::vector<std::shared_ptr<Entity>>&& guiObjects);
+	void SetSpawnPosition(Vec2i spawnPoint);
+	void SetEntities(entityId player, const std::vector<entityId>& mapTiles);
+
+	inline const std::vector<entityId>& GetMapTiles() { return _mapTiles; }
 
 	~GameState() = default;
 
 private:
 	EventManager& _eventManager;
 	SDL_FRect _camera;
+	
+	// EntityId's for fast access
+	entityId _player;
+	std::vector<entityId> _mapTiles;
 
-	//
-	// Pointers to the Players Entity for fast access
-	//
-	std::unique_ptr<Entity> _player;
-
-	//
-	// unordered_maps with all Entitys (Player, NPCs, MapTiles, ...)
-	// Each map has a TextureResource hash as key to batch render by Texture
-	//
-	std::unordered_map<hash, std::vector<std::shared_ptr<Entity>>> _mapObjects;
-	std::unordered_map<hash, std::vector<std::shared_ptr<Entity>>> _gameObjects;
-	std::vector<std::shared_ptr<Entity>> _guiObjects;
-
-	//
-	// Based on the Entity maps, this stores a pointer
-	// to each Entity, that has a CollisionComponent
-	//
-	std::vector<CollisionComponent*> _collidableObjects;
-
+	// System ptrs for fast access
+	std::shared_ptr<TransformationSystem> _transformationSystem;
+	std::shared_ptr<ScreenPositionSystem> _screenPositionSystem;
+	std::shared_ptr<RenderSystem> _renderSystem;
 };
 
 }

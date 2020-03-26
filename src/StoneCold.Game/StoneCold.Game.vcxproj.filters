@@ -36,12 +36,6 @@
     <ClInclude Include="GameCore.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerCharacter.hpp">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="MapTile.hpp">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="SimulationManager.hpp">
       <Filter>Managers</Filter>
     </ClInclude>

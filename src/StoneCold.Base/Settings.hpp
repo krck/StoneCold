@@ -7,6 +7,7 @@
 #define WINDOW_SIZE_HEIGHT		720
 
 #define RNG_SEED				12345
+#define MAP_SIZE				70
 
 #define FONT_SIZE_SMALL			10
 #define FONT_SIZE_NORMAL		18

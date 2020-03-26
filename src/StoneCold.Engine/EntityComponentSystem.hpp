@@ -39,12 +39,6 @@ public:
 
 	template<typename T>
 	void AddSystem(std::shared_ptr<System> system) {
-		//// Create the Systems
-		//const mask siMask = (COMP_MASK_TRANSFORMATION | COMP_MASK_VELOCITY);
-		//auto tansFormSysPtr = std::make_shared<TransformationSystem>(siMask, *GetComponentArray<TransformationComponent>(), *GetComponentArray<VelocityComponent>());
-		//_systems.insert({ GetTypeHash<TransformationSystem>(), tansFormSysPtr });
-		//// ...
-
 		_systems.insert({ GetTypeHash<T>(), system });
 	}
 
@@ -124,7 +118,7 @@ private:
 		// Notify each system that an Entity's ComponentMask changed
 		for (auto const& pair : _systems) {
 			auto const& system = pair.second;
-			auto const& systemMask = system->GetComponentMask();
+			auto const& systemMask = system->GetSystemMask();
 			// Check if the Entity's ComponentMask matches the System and add (or remove)
 			if ((entityComponentMask & systemMask) == systemMask)
 				system->AddEntity(entityId);

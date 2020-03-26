@@ -16,9 +16,10 @@ using namespace StoneCold::Resources;
 
 struct AnimationComponent {
 	const std::unordered_map<std::string, Animation>* Animations;
-	Animation* CurrentAnimation;
+	const Animation* CurrentAnimation;
 	uint32 CurrentFrameIndex;
 	uint32 TimeElapsed;
+	inline const Animation* GetAnimation(std::string name) { return &Animations->find(name)->second; }
 };
 
 struct AttributeComponentUI {
@@ -31,10 +32,6 @@ struct CollisionComponent {
 	SDL_FRect CollisionBox;
 	CollisionComponent* CollisionWith;
 	bool IsFixed;		// REMOVE
-};
-
-struct KeyboardComponent {
-	const std::vector<uint8>* KeyStates;	// FIXED use array?
 };
 
 struct SpriteComponent {
@@ -80,14 +77,16 @@ static auto ComponentMasks = std::unordered_map<hash, const mask>({
 	{ GetTypeHash<AnimationComponent>(),				0x0000000000000001 },
 	{ GetTypeHash<AttributeComponentUI>(),				0x0000000000000002 },
 	{ GetTypeHash<CollisionComponent>(),				0x0000000000000004 },
-	{ GetTypeHash<KeyboardComponent>(),					0x0000000000000008 },
-	{ GetTypeHash<SpriteComponent>(),					0x0000000000000010 },
-	{ GetTypeHash<SpriteLayeredComponent>(),			0x0000000000000020 },
-	{ GetTypeHash<TransformationComponent>(),			0x0000000000000040 },
-	{ GetTypeHash<VelocityComponent>(),					0x0000000000000080 },
-	{ GetTypeHash<ScreenPositionComponent>(),			0x0000000000000100 },
-	{ GetTypeHash<ScreenPositionLayeredComponent>(),	0x0000000000000200 }
+	{ GetTypeHash<SpriteComponent>(),					0x0000000000000008 },
+	{ GetTypeHash<SpriteLayeredComponent>(),			0x0000000000000010 },
+	{ GetTypeHash<TransformationComponent>(),			0x0000000000000020 },
+	{ GetTypeHash<VelocityComponent>(),					0x0000000000000040 },
+	{ GetTypeHash<ScreenPositionComponent>(),			0x0000000000000080 },
+	{ GetTypeHash<ScreenPositionLayeredComponent>(),	0x0000000000000100 }
 	});
+
+template<typename T>
+inline const mask GetComponentMask() { return ComponentMasks[GetTypeHash<T>()]; }
 
 }
 

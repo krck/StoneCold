@@ -10,8 +10,13 @@ namespace StoneCold::Engine {
 
 class RenderSystem : public System {
 public:
-	RenderSystem(mask componentMask, SDL_Renderer* renderer, EntityComponentArray<ScreenPositionComponent>& position, EntityComponentArray<SpriteComponent>& sprite)
-		: System(componentMask), _renderer(renderer), _positionComponents(position), _spriteComponents(sprite) { }
+	//
+	// Hardcoded System Component-Mask: 
+	// Only Entities with a ScreenPosition and Sprite Component will be rendered with this System
+	//
+	RenderSystem(SDL_Renderer* renderer, EntityComponentArray<ScreenPositionComponent>& position, EntityComponentArray<SpriteComponent>& sprite)
+		: System((GetComponentMask<ScreenPositionComponent>() | GetComponentMask<SpriteComponent>()))
+		, _renderer(renderer), _positionComponents(position), _spriteComponents(sprite) { }
 
 	RenderSystem(const RenderSystem&) = delete;
 	RenderSystem& operator=(const RenderSystem&) = delete;

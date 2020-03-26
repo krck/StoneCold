@@ -73,14 +73,39 @@ void SimulationManager::CreateGameState() {
 		_resourceManager->LoadResource<AnimationResource>(ResourceLifeTime::Game, PLAYER_ANIMATION);
 		// ...
 
+		// Create all MapTiles (Entities and default Components)
+		// to speed up loading new maps later (only Update Components)
+		auto mapTiles = std::vector<entityId>(MAP_SIZE * MAP_SIZE);
+		for (auto& mt : mapTiles) {
+			mt = gameECS->CreateEntity();
+			gameECS->AddComponent<ScreenPositionComponent>(mt, { SDL_Rect(), SDL_FRect() });
+			gameECS->AddComponent<SpriteComponent>(mt, { nullptr, SDL_RendererFlip::SDL_FLIP_NONE });
+		}
+
 		// Create all basic Entitys from the Resources, needed by the GameState
 		auto playerTexture = _resourceManager->GetResource<TextureResource>(PLAYER_TEXTURE);
 		auto playerAnimation = _resourceManager->GetResource<AnimationResource>(PLAYER_ANIMATION);
-		auto player = PlayerCharacter(gameECS, playerTexture, playerAnimation, Vec2(), Vec2(32, 32), 3, 250);
-		game->SetPlayer(std::make_unique<PlayerCharacter>(player));
-		// ...
+		auto playerDefaultAnim = &playerAnimation->Animations->find("idle")->second;
+
+		// Player dimensions
+		uint32 scale = 3;
+		auto position = Vec2();
+		auto dimension = Vec2(32, 32);
+		// Set the Source rectange frame inside the texture (Pixels to take, from the .png)
+		// Set the Destination rectangle with the actual position on screen with scaling (Where to put the Pixels)
+		SDL_Rect defaultSrcRect = { 0, 0, static_cast<int>(floorf(dimension.X * scale)), static_cast<int>(floorf(dimension.Y * scale)) };
+		SDL_FRect defaultDestRect = { position.X, position.Y, dimension.X * scale, dimension.Y * scale };
+		// Player Entity and Components
+		auto player = gameECS->CreateEntity();
+		gameECS->AddComponent<VelocityComponent>(player, { Vec2() });
+		gameECS->AddComponent<TransformationComponent>(player, { position, dimension, 250, 250, scale });
+		gameECS->AddComponent<CollisionComponent>(player, { "player", Vec2(14.f, 18.f), defaultDestRect, nullptr, false });
+		gameECS->AddComponent<AnimationComponent>(player, { playerAnimation->Animations, playerDefaultAnim, 0, 0 });
+		gameECS->AddComponent<ScreenPositionComponent>(player, { defaultSrcRect, defaultDestRect });
+		gameECS->AddComponent<SpriteComponent>(player, { playerTexture->GetTextureSDL(), SDL_RendererFlip::SDL_FLIP_NONE });
 
 		// Finally add the new GameState to the Engines States
+		game->SetEntities(player, mapTiles);
 		_engine->AddState<GameState>(game);
 	}
 	catch (const std::exception & ex) {
@@ -150,6 +175,7 @@ void SimulationManager::LoadLevel() {
 		if (_engine->HasState<GameState>()) {
 			auto gameState = _engine->GetState<GameState>();
 			auto gameECS = gameState->GetECS();
+			auto mapTiles = gameState->GetMapTiles();
 
 			// Get a new, randomly generated Map Texture
 			const auto levelType = (LevelType)(rand() % 5 + 0);
@@ -164,47 +190,52 @@ void SimulationManager::LoadLevel() {
 				{ 0.95f, 0.2f }	 // 3) FLAT: Map with one massive, open space, smoothe-ish edges and no corridors/obstacles
 			};
 
-			// Grassland and Arctic can be FLAT or MIXED
+			// Grassland and Arctic can be FLAT or MIXED, Highlands or Desert can be ROCKY or MIXED, Castle can only be ROCKY
 			if (levelType == LevelType::Grassland || levelType == LevelType::Arctic) { pattern = mapPatterns[(rand() & 1) + 1]; }
-			// Highlands or Desert can be ROCKY or MIXED
 			else if (levelType == LevelType::Highlands || levelType == LevelType::Desert) { pattern = mapPatterns[(rand() & 1)]; }
-			// Castle can only be ROCKY (default)
 			else { pattern = mapPatterns[0]; }
 
-			// Get a new, randomly generated Map Layout
-			auto mapLayout = _mapManager.GenerateMap(Vec2i(70, 70), pattern.first, pattern.second);
+			// Get a new, procedurally generated Map Layout
+			auto mapLayout = _mapManager.GenerateMap(Vec2i(MAP_SIZE, MAP_SIZE), pattern.first, pattern.second);
 			auto spawnPos = _mapManager.GetStartEndPositions().first;
 			auto texture = _resourceManager->GetResource<TextureResource>(texturePath);
 
 			// Create the actual MapTiles, based on the Layout and the loaded MapTexture
-			auto mapObjects = std::vector<std::shared_ptr<Entity>>();
+			auto& _positionComponents = *gameECS->GetComponentArray<ScreenPositionComponent>();
+			auto& _spriteComponents = *gameECS->GetComponentArray<SpriteComponent>();
 			for (uint64 row = 0; row < mapLayout.size(); row++) {
 				for (uint64 column = 0; column < mapLayout[row].size(); column++) {
 					// Map tile position based on row/column within the mapLayout
 					const auto type = mapFrames.find(mapLayout[row][column]);
 					const auto frame = type->second;
+					// Get the Entity and its Components
+					const auto entityId = mapTiles[row * MAP_SIZE + column];
+					auto& pos = _positionComponents[entityId];
+					auto& spr = _spriteComponents[entityId];
 
-					// Set the Source rectange frame inside the texture (Pixels to take, from the .png)
-					SDL_Rect src = frame.first;
-					// Set the Destination rectangle with the actual position on screen with scaling (Where to put the Pixels)
-					SDL_FRect dest = { column * 96.f, row * 96.f, static_cast<float>(src.w * 3), static_cast<float>(src.h * 3) };
+					// Update the Source rectange frame inside the texture (Pixels to take, from the .png)
+					// Update the Destination rectangle with the actual position on screen with scaling (Where to put the Pixels)
+					pos.SrcRect = frame.first;
+					pos.DestRect = { column * 96.f, row * 96.f, static_cast<float>(pos.SrcRect.w * 3), static_cast<float>(pos.SrcRect.h * 3) };
+					// Update the MapTile Texture (and texture flip)
+					spr.Texture = texture->GetTextureSDL();
+					spr.Flip = frame.second;
 
-					auto mapTileEntity = gameECS->CreateEntity();
-					gameECS->AddComponent<ScreenPositionComponent>(mapTileEntity, { src, dest });
-					gameECS->AddComponent<SpriteComponent>(mapTileEntity, { texture->GetTextureSDL(), frame.second });
 					// Add the CollisionComponent in case its a Wall-Tile
-					if (static_cast<int>(type->first) > static_cast<int>(MapTileTypes::Floor_Shadow))
-						gameECS->AddComponent<CollisionComponent>(mapTileEntity, { "wall", Vec2(), dest, nullptr, true });
+					//if (static_cast<int>(type->first) > static_cast<int>(MapTileTypes::Floor_Shadow))
+					//	gameECS->AddComponent<CollisionComponent>(entityId, { "wall", Vec2(), pos.DestRect, nullptr, true });
+					//else
+					//	gameECS->RemoveComponent<CollisionComponent>(entityId);
 				}
 			}
 
 			// ...
 
-			// Finally update the Engines GameState with the newly created Level
-			gameState->SetLevel(std::move(mapObjects), std::vector<std::shared_ptr<Entity>>(), { spawnPos.X * 96, spawnPos.Y * 96 });
+			// Set Players new spawn position within the Level
+			gameState->SetSpawnPosition({ spawnPos.X * 96, spawnPos.Y * 96 });
 		}
 	}
 	catch (const std::exception & ex) {
-		std::cout << "Loading the Game failed:\n" << ex.what() << std::endl;
+		std::cout << "Loading the Level failed:\n" << ex.what() << std::endl;
 	}
 }

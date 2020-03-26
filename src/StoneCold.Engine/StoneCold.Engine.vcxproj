@@ -175,6 +175,7 @@
     <ClInclude Include="MenuState.hpp" />
     <ClInclude Include="EngineCore.hpp" />
     <ClInclude Include="RenderSystem.hpp" />
+    <ClInclude Include="ScreenPositionSystem.hpp" />
     <ClInclude Include="State.hpp" />
     <ClInclude Include="System.hpp" />
     <ClInclude Include="TransformationSystem.hpp" />

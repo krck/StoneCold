@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Managers">
-      <UniqueIdentifier>{a1b4e741-00ca-47b9-9540-a46f3785e16f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="States">
       <UniqueIdentifier>{f705c335-f0f5-4f97-9b0a-46218b871260}</UniqueIdentifier>
     </Filter>
@@ -16,9 +13,6 @@
     </Filter>
     <Filter Include="ECS\Systems">
       <UniqueIdentifier>{9ad92817-5025-4d69-bd85-d11e1c4f5577}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ECS\Components">
-      <UniqueIdentifier>{d54d844e-8f05-4bec-bc63-8146c5594e56}</UniqueIdentifier>
     </Filter>
     <Filter Include="ECS\Entity">
       <UniqueIdentifier>{25b58587-b65b-4c38-8491-bcf00cbe0c5d}</UniqueIdentifier>
@@ -37,9 +31,6 @@
     <ClInclude Include="MenuState.hpp">
       <Filter>States</Filter>
     </ClInclude>
-    <ClInclude Include="EventManager.hpp">
-      <Filter>Managers</Filter>
-    </ClInclude>
     <ClInclude Include="State.hpp">
       <Filter>States</Filter>
     </ClInclude>
@@ -49,14 +40,8 @@
     <ClInclude Include="System.hpp">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="EntityComponentSystem.hpp">
-      <Filter>ECS</Filter>
-    </ClInclude>
     <ClInclude Include="TransformationSystem.hpp">
       <Filter>ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Components.hpp">
-      <Filter>ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="Entity.hpp">
       <Filter>ECS\Entity</Filter>
@@ -65,6 +50,18 @@
       <Filter>ECS\Systems</Filter>
     </ClInclude>
     <ClInclude Include="RenderSystem.hpp">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Components.hpp">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityComponentSystem.hpp">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenPositionSystem.hpp">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
   </ItemGroup>
