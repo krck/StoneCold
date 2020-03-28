@@ -49,9 +49,6 @@
     <ClInclude Include="CollisionDetectionSystem.hpp">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="RenderSystem.hpp">
-      <Filter>ECS\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager.hpp">
       <Filter>Core</Filter>
     </ClInclude>
@@ -61,7 +58,19 @@
     <ClInclude Include="EntityComponentSystem.hpp">
       <Filter>ECS</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationSystem.hpp">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
     <ClInclude Include="ScreenPositionSystem.hpp">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticRenderSystem.hpp">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="MotionRenderSystem.hpp">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionResolutionSystem.hpp">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
   </ItemGroup>

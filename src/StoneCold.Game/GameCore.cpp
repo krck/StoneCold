@@ -112,7 +112,8 @@ int GameCore::Run() {
 			frameTimes[frameCount] = frameTime;
 			frameCount++;
 			if (frameCount == frameTimeSize) {
-				frameCount = averageFPS = 0;
+				frameCount = 0;
+				averageFPS = 0.f;
 				if (printFPS) {
 					// In case it should be visible: Calculate and print the average FPS
 					for (size_t i = 0; i < frameTimeSize; i++) {

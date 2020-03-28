@@ -8,31 +8,34 @@
 
 namespace StoneCold::Engine {
 
-//
-// Collision System
-//
-// Detects simple 2d collisions between Entitys (with CollisionComponents) and
-// updates the affected CollisionComponents with a ptr to the object that was hit
-//
 class CollisionDetectionSystem : public System {
 public:
-	CollisionDetectionSystem(mask componentMask, EntityComponentArray<CollisionComponent>& collisions)
-		: System(componentMask), _collisionComponents(collisions) { }
+	//
+	// Hardcoded System Component-Mask: 
+	// Only Entities with a Collision Component will be updated with this System
+	//
+	CollisionDetectionSystem(EntityComponentArray<CollisionComponent>& collisions)
+		: System((GetComponentMask<CollisionComponent>())), _collisionComponents(collisions) { }
 
 	CollisionDetectionSystem(const CollisionDetectionSystem&) = delete;
 	CollisionDetectionSystem& operator=(const CollisionDetectionSystem&) = delete;
 
 	virtual void Update(uint32 frameTime) override {
-		for (const auto& entityId : _entities) {
+		auto collisionComps = std::vector<CollisionComponent*>();
+		collisionComps.reserve(_entities.size());
+		for (const auto& e : _entities) {
+			collisionComps.push_back(&_collisionComponents[e]);
+		}
+
+		for (auto c_o : collisionComps) {
+			c_o->CollisionWith = nullptr;
 			// Check all Entitys with CollisionComponents against each other
-			//ccMain->CollisionWith = nullptr;
-			//for (auto ccCheck : collidableObjects) {
-			//	// Update the CollisionWith ptr, in case both objects had a collision (two fixed object will never)
-			//	if (ccMain != ccCheck && !(ccMain->IsFixed && ccCheck->IsFixed)
-			//		&& CalculateAABB(ccMain->CollisionBox, ccCheck->CollisionBox)) {
-			//		ccMain->CollisionWith = ccCheck;
-			//	}
-			//}
+			for (auto c_i : collisionComps) {
+				// Update the CollisionWith ptr, in case both objects had a collision (two fixed object will never)
+				if (c_o->Tag != c_i->Tag && CalculateAABB(c_o->CollisionBox, c_i->CollisionBox)) {
+					c_o->CollisionWith = c_i;
+				}
+			}
 		}
 	}
 
@@ -41,7 +44,7 @@ private:
 	// Check the Axis-Aligned Bounding Boxes for overlap
 	// Aka. AABB collision. Aka. simplest you can get
 	//
-	bool CalculateAABB(const SDL_FRect& recA, const SDL_FRect& recB) const {
+	inline bool CalculateAABB(const SDL_FRect& recA, const SDL_FRect& recB) const {
 		return (recA.x + recA.w >= recB.x
 			&& recB.x + recB.w >= recA.x
 			&& recA.y + recA.h >= recB.y

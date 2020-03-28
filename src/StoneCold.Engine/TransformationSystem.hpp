@@ -12,11 +12,11 @@ class TransformationSystem : public System {
 public:
 	//
 	// Hardcoded System Component-Mask: 
-	// Only Entities with a Transformation and Velocity Component will be updated with this System
+	// Only Entities with a Transformation, Velocity and Collision Component will be updated with this System
 	//
-	TransformationSystem(EntityComponentArray<TransformationComponent>& transf, EntityComponentArray<VelocityComponent>& velocity)
-		: System((GetComponentMask<TransformationComponent>() | GetComponentMask<VelocityComponent>()))
-		, _transformComponents(transf), _velocityComponents(velocity) { }
+	TransformationSystem(EntityComponentArray<TransformationComponent>& transf, EntityComponentArray<VelocityComponent>& velocity, EntityComponentArray<CollisionComponent>& collisions)
+		: System((GetComponentMask<TransformationComponent>() | GetComponentMask<VelocityComponent>() | GetComponentMask<CollisionComponent>()))
+		, _transformComponents(transf), _velocityComponents(velocity), _collisionComponents(collisions) { }
 
 	TransformationSystem(const TransformationSystem&) = delete;
 	TransformationSystem& operator=(const TransformationSystem&) = delete;
@@ -29,43 +29,33 @@ public:
 		for (const auto& entityId : _entities) {
 			auto& t = _transformComponents[entityId];
 			auto& v = _velocityComponents[entityId];
+			auto& c = _collisionComponents[entityId];
 
 			// Normalize the velocity in case of diagonal movement
 			// FIND SOME WAY TO DO THIS WITHOUT IF TO NOT DISTURB THE CACHE, OUR LORD AND SAVIOR
 			if (v.Velocity.X != 0 || v.Velocity.Y != 0)
 				v.Velocity.normalize();
 
-			//	// Update the position and round down to the next int
-			t.Position.X += (v.Velocity.X * deltaSec) * t.Speed;
-			t.Position.Y += (v.Velocity.Y * deltaSec) * t.Speed;
+			// Update the position and round down to the next int
+			t.CurrentDelta.X = (v.Velocity.X * deltaSec) * t.Speed;
+			t.CurrentDelta.Y = (v.Velocity.Y * deltaSec) * t.Speed;
+			t.Position.X += t.CurrentDelta.X;
+			t.Position.Y += t.CurrentDelta.Y;
 
-			// Update the Position, either with automatic values in case 
-			// of a collision, or based on the manual input (Velocity)
-			//if (_collisionComponent != nullptr && _collisionComponent->HasCollision()) {
-			//	auto recA = _collisionComponent->CollisionBox;
-			//	auto recB = _collisionComponent->CollisionWith->CollisionBox;
-
-			//	// Get the edge thats overlapping (positive or negative direction)
-			//	bool dxP = (recA.x + recA.w - recB.x) < 10.f;
-			//	bool dxN = (recB.x + recB.w - recA.x) < 10.f;
-			//	bool dyP = (recA.y + recA.h - recB.y) < 10.f;
-			//	bool dyN = (recB.y + recB.h - recA.y) < 10.f;
-
-			//	// Step the overlapping Axis 1 pixel away, in the opposite direction
-			//	Position.X += (dxN + (dxP * -1));
-			//	Position.Y += (dyN + (dyP * -1));
-			//}
-			//else {
-			//	// Update the position and round down to the next int
-			//	Position.X += (Velocity.X * deltaSec) * Speed;
-			//	Position.Y += (Velocity.Y * deltaSec) * Speed;
-			//}
+			// Calculate the new CollisionBox based on the Hitbox and Position (Only works with smaller Hitboxes)
+			c.CollisionBox = {
+				(t.Position.X + (floorf((t.Dimension.X - c.Hitbox.X) * t.Scale) / 2.f)),
+				(t.Position.Y + (floorf((t.Dimension.Y - c.Hitbox.Y) * t.Scale) / 2.f)),
+				c.Hitbox.X * t.Scale,
+				c.Hitbox.Y * t.Scale
+			};
 		}
 	}
 
 private:
 	EntityComponentArray<TransformationComponent>& _transformComponents;
 	EntityComponentArray<VelocityComponent>& _velocityComponents;
+	EntityComponentArray<CollisionComponent>& _collisionComponents;
 };
 
 }

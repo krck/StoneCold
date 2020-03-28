@@ -18,8 +18,14 @@ struct AnimationComponent {
 	const std::unordered_map<std::string, Animation>* Animations;
 	const Animation* CurrentAnimation;
 	uint32 CurrentFrameIndex;
-	uint32 TimeElapsed;
-	inline const Animation* GetAnimation(std::string name) { return &Animations->find(name)->second; }
+	inline const Animation* GetAnimation(std::string name) {
+		auto anim = &Animations->find(name)->second;
+		// Reset the FrameIndex if the requested FrameCount is lower
+		if (CurrentFrameIndex > anim->FrameCount)
+			CurrentFrameIndex = 0;
+
+		return anim;
+	}
 };
 
 struct AttributeComponentUI {
@@ -27,11 +33,11 @@ struct AttributeComponentUI {
 };
 
 struct CollisionComponent {
-	std::string Tag;	// USE ENUM TYPE
+	int Tag;	// USE ENUM TYPE
 	Vec2 Hitbox;
 	SDL_FRect CollisionBox;
 	CollisionComponent* CollisionWith;
-	bool IsFixed;		// REMOVE
+	//bool IsFixed;		// REMOVE
 };
 
 struct SpriteComponent {
@@ -48,6 +54,7 @@ struct SpriteLayeredComponent {
 
 struct TransformationComponent {
 	Vec2 Position;
+	Vec2 CurrentDelta;
 	Vec2 Dimension;
 	uint32 BaseSpeed;
 	uint32 Speed;
@@ -87,6 +94,15 @@ static auto ComponentMasks = std::unordered_map<hash, const mask>({
 
 template<typename T>
 inline const mask GetComponentMask() { return ComponentMasks[GetTypeHash<T>()]; }
+
+//
+// System (Bit-)Masks
+//
+// Workaround to set a additional Entity mask without a specific Component 
+// (adding a Component always means adding a full Array of n Components)
+//
+static const mask RENDER_MOTION = 0x4000000000000000;
+static const mask RENDER_STATIC = 0x8000000000000000;
 
 }
 

@@ -165,7 +165,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\StoneCold.Base\EntityComponentArray.hpp" />
+    <ClInclude Include="AnimationSystem.hpp" />
     <ClInclude Include="CollisionDetectionSystem.hpp" />
+    <ClInclude Include="CollisionResolutionSystem.hpp" />
     <ClInclude Include="Components.hpp" />
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="EntityComponentSystem.hpp" />
@@ -174,7 +176,8 @@
     <ClInclude Include="IntroState.hpp" />
     <ClInclude Include="MenuState.hpp" />
     <ClInclude Include="EngineCore.hpp" />
-    <ClInclude Include="RenderSystem.hpp" />
+    <ClInclude Include="MotionRenderSystem.hpp" />
+    <ClInclude Include="StaticRenderSystem.hpp" />
     <ClInclude Include="ScreenPositionSystem.hpp" />
     <ClInclude Include="State.hpp" />
     <ClInclude Include="System.hpp" />

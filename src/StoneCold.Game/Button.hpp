@@ -27,8 +27,8 @@ public:
 		// Add the Button Components (Trans, Moving and Animation are the construct for switching Hover/Non-Hover
 		// The SpriteComponentFixed is used to display the content (Text, Image, ...) within the Button 
 		auto flip = SDL_RendererFlip::SDL_FLIP_NONE;
-		AddComponent<CollisionComponent>({ "button", Vec2(destRect.w, destRect.h), destRect, nullptr, true });
-		AddComponent<AnimationComponent>({ _animation->Animations, nullptr, 0, 0 });
+		AddComponent<CollisionComponent>({ 3, Vec2(destRect.w, destRect.h), destRect, nullptr });
+		AddComponent<AnimationComponent>({ _animation->Animations, nullptr, 0 });
 		AddComponent<ScreenPositionLayeredComponent>({ SDL_Rect(), destRect, contentSrc, contentDest });
 		AddComponent<SpriteLayeredComponent>({ buttonTex->GetTextureSDL(), flip, contentTex->GetTextureSDL(), flip });
 	}

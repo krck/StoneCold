@@ -87,6 +87,15 @@ public:
 	}
 
 	//
+	// Workaround to set a additional Entity mask without a specific Component 
+	// (adding a Component always means adding a full Array of n Components)
+	//
+	void AddAdditionalSystemMask(entityId entityId, mask additionalMask) {
+		_entityComponents[entityId] |= additionalMask;
+		UpdateSystems(entityId, _entityComponents[entityId]);
+	}
+
+	//
 	// Get the statically casted pointer to the ComponentArray of type T
 	//
 	template<typename T>

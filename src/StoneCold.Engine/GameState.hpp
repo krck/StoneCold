@@ -7,9 +7,13 @@
 #include "Settings.hpp"
 #include "EngineCore.hpp"
 #include "EventManager.hpp"
+#include "AnimationSystem.hpp"
 #include "TransformationSystem.hpp"
+#include "CollisionDetectionSystem.hpp"
+#include "CollisionResolutionSystem.hpp"
 #include "ScreenPositionSystem.hpp"
-#include "RenderSystem.hpp"
+#include "StaticRenderSystem.hpp"
+#include "MotionRenderSystem.hpp"
 
 namespace StoneCold::Engine {
 
@@ -36,15 +40,19 @@ public:
 private:
 	EventManager& _eventManager;
 	SDL_FRect _camera;
-	
+
 	// EntityId's for fast access
 	entityId _player;
 	std::vector<entityId> _mapTiles;
 
 	// System ptrs for fast access
+	std::shared_ptr<AnimationSystem> _animationSystem;
 	std::shared_ptr<TransformationSystem> _transformationSystem;
+	std::shared_ptr<CollisionDetectionSystem> _collisionDetectionSystem;
+	std::shared_ptr<CollisionResolutionSystem> _collisionResolutionSystem;
 	std::shared_ptr<ScreenPositionSystem> _screenPositionSystem;
-	std::shared_ptr<RenderSystem> _renderSystem;
+	std::shared_ptr<StaticRenderSystem> _staticRenderSystem;
+	std::shared_ptr<MotionRenderSystem> _motionRenderSystem;
 };
 
 }

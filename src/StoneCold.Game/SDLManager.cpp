@@ -57,7 +57,7 @@ void SDLManager::CreateWindow() {
 //
 void SDLManager::SetupSDL() {
 	// Create the Renderer to draw within the Window (-1 for default Window driver)
-	auto flags = (SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	auto flags = (SDL_RENDERER_ACCELERATED /*| SDL_RENDERER_PRESENTVSYNC*/);
 	auto tmpRend = std::unique_ptr<SDL_Renderer, SDL_RendererDeleter>(SDL_CreateRenderer(_window.get(), -1, flags));
 	_renderer.swap(tmpRend);
 

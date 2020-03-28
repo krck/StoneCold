@@ -78,6 +78,7 @@ void SimulationManager::CreateGameState() {
 		auto mapTiles = std::vector<entityId>(MAP_SIZE * MAP_SIZE);
 		for (auto& mt : mapTiles) {
 			mt = gameECS->CreateEntity();
+			gameECS->AddAdditionalSystemMask(mt, RENDER_STATIC);
 			gameECS->AddComponent<ScreenPositionComponent>(mt, { SDL_Rect(), SDL_FRect() });
 			gameECS->AddComponent<SpriteComponent>(mt, { nullptr, SDL_RendererFlip::SDL_FLIP_NONE });
 		}
@@ -93,14 +94,15 @@ void SimulationManager::CreateGameState() {
 		auto dimension = Vec2(32, 32);
 		// Set the Source rectange frame inside the texture (Pixels to take, from the .png)
 		// Set the Destination rectangle with the actual position on screen with scaling (Where to put the Pixels)
-		SDL_Rect defaultSrcRect = { 0, 0, static_cast<int>(floorf(dimension.X * scale)), static_cast<int>(floorf(dimension.Y * scale)) };
+		SDL_Rect defaultSrcRect = { 0, 0, static_cast<int>(dimension.X), static_cast<int>(dimension.Y) };
 		SDL_FRect defaultDestRect = { position.X, position.Y, dimension.X * scale, dimension.Y * scale };
 		// Player Entity and Components
 		auto player = gameECS->CreateEntity();
+		gameECS->AddAdditionalSystemMask(player, RENDER_MOTION);
 		gameECS->AddComponent<VelocityComponent>(player, { Vec2() });
-		gameECS->AddComponent<TransformationComponent>(player, { position, dimension, 250, 250, scale });
-		gameECS->AddComponent<CollisionComponent>(player, { "player", Vec2(14.f, 18.f), defaultDestRect, nullptr, false });
-		gameECS->AddComponent<AnimationComponent>(player, { playerAnimation->Animations, playerDefaultAnim, 0, 0 });
+		gameECS->AddComponent<TransformationComponent>(player, { position, Vec2(), dimension, 250, 250, scale });
+		gameECS->AddComponent<CollisionComponent>(player, { 1, Vec2(14.f, 18.f), defaultDestRect, nullptr });
+		gameECS->AddComponent<AnimationComponent>(player, { playerAnimation->Animations, playerDefaultAnim, 0 });
 		gameECS->AddComponent<ScreenPositionComponent>(player, { defaultSrcRect, defaultDestRect });
 		gameECS->AddComponent<SpriteComponent>(player, { playerTexture->GetTextureSDL(), SDL_RendererFlip::SDL_FLIP_NONE });
 
@@ -222,10 +224,10 @@ void SimulationManager::LoadLevel() {
 					spr.Flip = frame.second;
 
 					// Add the CollisionComponent in case its a Wall-Tile
-					//if (static_cast<int>(type->first) > static_cast<int>(MapTileTypes::Floor_Shadow))
-					//	gameECS->AddComponent<CollisionComponent>(entityId, { "wall", Vec2(), pos.DestRect, nullptr, true });
-					//else
-					//	gameECS->RemoveComponent<CollisionComponent>(entityId);
+					if (static_cast<int>(type->first) > static_cast<int>(MapTileTypes::Floor_Shadow))
+						gameECS->AddComponent<CollisionComponent>(entityId, { 2, Vec2(pos.DestRect.w, pos.DestRect.h), pos.DestRect, nullptr });
+					else
+						gameECS->RemoveComponent<CollisionComponent>(entityId);
 				}
 			}
 

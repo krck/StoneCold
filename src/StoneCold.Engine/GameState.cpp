@@ -8,29 +8,46 @@ GameState::GameState(uint16 maxEntities, SDL_Renderer* renderer, EngineCore* eng
 	: State(maxEntities, renderer, engine)
 	, _eventManager(EventManager::GetInstance())
 	, _mapTiles(std::vector<entityId>())
+	, _animationSystem(nullptr)
 	, _transformationSystem(nullptr)
+	, _collisionDetectionSystem(nullptr)
+	, _collisionResolutionSystem(nullptr)
 	, _screenPositionSystem(nullptr)
-	, _renderSystem(nullptr)
+	, _staticRenderSystem(nullptr)
+	, _motionRenderSystem(nullptr)
 	, _player(0)
 	, _camera({ 0.f, 0.f, (float)WINDOW_SIZE_WIDTH, (float)WINDOW_SIZE_HEIGHT }) { }
 
 
 void GameState::Initialize() {
+	auto animArrayPtr = _ecs.GetComponentArray<AnimationComponent>();
+	auto collArrayPtr = _ecs.GetComponentArray<CollisionComponent>();
 	auto transArrayPtr = _ecs.GetComponentArray<TransformationComponent>();
 	auto velArrayPtr = _ecs.GetComponentArray<VelocityComponent>();
 	auto posArrayPtr = _ecs.GetComponentArray<ScreenPositionComponent>();
 	auto sprArrayPtr = _ecs.GetComponentArray<SpriteComponent>();
 
+	// Create and add the Animation System
+	_animationSystem = std::make_shared<AnimationSystem>(*animArrayPtr, *posArrayPtr);
+	_ecs.AddSystem<AnimationSystem>(_animationSystem);
 	// Create and add the Transformation System
-	_transformationSystem = std::make_shared<TransformationSystem>(*transArrayPtr, *velArrayPtr);
+	_transformationSystem = std::make_shared<TransformationSystem>(*transArrayPtr, *velArrayPtr, *collArrayPtr);
 	_ecs.AddSystem<TransformationSystem>(_transformationSystem);
+	// Create and add the Collision-Detection System
+	_collisionDetectionSystem = std::make_shared<CollisionDetectionSystem>(*collArrayPtr);
+	_ecs.AddSystem<CollisionDetectionSystem>(_collisionDetectionSystem);
+	// Create and add the Collision-Resolution System
+	_collisionResolutionSystem = std::make_shared<CollisionResolutionSystem>(*collArrayPtr, *transArrayPtr);
+	_ecs.AddSystem<CollisionResolutionSystem>(_collisionResolutionSystem);
 	// Create and add the Screen-Position System
 	_screenPositionSystem = std::make_shared<ScreenPositionSystem>(*transArrayPtr, *posArrayPtr);
 	_ecs.AddSystem<ScreenPositionSystem>(_screenPositionSystem);
-	// Create and add the Render System
-	_renderSystem = std::make_shared<RenderSystem>(_renderer, *posArrayPtr, *sprArrayPtr);
-	_ecs.AddSystem<RenderSystem>(_renderSystem);
-	// ...
+	// Create and add the static Render System
+	_staticRenderSystem = std::make_shared<StaticRenderSystem>(_renderer, *posArrayPtr, *sprArrayPtr);
+	_ecs.AddSystem<StaticRenderSystem>(_staticRenderSystem);
+	// Create and add the motion Render System
+	_motionRenderSystem = std::make_shared<MotionRenderSystem>(_renderer, *posArrayPtr, *velArrayPtr, *sprArrayPtr);
+	_ecs.AddSystem<MotionRenderSystem>(_motionRenderSystem);
 }
 
 
@@ -69,33 +86,29 @@ void GameState::HandleInputEvent(const std::vector<uint8>& keyStates) {
 
 
 void GameState::Update(uint32 frameTime) {
-	// Now check for possible collisions
-	//_collisionManager.UpdateCollisions(_collidableObjects);
-
-	// Update/Move all objects
+	// Animate and Move all objects
+	_animationSystem->Update(frameTime);
 	_transformationSystem->Update(frameTime);
+	// Now check for possible collisions
+	_collisionDetectionSystem->Update(frameTime);
+	_collisionResolutionSystem->Update(frameTime);
+	// Finally set the Position where objects should be rendered
 	_screenPositionSystem->Update(frameTime);
 
 	// Center the camera over the Player
 	auto& t = _ecs.GetComponentArray<TransformationComponent>()->at(_player);
-	_camera.x = t.Position.X - (WINDOW_SIZE_WIDTH / 2.f);
-	_camera.y = t.Position.Y - (WINDOW_SIZE_HEIGHT / 2.f);
-
-	// Keep the camera in bounds (or not?)
-	//if (_camera.x < 0) _camera.x = 0;
-	//if (_camera.y < 0) _camera.y = 0;
-	//if (_camera.x > _camera.w) _camera.x = _camera.w;
-	//if (_camera.y > _camera.h) _camera.y = _camera.h;
+	_camera.x = (t.Position.X + ((t.Dimension.X * t.Scale) / 2.f)) - (WINDOW_SIZE_WIDTH / 2.f);
+	_camera.y = (t.Position.Y + ((t.Dimension.Y * t.Scale) / 2.f)) - (WINDOW_SIZE_HEIGHT / 2.f);
 }
 
 
 void GameState::Render() {
-	_renderSystem->Render(_camera);
-
-	// First: Render any MapTile batched by Texture hash
-	// Second: Render any Entity (NPC, ...) batched by Texture hash
-	// Third: Render the Player
-	// Last: Render the GUI (always top Layer)
+	// First: Render all static sprites (MapTiles)
+	_staticRenderSystem->Render(_camera);
+	// Second: Render all moving sprites (Player, NPCs, ...)
+	_motionRenderSystem->Render(_camera);
+	// Third: Render the GUI (always top Layer)
+	// ...
 }
 
 
