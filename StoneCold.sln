@@ -3,20 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StoneCold.Game", "StoneCold.Game\StoneCold.Game.vcxproj", "{C63BDA5C-17C8-454A-B7F9-B5C80B669795}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StoneCold.Game", "src\StoneCold.Game\StoneCold.Game.vcxproj", "{C63BDA5C-17C8-454A-B7F9-B5C80B669795}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CE856C7E-F830-4B64-8B96-FC44427E761A}"
 	ProjectSection(SolutionItems) = preProject
-		..\.gitignore = ..\.gitignore
-		..\LICENSE = ..\LICENSE
-		..\README.md = ..\README.md
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StoneCold.Engine", "StoneCold.Engine\StoneCold.Engine.vcxproj", "{537F76E9-C2B7-4A22-BB86-19F27D27430F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StoneCold.Engine", "src\StoneCold.Engine\StoneCold.Engine.vcxproj", "{537F76E9-C2B7-4A22-BB86-19F27D27430F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StoneCold.Resources", "StoneCold.Resources\StoneCold.Resources.vcxproj", "{0D6860A7-7161-4CF1-96BD-BFAD37F63107}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StoneCold.Resources", "src\StoneCold.Resources\StoneCold.Resources.vcxproj", "{0D6860A7-7161-4CF1-96BD-BFAD37F63107}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StoneCold.Base", "StoneCold.Base\StoneCold.Base.vcxproj", "{40DDAEAF-1755-42E0-90C8-9BC81C9DFE22}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StoneCold.Base", "src\StoneCold.Base\StoneCold.Base.vcxproj", "{40DDAEAF-1755-42E0-90C8-9BC81C9DFE22}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StoneCold.Tests", "src\StoneCold.Tests\StoneCold.Tests.vcxproj", "{F3D0F495-5C13-4879-A6F7-73ECFAA02994}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +60,14 @@ Global
 		{40DDAEAF-1755-42E0-90C8-9BC81C9DFE22}.Release|x64.Build.0 = Release|x64
 		{40DDAEAF-1755-42E0-90C8-9BC81C9DFE22}.Release|x86.ActiveCfg = Release|Win32
 		{40DDAEAF-1755-42E0-90C8-9BC81C9DFE22}.Release|x86.Build.0 = Release|Win32
+		{F3D0F495-5C13-4879-A6F7-73ECFAA02994}.Debug|x64.ActiveCfg = Debug|x64
+		{F3D0F495-5C13-4879-A6F7-73ECFAA02994}.Debug|x64.Build.0 = Debug|x64
+		{F3D0F495-5C13-4879-A6F7-73ECFAA02994}.Debug|x86.ActiveCfg = Debug|Win32
+		{F3D0F495-5C13-4879-A6F7-73ECFAA02994}.Debug|x86.Build.0 = Debug|Win32
+		{F3D0F495-5C13-4879-A6F7-73ECFAA02994}.Release|x64.ActiveCfg = Release|x64
+		{F3D0F495-5C13-4879-A6F7-73ECFAA02994}.Release|x64.Build.0 = Release|x64
+		{F3D0F495-5C13-4879-A6F7-73ECFAA02994}.Release|x86.ActiveCfg = Release|Win32
+		{F3D0F495-5C13-4879-A6F7-73ECFAA02994}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

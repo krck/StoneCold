@@ -5,13 +5,13 @@ using namespace StoneCold;
 using namespace StoneCold::Game;
 
 
-const std::vector<std::vector<MapTileTypes>>& MapManager::GenerateMap(Vec2i size) {
+const std::vector<std::vector<MapTileTypes>>& MapManager::GenerateMap(Vec2i size, float randomDirValue, float randomUpdateValue) {
 	// Set _grid size and create a _grid with empty spaces and reset the _walkers
 	_mapSize = size;
 	_grid = std::vector<std::vector<MapTileTypes>>(_mapSize.X, std::vector<MapTileTypes>(_mapSize.Y, MapTileTypes::Top_Default));
 	_walkers = std::vector<Walker>();
 
-	CreateFloor();
+	CreateFloor(randomDirValue, randomUpdateValue);
 	CreateWalls();
 	SetFinalMapTiles();
 
@@ -19,7 +19,8 @@ const std::vector<std::vector<MapTileTypes>>& MapManager::GenerateMap(Vec2i size
 }
 
 
-void MapManager::CreateFloor() {
+void MapManager::CreateFloor(float chanceWalkerChangeDir, float chanceWalkerUpdate) {
+	const auto mapCenter = Vec2i((_mapSize.X / 2), (_mapSize.Y / 2));
 	// Setup the random directions to pick from
 	const std::vector<Vec2i> directions = {
 		Vec2i(0, -1),	// down
@@ -31,7 +32,7 @@ void MapManager::CreateFloor() {
 	// Create and add the first walker (spawn in the center)
 	auto newWalker = Walker();
 	newWalker.dir = directions[(rand() % 4 + 1) - 1];
-	newWalker.pos = Vec2i((_mapSize.X / 2), (_mapSize.Y / 2));
+	newWalker.pos = mapCenter;
 	_walkers.push_back(newWalker);
 
 	float random = 0.f;
@@ -39,7 +40,7 @@ void MapManager::CreateFloor() {
 	for (int iterations = 0; iterations < 100000; iterations++) {
 		// Random chance: Destroy a Walker (Only if its not the only one, and at a low chance)
 		random = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-		if (random < _chanceWalkerUpdate && _walkers.size() > 1) {
+		if (random < chanceWalkerUpdate && _walkers.size() > 1) {
 			remove_at(_walkers, (rand() % ((_walkers.size() - 1) + 0)));
 		}
 
@@ -47,16 +48,16 @@ void MapManager::CreateFloor() {
 		for (auto& walker : _walkers) {
 			// Random chance: Walker picks a new direction
 			random = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-			if (random < _chanceWalkerChangeDir)
+			if (random < chanceWalkerChangeDir)
 				walker.dir = directions[(rand() % 4 + 1) - 1];
 
 			// Update the position, based on the direction
 			walker.pos.X += walker.dir.X;
 			walker.pos.Y += walker.dir.Y;
 			// Avoid the boarder of the _grid
-			// Clamp x,y to leave at least 1 space to the boarder (Room for walls)
-			walker.pos.X = std::clamp<uint>(walker.pos.X, 7, _mapSize.X - 8);
-			walker.pos.Y = std::clamp<uint>(walker.pos.Y, 7, _mapSize.Y - 8);
+			// Clamp x,y to leave space to the boarder (7 Tiles) and if it hits that threshold: Reset to the center of the map
+			walker.pos.X = (std::clamp<uint32>(walker.pos.X, 7, _mapSize.X - 8) != walker.pos.X ? mapCenter.X : walker.pos.X);
+			walker.pos.Y = (std::clamp<uint32>(walker.pos.Y, 7, _mapSize.Y - 8) != walker.pos.Y ? mapCenter.Y : walker.pos.Y);
 
 			// Create a Floor at the position of every walker, if there is non already
 			if (_grid[walker.pos.X][walker.pos.Y] != MapTileTypes::Floor_Default) {
@@ -67,7 +68,7 @@ void MapManager::CreateFloor() {
 
 		// Random chance: Spawn a new Walker (Only if # of _walkers < max, and at a low chance)
 		random = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-		if (random < _chanceWalkerUpdate && _walkers.size() < _maxWalkers) {
+		if (random < chanceWalkerUpdate && _walkers.size() < _maxWalkers) {
 			auto newWalker = Walker();
 			newWalker.dir = directions[(rand() % 4 + 1) - 1];
 			newWalker.pos = _walkers.front().pos;
@@ -129,7 +130,7 @@ void MapManager::SetFinalMapTiles() {
 				case 4:
 					// If Wall is completely surrounded by Floor tiles: Replace it with Floor (Clear all single walls)
 					_grid[i][j] = MapTileTypes::Floor_Default;
-					break; 
+					break;
 				case 3:
 					// If floor is in 3 locations around: Must be a "Endblock"
 					if (!floorCheck[0]) _grid[i][j] = MapTileTypes::Endblock_Bottom;
@@ -159,7 +160,7 @@ void MapManager::SetFinalMapTiles() {
 
 			// Save all the possible spawn positions. Always below a Endblock_Bottom
 			if (_grid[i][j] == MapTileTypes::Endblock_Bottom)
-				spawnPositions.push_back(Vec2i(j, i + 1));
+				spawnPositions.push_back(Vec2i(static_cast<int>(j), static_cast<int>(i + 1)));
 		}
 	}
 

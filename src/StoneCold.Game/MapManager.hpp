@@ -10,6 +10,8 @@
 
 namespace StoneCold::Game {
 
+using namespace StoneCold::Base;
+
 //
 // 2d procedural Map Generator
 //
@@ -26,13 +28,13 @@ public:
 	MapManager(const MapManager&) = delete;
 	MapManager& operator=(const MapManager&) = delete;
 
-	const std::vector<std::vector<MapTileTypes>>& GenerateMap(Vec2i size);
+	const std::vector<std::vector<MapTileTypes>>& GenerateMap(Vec2i size, float randomDirValue, float randomUpdateValue);
 	inline std::pair<Vec2i, Vec2i> GetStartEndPositions() { return _mapStartEndPositions; }
 
 	~MapManager() = default;
 
 private:
-	void CreateFloor();
+	void CreateFloor(float chanceWalkerChangeDir, float chanceWalkerUpdate);
 	void CreateWalls();
 	void SetFinalMapTiles();
 
@@ -51,11 +53,9 @@ private:
 	std::vector<Walker> _walkers;
 	Vec2i _mapSize;
 
-	// Could be variable, but these settings yield good results
-	const float _chanceWalkerChangeDir = 0.5f;
-	const float _chanceWalkerUpdate = 0.01f;
-	const float _percentToFill = 0.25f;
+	// Const map generation settings
 	const int _maxWalkers = 10;
+	const float _percentToFill = 0.35f;
 };
 
 }

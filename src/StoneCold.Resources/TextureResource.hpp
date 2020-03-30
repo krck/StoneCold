@@ -8,6 +8,8 @@
 
 namespace StoneCold::Resources {
 
+using namespace StoneCold::Base;
+
 class TextureResource : public Resource {
 public:
 	TextureResource(const std::string& name, std::unique_ptr<SDL_Texture, SDL_TextureDeleter>&& textureSDL, Vec2i surfaceSize)

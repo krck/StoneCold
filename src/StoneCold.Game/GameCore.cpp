@@ -24,6 +24,9 @@ bool GameCore::Initialize(const std::string& windowName) {
 			_resources.Initialize(rendererPtr);
 			_simulation.Initialize(&_engine, &_resources, rendererPtr);
 
+			// Setup the randomizer with a seed
+			std::srand(RNG_SEED);
+
 			// Load all global Resources and create the basic States
 			_simulation.CreateIntroState();
 			_simulation.CreateGameState();
@@ -55,13 +58,18 @@ int GameCore::Run() {
 	try {
 		// Setup timing and loop variables
 		bool exit = false;
-		const uint frameLimit = (uint)truncf(1000.0f / FPS);
-		uint timeStamp_new = SDL_GetTicks();
-		uint timeStamp_old = SDL_GetTicks();
-		uint frameTime = 0; // delta in ms
-
+		bool printFPS = false;
+		// Loop timer variables
+		uint32 timeStamp_new = SDL_GetTicks();
+		uint32 timeStamp_old = SDL_GetTicks();
+		uint32 frameTime = 0; // delta in ms
+		// FPS Counter variables
+		const uint8 frameTimeSize = 20;
+		auto frameTimes = std::array<uint32, frameTimeSize>();
+		uint64 frameCount = 0;
+		float averageFPS = 0.f;
 		// Setup Event-Handling variables
-		uint userEventType = _eventManager.UserEventType;
+		uint32 userEventType = _eventManager.UserEventType;
 		auto keyStates = std::vector<uint8>();
 		int numKeys = 0;
 		SDL_Event event;
@@ -71,14 +79,14 @@ int GameCore::Run() {
 			timeStamp_new = SDL_GetTicks();
 			frameTime = timeStamp_new - timeStamp_old;
 
-			// FPS Limiter (Source of the "micro studder"??)
-			// Can go now anyway, because updates are delta-time based
-			// if (frameTime > frameLimit) {}
-
 			// Poll the event loop to gather events from input devices
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT)
 					exit = true;
+
+				// Toggle FPS output when F1 is pressed
+				if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F1)
+					printFPS = !printFPS;
 
 				// Pass SDL Events on to the Engine/States and do nothing if it was handled there
 				if (!_engine.HandleSDLEvent(event)) {
@@ -93,11 +101,28 @@ int GameCore::Run() {
 			// Get a snapshot of the current state of the keyboard and handle the input
 			const uint8* keyPtr = SDL_GetKeyboardState(&numKeys);
 			keyStates = std::vector<uint8>(keyPtr, keyPtr + numKeys);
-			_engine.HandleInputEvent(keyStates);
 
-			// Update and render all Entitys
+			// Engine core functions
+			_engine.HandleInputEvent(keyStates);
 			_engine.Update(frameTime);
 			_engine.Render();
+
+			// FPS counter (average)
+			frameTimes[frameCount] = frameTime;
+			frameCount++;
+			if (frameCount == frameTimeSize) {
+				frameCount = 0;
+				averageFPS = 0.f;
+				if (printFPS) {
+					// In case it should be visible: Calculate and print the average FPS
+					for (size_t i = 0; i < frameTimeSize; i++) {
+						averageFPS += frameTimes[i];
+					}
+
+					averageFPS = 1000.f / (averageFPS / frameTimeSize);
+					std::cout << "FPS: " << averageFPS << "\n";
+				}
+			}
 
 			timeStamp_old = timeStamp_new;
 		}

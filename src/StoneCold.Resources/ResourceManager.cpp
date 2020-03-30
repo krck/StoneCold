@@ -1,9 +1,8 @@
 
 #include "ResourceManager.hpp"
 
-using namespace StoneCold;
+using namespace StoneCold::Base;
 using namespace StoneCold::Resources;
-
 
 ResourceManager::ResourceManager()
 	: _resources(std::unordered_map<std::string, std::shared_ptr<Resource>>())

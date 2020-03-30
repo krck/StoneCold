@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Managers">
-      <UniqueIdentifier>{a1b4e741-00ca-47b9-9540-a46f3785e16f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="States">
       <UniqueIdentifier>{f705c335-f0f5-4f97-9b0a-46218b871260}</UniqueIdentifier>
     </Filter>
@@ -12,36 +9,18 @@
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="ECS">
-      <UniqueIdentifier>{423b9c07-e60d-4eb0-8d75-a7256da8c402}</UniqueIdentifier>
+      <UniqueIdentifier>{dbc41c99-f0a3-460d-9d04-1e28348eb8bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Systems">
+      <UniqueIdentifier>{9ad92817-5025-4d69-bd85-d11e1c4f5577}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Events">
+      <UniqueIdentifier>{6dcb609e-eee6-4a32-91bd-ecf21e4b8abb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore.hpp">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformComponent.hpp">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyboardComponent.hpp">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.hpp">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteComponentFixed.hpp">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionComponent.hpp">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionManager.hpp">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationComponent.hpp">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteComponentMoving.hpp">
-      <Filter>ECS</Filter>
     </ClInclude>
     <ClInclude Include="GameState.hpp">
       <Filter>States</Filter>
@@ -52,28 +31,55 @@
     <ClInclude Include="MenuState.hpp">
       <Filter>States</Filter>
     </ClInclude>
+    <ClInclude Include="..\StoneCold.Base\EntityComponentArray.hpp">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="System.hpp">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformationSystem.hpp">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionDetectionSystem.hpp">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Components.hpp">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityComponentSystem.hpp">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationSystem.hpp">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenPositionSystem.hpp">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticRenderSystem.hpp">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="MotionRenderSystem.hpp">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionResolutionSystem.hpp">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityComponentWorld.hpp">
+      <Filter>ECS</Filter>
+    </ClInclude>
     <ClInclude Include="EventManager.hpp">
-      <Filter>Managers</Filter>
+      <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="State.hpp">
-      <Filter>States</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.hpp">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteComponentGui.hpp">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="AttributeComponentUI.hpp">
-      <Filter>ECS</Filter>
+    <ClInclude Include="LayeredRenderSystem.hpp">
+      <Filter>ECS\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
-      <Filter>Managers</Filter>
     </ClCompile>
     <ClCompile Include="GameState.cpp">
       <Filter>States</Filter>
@@ -83,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="MenuState.cpp">
       <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityComponentSystem.cpp">
+      <Filter>ECS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

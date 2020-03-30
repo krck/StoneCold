@@ -15,7 +15,7 @@ namespace StoneCold::Engine {
 //
 class EventManager {
 public:
-	const uint UserEventType;
+	const uint32 UserEventType;
 
 	// Delete copy ctr and copy assignment
 	EventManager(const EventManager&) = delete;
@@ -46,7 +46,7 @@ private:
 	// Private default ctr used to register a user-defined SDL Event
 	EventManager() : UserEventType(SDL_RegisterEvents(1)) {
 		// Check if Registration worked (Should never be a problem with only one User-Event)
-		if (UserEventType != ((uint)-1)) {
+		if (UserEventType != ((uint32)-1)) {
 			// It is theoretically possible to register around 32k different User-Events (event.type)
 			// but not necessary, because User-Events can also hold different codes (event.user.code)
 			// Therefore: Register one User-Event-Type and distinguish by Event-Code

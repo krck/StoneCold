@@ -37,15 +37,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Background.hpp" />
-    <ClInclude Include="Button.hpp" />
     <ClInclude Include="GameCore.hpp" />
-    <ClInclude Include="Label.hpp" />
     <ClInclude Include="MapManager.hpp" />
     <ClInclude Include="SDLManager.hpp" />
     <ClInclude Include="SimulationManager.hpp" />
-    <ClInclude Include="MapTile.hpp" />
-    <ClInclude Include="PlayerCharacter.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -107,31 +102,31 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\StoneCold.Resources;$(SolutionDir)src\StoneCold.Engine;$(SolutionDir)src\StoneCold.Base;$(SolutionDir)libs\SDL2\include;$(SolutionDir)libs\SDL2_image\include;$(SolutionDir)libs\SDL2_ttf\include</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;SDL2_ttf.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\lib\x64;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\lib\x64;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\SDL2\lib\x64;$(SolutionDir)libs\SDL2_image\lib\x64;$(SolutionDir)libs\SDL2_ttf\lib\x64</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\StoneCold.Resources;$(SolutionDir)src\StoneCold.Engine;$(SolutionDir)src\StoneCold.Base;$(SolutionDir)libs\SDL2\include;$(SolutionDir)libs\SDL2_image\include;$(SolutionDir)libs\SDL2_ttf\include</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;SDL2_ttf.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\lib\x64;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\lib\x64;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\SDL2\lib\x64;$(SolutionDir)libs\SDL2_image\lib\x64;$(SolutionDir)libs\SDL2_ttf\lib\x64</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -144,7 +139,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\StoneCold.Resources;$(SolutionDir)src\StoneCold.Engine;$(SolutionDir)src\StoneCold.Base;$(SolutionDir)libs\SDL2\include;$(SolutionDir)libs\SDL2_image\include;$(SolutionDir)libs\SDL2_ttf\include</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
@@ -152,12 +147,12 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;SDL2_ttf.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\lib\x64;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\lib\x64;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\SDL2\lib\x64;$(SolutionDir)libs\SDL2_image\lib\x64;$(SolutionDir)libs\SDL2_ttf\lib\x64</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <Optimization>MinSpace</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -165,7 +160,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)StoneCold.Resources;$(SolutionDir)StoneCold.Engine;$(SolutionDir)StoneCold.Base;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\StoneCold.Resources;$(SolutionDir)src\StoneCold.Engine;$(SolutionDir)src\StoneCold.Base;$(SolutionDir)libs\SDL2\include;$(SolutionDir)libs\SDL2_image\include;$(SolutionDir)libs\SDL2_ttf\include</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
@@ -174,7 +169,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;SDL2_ttf.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\lib\x64;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\lib\x64;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\SDL2\lib\x64;$(SolutionDir)libs\SDL2_image\lib\x64;$(SolutionDir)libs\SDL2_ttf\lib\x64</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

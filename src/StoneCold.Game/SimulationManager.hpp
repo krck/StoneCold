@@ -8,11 +8,6 @@
 #include "GameState.hpp"
 #include "MenuState.hpp"
 #include "ResourceManager.hpp"
-#include "Background.hpp"
-#include "PlayerCharacter.hpp"
-#include "MapTile.hpp"
-#include "Button.hpp"
-#include "Label.hpp"
 #include <iostream>
 
 namespace StoneCold::Game {
@@ -53,8 +48,8 @@ public:
 
 private:
 	MapManager _mapManager;
-	ResourceManager* _resourceManager;
 	EngineCore* _engine;
+	ResourceManager* _resourceManager;
 	SDL_Renderer* _renderer;
 };
 

@@ -2,9 +2,13 @@
 #ifndef STONECOLD_SETTINGS_H
 #define STONECOLD_SETTINGS_H
 
-#define FPS						60
-#define WINDOW_SIZE_WIDTH		1280
-#define WINDOW_SIZE_HEIGHT		720
+#define WINDOW_WIDTH			1280
+#define FWINDOW_WIDTH			1280.f
+#define WINDOW_HEIGHT			720
+#define FWINDOW_HEIGHT			720.f
+
+#define RNG_SEED				12345
+#define MAP_SIZE				70
 
 #define FONT_SIZE_SMALL			10
 #define FONT_SIZE_NORMAL		18

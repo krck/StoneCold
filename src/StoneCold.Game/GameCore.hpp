@@ -8,6 +8,7 @@
 #include "EventManager.hpp"
 #include "ResourceManager.hpp"
 #include "SimulationManager.hpp"
+#include <array>
 
 namespace StoneCold::Game {
 

@@ -28,7 +28,7 @@ public:
 
 	bool HandleSDLEvent(const SDL_Event& sdlEvent);
 	void HandleInputEvent(const std::vector<uint8>& keyStates);
-	void Update(uint frameTime);
+	void Update(uint32 frameTime);
 	void Render();
 
 	void ChangeState(State* state);
