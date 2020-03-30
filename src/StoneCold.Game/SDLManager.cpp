@@ -41,12 +41,12 @@ void SDLManager::CreateWindow() {
 	const uint32 pos = SDL_WINDOWPOS_CENTERED;
 	const uint32 flags = 0;
 
-	auto tmpWin = std::unique_ptr<SDL_Window, SDL_WindowDeleter>(SDL_CreateWindow(_windowName.c_str(), pos, pos, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT, flags));
+	auto tmpWin = std::unique_ptr<SDL_Window, SDL_WindowDeleter>(SDL_CreateWindow(_windowName.c_str(), pos, pos, WINDOW_WIDTH, WINDOW_HEIGHT, flags));
 	_window.swap(tmpWin);
 
 	// Set the min. Window size, if creation was successful 
 	if (_window != nullptr)
-		SDL_SetWindowMinimumSize(_window.get(), WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT);
+		SDL_SetWindowMinimumSize(_window.get(), WINDOW_WIDTH, WINDOW_HEIGHT);
 	else
 		throw GameException("SDL Error on window creation: " + std::string(SDL_GetError()));
 }

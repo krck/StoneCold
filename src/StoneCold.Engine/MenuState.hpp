@@ -2,9 +2,11 @@
 #ifndef STONECOLD_MENUSTATE_H
 #define STONECOLD_MENUSTATE_H
 
-#include "Entity.hpp"
 #include "EngineCore.hpp"
 #include "GameState.hpp"
+#include "AnimationSystem.hpp"
+#include "StaticRenderSystem.hpp"
+#include "LayeredRenderSystem.hpp"
 #include <algorithm>
 
 namespace StoneCold::Engine {
@@ -26,7 +28,10 @@ public:
 
 private:
 	SDL_FRect _camera;
-
+	// System ptrs for fast access
+	std::shared_ptr<AnimationSystem> _animationSystem;
+	std::shared_ptr<StaticRenderSystem> _staticRenderSystem;
+	std::shared_ptr<LayeredRenderSystem> _layeredRenderSystem;
 };
 
 }

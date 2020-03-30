@@ -37,7 +37,6 @@ struct CollisionComponent {
 	Vec2 Hitbox;
 	SDL_FRect CollisionBox;
 	CollisionComponent* CollisionWith;
-	//bool IsFixed;		// REMOVE
 };
 
 struct SpriteComponent {
@@ -76,33 +75,6 @@ struct ScreenPositionLayeredComponent {
 	SDL_Rect SrcRectTop;
 	SDL_FRect DestRectTop;
 };
-
-//
-// Component (Bit-)Masks
-//
-static auto ComponentMasks = std::unordered_map<hash, const mask>({
-	{ GetTypeHash<AnimationComponent>(),				0x0000000000000001 },
-	{ GetTypeHash<AttributeComponentUI>(),				0x0000000000000002 },
-	{ GetTypeHash<CollisionComponent>(),				0x0000000000000004 },
-	{ GetTypeHash<SpriteComponent>(),					0x0000000000000008 },
-	{ GetTypeHash<SpriteLayeredComponent>(),			0x0000000000000010 },
-	{ GetTypeHash<TransformationComponent>(),			0x0000000000000020 },
-	{ GetTypeHash<VelocityComponent>(),					0x0000000000000040 },
-	{ GetTypeHash<ScreenPositionComponent>(),			0x0000000000000080 },
-	{ GetTypeHash<ScreenPositionLayeredComponent>(),	0x0000000000000100 }
-	});
-
-template<typename T>
-inline const mask GetComponentMask() { return ComponentMasks[GetTypeHash<T>()]; }
-
-//
-// System (Bit-)Masks
-//
-// Workaround to set a additional Entity mask without a specific Component 
-// (adding a Component always means adding a full Array of n Components)
-//
-static const mask RENDER_MOTION = 0x4000000000000000;
-static const mask RENDER_STATIC = 0x8000000000000000;
 
 }
 

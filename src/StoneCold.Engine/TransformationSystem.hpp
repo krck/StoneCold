@@ -2,9 +2,7 @@
 #ifndef STONECOLD_TRANSFORMATIONSYSTEM_H
 #define STONECOLD_TRANSFORMATIONSYSTEM_H
 
-#include "System.hpp"
-#include "Components.hpp"
-#include "EntityComponentArray.hpp"
+#include "EntityComponentSystem.hpp"
 
 namespace StoneCold::Engine {
 
@@ -14,22 +12,26 @@ public:
 	// Hardcoded System Component-Mask: 
 	// Only Entities with a Transformation, Velocity and Collision Component will be updated with this System
 	//
-	TransformationSystem(EntityComponentArray<TransformationComponent>& transf, EntityComponentArray<VelocityComponent>& velocity, EntityComponentArray<CollisionComponent>& collisions)
+	TransformationSystem(EntityComponentSystem& ecs)
 		: System((GetComponentMask<TransformationComponent>() | GetComponentMask<VelocityComponent>() | GetComponentMask<CollisionComponent>()))
-		, _transformComponents(transf), _velocityComponents(velocity), _collisionComponents(collisions) { }
+		, _ecs(ecs) { }
 
 	TransformationSystem(const TransformationSystem&) = delete;
 	TransformationSystem& operator=(const TransformationSystem&) = delete;
 
 	virtual void Update(uint32 frameTime) override {
+		auto& transformComponents = *_ecs.GetComponentArray<TransformationComponent>();
+		auto& velocityComponents = *_ecs.GetComponentArray<VelocityComponent>();
+		auto& collisionComponents = *_ecs.GetComponentArray<CollisionComponent>();
+
 		// Add a simple form of numerical integration (Explicit Euler) to speeds at different FPSs
 		// (Explicit Euler works well as long as the speeds is constant or the frameTime is low)
 		const float deltaSec = frameTime / 1000.0f;
 
 		for (const auto& entityId : _entities) {
-			auto& t = _transformComponents[entityId];
-			auto& v = _velocityComponents[entityId];
-			auto& c = _collisionComponents[entityId];
+			auto& t = transformComponents[entityId];
+			auto& v = velocityComponents[entityId];
+			auto& c = collisionComponents[entityId];
 
 			// Normalize the velocity in case of diagonal movement
 			// FIND SOME WAY TO DO THIS WITHOUT IF TO NOT DISTURB THE CACHE, OUR LORD AND SAVIOR
@@ -53,9 +55,7 @@ public:
 	}
 
 private:
-	EntityComponentArray<TransformationComponent>& _transformComponents;
-	EntityComponentArray<VelocityComponent>& _velocityComponents;
-	EntityComponentArray<CollisionComponent>& _collisionComponents;
+	EntityComponentSystem& _ecs;
 };
 
 }

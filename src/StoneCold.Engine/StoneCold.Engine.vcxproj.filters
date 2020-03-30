@@ -14,8 +14,8 @@
     <Filter Include="ECS\Systems">
       <UniqueIdentifier>{9ad92817-5025-4d69-bd85-d11e1c4f5577}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ECS\Entity">
-      <UniqueIdentifier>{25b58587-b65b-4c38-8491-bcf00cbe0c5d}</UniqueIdentifier>
+    <Filter Include="Events">
+      <UniqueIdentifier>{6dcb609e-eee6-4a32-91bd-ecf21e4b8abb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -31,9 +31,6 @@
     <ClInclude Include="MenuState.hpp">
       <Filter>States</Filter>
     </ClInclude>
-    <ClInclude Include="State.hpp">
-      <Filter>States</Filter>
-    </ClInclude>
     <ClInclude Include="..\StoneCold.Base\EntityComponentArray.hpp">
       <Filter>ECS</Filter>
     </ClInclude>
@@ -43,14 +40,8 @@
     <ClInclude Include="TransformationSystem.hpp">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.hpp">
-      <Filter>ECS\Entity</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionDetectionSystem.hpp">
       <Filter>ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="EventManager.hpp">
-      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Components.hpp">
       <Filter>ECS</Filter>
@@ -71,6 +62,18 @@
       <Filter>ECS\Systems</Filter>
     </ClInclude>
     <ClInclude Include="CollisionResolutionSystem.hpp">
+      <Filter>ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityComponentWorld.hpp">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.hpp">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="State.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="LayeredRenderSystem.hpp">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
   </ItemGroup>

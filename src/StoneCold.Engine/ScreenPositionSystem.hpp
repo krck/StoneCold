@@ -2,9 +2,7 @@
 #ifndef STONECOLD_SCREENPOSITIONSYSTEM_H
 #define STONECOLD_SCREENPOSITIONSYSTEM_H
 
-#include "System.hpp"
-#include "Components.hpp"
-#include "EntityComponentArray.hpp"
+#include "EntityComponentSystem.hpp"
 
 namespace StoneCold::Engine {
 
@@ -12,19 +10,22 @@ class ScreenPositionSystem : public System {
 public:
 	//
 	// Hardcoded System Component-Mask: 
-	// Only Entities with a Velocity (!!!), ScreenPosition and Sprite Component will be updated with this System
+	// Only Entities with a Velocity, ScreenPosition and Sprite Component will be updated with this System
 	//
-	ScreenPositionSystem(EntityComponentArray<TransformationComponent>& transf, EntityComponentArray<ScreenPositionComponent>& position)
+	ScreenPositionSystem(EntityComponentSystem& ecs)
 		: System((GetComponentMask<VelocityComponent>() | GetComponentMask<TransformationComponent>() | GetComponentMask<ScreenPositionComponent>()))
-		, _transformComponents(transf), _positionComponents(position) { }
+		, _ecs(ecs) { }
 
 	ScreenPositionSystem(const ScreenPositionSystem&) = delete;
 	ScreenPositionSystem& operator=(const ScreenPositionSystem&) = delete;
 
 	virtual void Update(uint32 frameTime) override {
+		auto& transformComponents = *_ecs.GetComponentArray<TransformationComponent>();
+		auto& positionComponents = *_ecs.GetComponentArray<ScreenPositionComponent>();
+
 		for (const auto& entityId : _entities) {
-			auto& t = _transformComponents[entityId];
-			auto& p = _positionComponents[entityId];
+			auto& t = transformComponents[entityId];
+			auto& p = positionComponents[entityId];
 
 			// Update the Sprite position on screen based on the transformations
 			p.DestRect.x = t.Position.X;
@@ -35,8 +36,7 @@ public:
 	}
 
 private:
-	EntityComponentArray<TransformationComponent>& _transformComponents;
-	EntityComponentArray<ScreenPositionComponent>& _positionComponents;
+	EntityComponentSystem& _ecs;
 };
 
 }

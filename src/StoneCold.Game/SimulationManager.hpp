@@ -8,9 +8,6 @@
 #include "GameState.hpp"
 #include "MenuState.hpp"
 #include "ResourceManager.hpp"
-#include "Background.hpp"
-#include "Button.hpp"
-#include "Label.hpp"
 #include <iostream>
 
 namespace StoneCold::Game {

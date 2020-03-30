@@ -77,7 +77,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\SDL2\include;$(SolutionDir)libs\SDL2_image\include;$(SolutionDir)libs\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
@@ -97,7 +97,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\SDL2\include;$(SolutionDir)libs\SDL2_image\include;$(SolutionDir)libs\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -118,7 +118,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\SDL2\include;$(SolutionDir)libs\SDL2_image\include;$(SolutionDir)libs\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,7 +141,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_image\include;C:\Users\PeterUser\Documents\GitHub\StoneCold\libs\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\SDL2\include;$(SolutionDir)libs\SDL2_image\include;$(SolutionDir)libs\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>

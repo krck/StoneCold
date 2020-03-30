@@ -16,37 +16,26 @@ GameState::GameState(uint16 maxEntities, SDL_Renderer* renderer, EngineCore* eng
 	, _staticRenderSystem(nullptr)
 	, _motionRenderSystem(nullptr)
 	, _player(0)
-	, _camera({ 0.f, 0.f, (float)WINDOW_SIZE_WIDTH, (float)WINDOW_SIZE_HEIGHT }) { }
+	, _camera({ 0.f, 0.f, (float)WINDOW_WIDTH, (float)WINDOW_HEIGHT }) { }
 
 
 void GameState::Initialize() {
-	auto animArrayPtr = _ecs.GetComponentArray<AnimationComponent>();
-	auto collArrayPtr = _ecs.GetComponentArray<CollisionComponent>();
-	auto transArrayPtr = _ecs.GetComponentArray<TransformationComponent>();
-	auto velArrayPtr = _ecs.GetComponentArray<VelocityComponent>();
-	auto posArrayPtr = _ecs.GetComponentArray<ScreenPositionComponent>();
-	auto sprArrayPtr = _ecs.GetComponentArray<SpriteComponent>();
+	// Create all Systems needed by the GameState ECS (keep ptr variables for quick access)
+	_animationSystem = std::make_shared<AnimationSystem>(_ecs);
+	_transformationSystem = std::make_shared<TransformationSystem>(_ecs);
+	_collisionDetectionSystem = std::make_shared<CollisionDetectionSystem>(_ecs);
+	_collisionResolutionSystem = std::make_shared<CollisionResolutionSystem>(_ecs);
+	_screenPositionSystem = std::make_shared<ScreenPositionSystem>(_ecs);
+	_staticRenderSystem = std::make_shared<StaticRenderSystem>(_renderer, _ecs);
+	_motionRenderSystem = std::make_shared<MotionRenderSystem>(_renderer, _ecs);
 
-	// Create and add the Animation System
-	_animationSystem = std::make_shared<AnimationSystem>(*animArrayPtr, *posArrayPtr);
+	// Add all the GameState Systems to the ECS
 	_ecs.AddSystem<AnimationSystem>(_animationSystem);
-	// Create and add the Transformation System
-	_transformationSystem = std::make_shared<TransformationSystem>(*transArrayPtr, *velArrayPtr, *collArrayPtr);
 	_ecs.AddSystem<TransformationSystem>(_transformationSystem);
-	// Create and add the Collision-Detection System
-	_collisionDetectionSystem = std::make_shared<CollisionDetectionSystem>(*collArrayPtr);
 	_ecs.AddSystem<CollisionDetectionSystem>(_collisionDetectionSystem);
-	// Create and add the Collision-Resolution System
-	_collisionResolutionSystem = std::make_shared<CollisionResolutionSystem>(*collArrayPtr, *transArrayPtr);
 	_ecs.AddSystem<CollisionResolutionSystem>(_collisionResolutionSystem);
-	// Create and add the Screen-Position System
-	_screenPositionSystem = std::make_shared<ScreenPositionSystem>(*transArrayPtr, *posArrayPtr);
 	_ecs.AddSystem<ScreenPositionSystem>(_screenPositionSystem);
-	// Create and add the static Render System
-	_staticRenderSystem = std::make_shared<StaticRenderSystem>(_renderer, *posArrayPtr, *sprArrayPtr);
 	_ecs.AddSystem<StaticRenderSystem>(_staticRenderSystem);
-	// Create and add the motion Render System
-	_motionRenderSystem = std::make_shared<MotionRenderSystem>(_renderer, *posArrayPtr, *velArrayPtr, *sprArrayPtr);
 	_ecs.AddSystem<MotionRenderSystem>(_motionRenderSystem);
 }
 
@@ -97,8 +86,8 @@ void GameState::Update(uint32 frameTime) {
 
 	// Center the camera over the Player
 	auto& t = _ecs.GetComponentArray<TransformationComponent>()->at(_player);
-	_camera.x = (t.Position.X + ((t.Dimension.X * t.Scale) / 2.f)) - (WINDOW_SIZE_WIDTH / 2.f);
-	_camera.y = (t.Position.Y + ((t.Dimension.Y * t.Scale) / 2.f)) - (WINDOW_SIZE_HEIGHT / 2.f);
+	_camera.x = (t.Position.X + ((t.Dimension.X * t.Scale) / 2.f)) - (WINDOW_WIDTH / 2.f);
+	_camera.y = (t.Position.Y + ((t.Dimension.Y * t.Scale) / 2.f)) - (WINDOW_HEIGHT / 2.f);
 }
 
 

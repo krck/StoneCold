@@ -2,9 +2,7 @@
 #ifndef STONECOLD_COLLISIONDETECTIONSYSTEM_H
 #define STONECOLD_COLLISIONDETECTIONSYSTEM_H
 
-#include "System.hpp"
-#include "Components.hpp"
-#include "EntityComponentArray.hpp"
+#include "EntityComponentSystem.hpp"
 
 namespace StoneCold::Engine {
 
@@ -14,17 +12,18 @@ public:
 	// Hardcoded System Component-Mask: 
 	// Only Entities with a Collision Component will be updated with this System
 	//
-	CollisionDetectionSystem(EntityComponentArray<CollisionComponent>& collisions)
-		: System((GetComponentMask<CollisionComponent>())), _collisionComponents(collisions) { }
+	CollisionDetectionSystem(EntityComponentSystem& ecs)
+		: System((GetComponentMask<CollisionComponent>())), _ecs(ecs) { }
 
 	CollisionDetectionSystem(const CollisionDetectionSystem&) = delete;
 	CollisionDetectionSystem& operator=(const CollisionDetectionSystem&) = delete;
 
 	virtual void Update(uint32 frameTime) override {
+		auto& collisionComponents = *_ecs.GetComponentArray<CollisionComponent>();
 		auto collisionComps = std::vector<CollisionComponent*>();
 		collisionComps.reserve(_entities.size());
 		for (const auto& e : _entities) {
-			collisionComps.push_back(&_collisionComponents[e]);
+			collisionComps.push_back(&collisionComponents[e]);
 		}
 
 		for (auto c_o : collisionComps) {
@@ -52,7 +51,7 @@ private:
 	}
 
 private:
-	EntityComponentArray<CollisionComponent>& _collisionComponents;
+	EntityComponentSystem& _ecs;
 };
 
 }

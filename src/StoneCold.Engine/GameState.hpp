@@ -3,7 +3,6 @@
 #define STONECOLD_GAMESTATE_H
 
 #include "Types.hpp"
-#include "Entity.hpp"
 #include "Settings.hpp"
 #include "EngineCore.hpp"
 #include "EventManager.hpp"
@@ -40,11 +39,9 @@ public:
 private:
 	EventManager& _eventManager;
 	SDL_FRect _camera;
-
 	// EntityId's for fast access
 	entityId _player;
 	std::vector<entityId> _mapTiles;
-
 	// System ptrs for fast access
 	std::shared_ptr<AnimationSystem> _animationSystem;
 	std::shared_ptr<TransformationSystem> _transformationSystem;

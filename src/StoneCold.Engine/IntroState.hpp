@@ -2,9 +2,10 @@
 #ifndef STONECOLD_INTROSTATE_H
 #define STONECOLD_INTROSTATE_H
 
-#include "Entity.hpp"
 #include "EngineCore.hpp"
 #include "MenuState.hpp"
+#include "ScreenPositionSystem.hpp"
+#include "StaticRenderSystem.hpp"
 #include <algorithm>
 
 namespace StoneCold::Engine {
@@ -25,7 +26,9 @@ public:
 	~IntroState() = default;
 
 private:
-	SDL_FRect _camera;
+	SDL_FRect _camera;	
+	// System ptrs for fast access
+	std::shared_ptr<StaticRenderSystem> _staticRenderSystem;
 
 };
 

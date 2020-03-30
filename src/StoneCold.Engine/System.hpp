@@ -28,7 +28,7 @@ public:
 	inline mask GetSystemMask() const { return _componentMask; }
 	inline size_t GetEntitiesSize() const { return _entities.size(); }
 
-	inline void AddEntity(entityId entityId) { if(std::find(_entities.begin(), _entities.end(), entityId) == _entities.end()) _entities.push_back(entityId); }
+	inline void AddEntity(entityId entityId) { if (std::find(_entities.begin(), _entities.end(), entityId) == _entities.end()) _entities.push_back(entityId); }
 	inline void RemoveEntity(entityId entityId) { _entities.erase(std::remove(_entities.begin(), _entities.end(), entityId), _entities.end()); }
 
 	virtual ~System() {}

@@ -5,14 +5,8 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="GameObjects">
-      <UniqueIdentifier>{992c37f7-dd69-48fe-9e11-f9f919d878d9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Managers">
       <UniqueIdentifier>{28017be0-f40b-4fab-827b-98f1e14d0764}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GuiWidgets">
-      <UniqueIdentifier>{4bf1e811-25bc-4618-b774-ef25994a4c50}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -44,15 +38,6 @@
     </ClInclude>
     <ClInclude Include="SDLManager.hpp">
       <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="Background.hpp">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Label.hpp">
-      <Filter>GuiWidgets</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.hpp">
-      <Filter>GuiWidgets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

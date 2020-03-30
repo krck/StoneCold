@@ -2,9 +2,7 @@
 #ifndef STONECOLD_MOTIONRENDERSYSTEM_H
 #define STONECOLD_MOTIONRENDERSYSTEM_H
 
-#include "System.hpp"
-#include "Components.hpp"
-#include "EntityComponentArray.hpp"
+#include "EntityComponentSystem.hpp"
 
 namespace StoneCold::Engine {
 
@@ -14,19 +12,22 @@ public:
 	// Hardcoded System Component-Mask: 
 	// Only Entities with a RENDER_MOTION Flag, a ScreenPosition and a Sprite Component will be rendered with this System
 	//
-	MotionRenderSystem(SDL_Renderer* renderer, EntityComponentArray<ScreenPositionComponent>& position, 
-					   EntityComponentArray<VelocityComponent>& velocity, EntityComponentArray<SpriteComponent>& sprite)
+	MotionRenderSystem(SDL_Renderer* renderer, EntityComponentSystem& ecs)
 		: System((RENDER_MOTION | GetComponentMask<ScreenPositionComponent>() | GetComponentMask<VelocityComponent>() | GetComponentMask<SpriteComponent>()))
-		, _renderer(renderer), _positionComponents(position), _velocityComponents(velocity), _spriteComponents(sprite) { }
+		, _renderer(renderer), _ecs(ecs) { }
 
 	MotionRenderSystem(const MotionRenderSystem&) = delete;
 	MotionRenderSystem& operator=(const MotionRenderSystem&) = delete;
 
 	virtual void Render(SDL_FRect camera) override {
+		auto& positionComponents = *_ecs.GetComponentArray<ScreenPositionComponent>();
+		auto& velocityComponents = *_ecs.GetComponentArray<VelocityComponent>();
+		auto& spriteComponents = *_ecs.GetComponentArray<SpriteComponent>();
+
 		for (const auto& entityId : _entities) {
-			auto& p = _positionComponents[entityId];
-			auto& v = _velocityComponents[entityId];
-			auto& s = _spriteComponents[entityId];
+			auto& p = positionComponents[entityId];
+			auto& v = velocityComponents[entityId];
+			auto& s = spriteComponents[entityId];
 
 			// Get the Destination rectangle (render position on screen) relative to the camera (as int)
 			SDL_FRect currentDest = {
@@ -46,9 +47,7 @@ public:
 
 private:
 	SDL_Renderer* _renderer;
-	EntityComponentArray<ScreenPositionComponent>& _positionComponents;
-	EntityComponentArray<VelocityComponent>& _velocityComponents;
-	EntityComponentArray<SpriteComponent>& _spriteComponents;
+	EntityComponentSystem& _ecs;
 };
 
 }
