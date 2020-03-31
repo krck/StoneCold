@@ -32,6 +32,19 @@ static const auto PLAYER_ANIMATION_FRAMES = std::unordered_map<std::string, Anim
 	});
 
 //
+// Skeleton Animations
+// Names and "src rect" frames within the Skeleton Texture
+//
+static const auto SKELETON_ANIMATION_FRAMES = std::unordered_map<std::string, Animation>({
+	{"idle", Animation({ {0,0,32,32}, }, 180) },
+	{"walk", Animation({ {0,32,32,32}, }, 80) },
+	{"atk1", Animation({ {0,64,32,32}, }, 100) },
+	{"hurt", Animation({ {0,192,32,32}, }, 100) },
+	{"reac", Animation({ {0,128,32,32}, }, 100) },
+	{"dead", Animation({ {0,224,32,32}, }, 100) }
+	});
+
+//
 // Button Animations
 // Names and "src rect" frames within the GUI Texture
 //
