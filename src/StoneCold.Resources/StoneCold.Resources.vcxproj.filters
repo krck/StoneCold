@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Raw">
+      <UniqueIdentifier>{bf230a4e-a571-42e6-9256-dda0f07e1cba}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Managers">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{5901a8e2-bb60-48be-8979-35449d59dd18}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceData">
-      <UniqueIdentifier>{bf230a4e-a571-42e6-9256-dda0f07e1cba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,11 +33,14 @@
     <ClInclude Include="TextureResource.hpp">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Data_Animations.hpp">
-      <Filter>ResourceData</Filter>
+    <ClInclude Include="Data_External.hpp">
+      <Filter>Raw</Filter>
     </ClInclude>
-    <ClInclude Include="Data_Textures.hpp">
-      <Filter>ResourceData</Filter>
+    <ClInclude Include="Data_Objects.hpp">
+      <Filter>Raw</Filter>
+    </ClInclude>
+    <ClInclude Include="Data_Animations.hpp">
+      <Filter>Raw</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

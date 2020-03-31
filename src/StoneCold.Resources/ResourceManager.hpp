@@ -5,8 +5,9 @@
 #include <windows.h>
 #include "Settings.hpp"
 #include "Exception.hpp"
+#include "Data_Objects.hpp"
+#include "Data_External.hpp"
 #include "Data_Animations.hpp"
-#include "Data_Textures.hpp"
 #include "AnimationResource.hpp"
 #include "TextureResource.hpp"
 #include "FontResource.hpp"
@@ -17,7 +18,7 @@
 namespace StoneCold::Resources {
 
 //
-// ResorceManager 
+// ResorceManager to load and unlaod external Resources (from the Filesystem)
 // - Ensures that only one copy of each unique resource exists
 // - Manages the lifetime of each resource (loading / unloading)
 // - !NOT YET! Handles loading of composite resources (resource dependencies)
@@ -35,18 +36,18 @@ public:
 	// Ensures that Resources are loaded only once
 	//
 	template<typename T>
-	T* LoadResource(ResourceLifeTime resourceLifeTime, const std::string& name);
+	T* LoadExternalResource(ResourceLifeTime resourceLifeTime, const std::string& name);
+
+	//
+	// Unload (cleanup) all Resources of a specific LifeTime
+	//
+	void UnloadExternalResources(ResourceLifeTime resourceLifeTime);
 
 	//
 	// Load a specific Texture Resource based on a Font, Text and FontColor
 	// Ensures that Resources are loaded only once
 	//
-	TextureResource* LoadFontTexture(ResourceLifeTime rlt, const std::string& name, TTF_Font* font, const std::string& text, const SDL_Color& color);
-
-	//
-	// Unload (cleanup) all Resources of a specific LifeTime
-	//
-	void UnloadResources(ResourceLifeTime resourceLifeTime);
+	TextureResource* CreateFontTexture(ResourceLifeTime rlt, const std::string& name, TTF_Font* font, const std::string& text, const SDL_Color& color);
 
 	template<typename T>
 	inline T* GetResource(const std::string& name) { return static_cast<T*>(_resources[name].get()); }

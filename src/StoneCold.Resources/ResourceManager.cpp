@@ -41,18 +41,13 @@ bool ResourceManager::Initialize(SDL_Renderer* renderer) {
 
 
 template<typename T>
-T* ResourceManager::LoadResource(ResourceLifeTime resourceLifeTime, const std::string& name) {
+T* ResourceManager::LoadExternalResource(ResourceLifeTime resourceLifeTime, const std::string& name) {
 	try {
 		// Load each ressource only once
 		if (!IsResourceLoaded(name)) {
 			if (std::is_same<T, TextureResource>::value) {
 				// Create a Texture Resource, loaded from a File (.png or .jpg)
 				_resources.insert({ name, std::make_shared<TextureResource>(CreateTexture(name)) });
-				_resouceLifetimes[resourceLifeTime].push_back(name);
-			}
-			else if (std::is_same<T, AnimationResource>::value) {
-				// Create a Animation Resource loaded from hardcoded resources in Data_Animations
-				_resources.insert({ name, std::make_shared<AnimationResource>(CreateAnimation(name)) });
 				_resouceLifetimes[resourceLifeTime].push_back(name);
 			}
 			else if (std::is_same<T, FontResource>::value) {
@@ -72,7 +67,7 @@ T* ResourceManager::LoadResource(ResourceLifeTime resourceLifeTime, const std::s
 }
 
 
-TextureResource* ResourceManager::LoadFontTexture(ResourceLifeTime rlt, const std::string& name, TTF_Font* font, const std::string& text, const SDL_Color& color) {
+TextureResource* ResourceManager::CreateFontTexture(ResourceLifeTime rlt, const std::string& name, TTF_Font* font, const std::string& text, const SDL_Color& color) {
 	try {
 		SDL_Rect srcRect = { 0, 0, 0, 0 };
 		if (!IsResourceLoaded(name)) {
@@ -96,7 +91,7 @@ TextureResource* ResourceManager::LoadFontTexture(ResourceLifeTime rlt, const st
 }
 
 
-void ResourceManager::UnloadResources(ResourceLifeTime resourceLifeTime) {
+void ResourceManager::UnloadExternalResources(ResourceLifeTime resourceLifeTime) {
 	// Remove all Resources that are mapped to the specific lifetime
 	const auto& keys = _resouceLifetimes[resourceLifeTime];
 	for (const auto& key : keys) {
@@ -122,11 +117,6 @@ TextureResource ResourceManager::CreateTexture(const std::string& name) {
 }
 
 
-AnimationResource ResourceManager::CreateAnimation(const std::string& name) {
-	return AnimationResource(name, AnimationData.find(name)->second);
-}
-
-
 FontResource ResourceManager::CreateFont(const std::string& name) {
 	auto fullPath = (_basePath + name);
 
@@ -140,11 +130,10 @@ FontResource ResourceManager::CreateFont(const std::string& name) {
 
 
 //
-// Explicitly instanciate every form of LoadResource
+// Explicitly instanciate every form of LoadExternalResource
 // This has two upsides:
 // - .hpp will not get cluttered with function definitions
 // - There are not many Resource-Types so its easy to provide a concrete interface
 //
-template TextureResource* ResourceManager::LoadResource<TextureResource>(ResourceLifeTime resourceLifeTime, const std::string& name);
-template AnimationResource* ResourceManager::LoadResource<AnimationResource>(ResourceLifeTime resourceLifeTime, const std::string& name);
-template FontResource* ResourceManager::LoadResource<FontResource>(ResourceLifeTime resourceLifeTime, const std::string& name);
+template TextureResource* ResourceManager::LoadExternalResource<TextureResource>(ResourceLifeTime resourceLifeTime, const std::string& name);
+template FontResource* ResourceManager::LoadExternalResource<FontResource>(ResourceLifeTime resourceLifeTime, const std::string& name);

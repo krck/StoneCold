@@ -95,6 +95,10 @@ int GameCore::Run() {
 						// Load a new Level
 						_simulation.LoadLevel();
 					}
+					else if (event.type == userEventType && event.user.code == EventCode::Quit) {
+						// Quit the Application
+						exit = true;
+					}
 				}
 			}
 

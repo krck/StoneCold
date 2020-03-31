@@ -22,7 +22,7 @@ bool EngineCore::Initialize(SDL_Renderer* renderer) {
 }
 
 
-bool EngineCore::HandleSDLEvent(const SDL_Event & sdlEvent) {
+bool EngineCore::HandleSDLEvent(const SDL_Event& sdlEvent) {
 	// Pass SDL Events to the current State / Scene and retrun if they handled it
 	return _stateStack.top()->HandleSDLEvent(sdlEvent);
 }
@@ -53,40 +53,27 @@ void EngineCore::Render() {
 }
 
 
-void EngineCore::ChangeState(State* state) {
-	// Cleanup the current state
-	if (!_stateStack.empty()) {
-		_stateStack.top()->Cleanup();
-		_stateStack.pop();
-	}
-
-	// Store and init the new state
-	_stateStack.push(state);
-	//_stateStack.top()->Initialize();
-}
-
-
 void EngineCore::PushState(State* state) {
-	// Pause current state
+	// Stop the current State
 	if (!_stateStack.empty()) {
-		_stateStack.top()->Pause();
+		_stateStack.top()->Stop();
 	}
 
-	// Store and init the new state
+	// Push and start the new State
 	_stateStack.push(state);
-	//_stateStack.top()->Initialize();
+	_stateStack.top()->Start();
 }
 
 
 void EngineCore::PopState() {
-	// Cleanup the current state
+	// Stop and pop the current state
 	if (!_stateStack.empty()) {
-		_stateStack.top()->Cleanup();
+		_stateStack.top()->Stop();
 		_stateStack.pop();
 	}
 
-	// Resume previous state
+	// Start previous state again
 	if (!_stateStack.empty()) {
-		_stateStack.top()->Resume();
+		_stateStack.top()->Start();
 	}
 }

@@ -24,8 +24,7 @@ bool IntroState::HandleSDLEvent(const SDL_Event& sdlEvent) {
 	if (sdlEvent.type == SDL_KEYDOWN) {
 		if (_engine->HasState<MenuState>()) {
 			auto menuPtr = _engine->GetState<MenuState>();
-			_engine->ChangeState(menuPtr);
-
+			_engine->PushState(menuPtr);
 			return true;
 		}
 	}

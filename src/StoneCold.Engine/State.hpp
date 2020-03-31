@@ -24,16 +24,17 @@ class EngineCore;
 //
 class State {
 public:
-	State(uint16 maxEntities, SDL_Renderer* renderer, EngineCore* engine) 
-		: _ecs(EntityComponentSystem(maxEntities)), _renderer(renderer), _engine(engine) { }
+	State(uint16 maxEntities, SDL_Renderer* renderer, EngineCore* engine)
+		: _ecs(EntityComponentSystem(maxEntities))
+		, _renderer(renderer)
+		, _engine(engine) { }
 
 	inline EntityComponentSystem* GetECS() { return &_ecs; }
 
 	virtual void Initialize() = 0;
-	virtual void Cleanup() { } // = 0;
 
-	virtual void Pause() { } // = 0;
-	virtual void Resume() { } // = 0;
+	virtual void Start() { } // = 0;
+	virtual void Stop() { } // = 0;
 
 	virtual bool HandleSDLEvent(const SDL_Event& sdlEvent) = 0;
 	virtual void HandleInputEvent(const std::vector<uint8>& keyStates) = 0;

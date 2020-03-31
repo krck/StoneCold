@@ -23,17 +23,19 @@ bool StoneCold::Game::SimulationManager::Initialize(EngineCore* engine, Resource
 void SimulationManager::CreateIntroState() {
 	try {
 		// First clear the Intro Resources
-		_resourceManager->UnloadResources(ResourceLifeTime::Intro);
-		_engine->ClearState<IntroState>();
+		_resourceManager->UnloadExternalResources(ResourceLifeTime::Intro);
+		_engine->RemoveState<IntroState>();
 
 		// Create a new IntroState
 		auto intro = std::make_shared<IntroState>(5, _renderer, _engine);
 		auto introECS = intro->GetECS();
 		intro->Initialize();
 
-		// Get all basic Resources needed by the IntroState (Background image, Font, ...)
-		auto backgroundTexture = _resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Intro, BACKGROUND_IMAGE);
-		auto fontTTF = _resourceManager->LoadResource<FontResource>(ResourceLifeTime::Intro, FONT_CROM);
+		// Get all external Resources needed by the IntroState (Background image, Font, ...)
+		auto backgroundTexture = _resourceManager->LoadExternalResource<TextureResource>(ResourceLifeTime::Intro, Raw::BACKGROUND_IMAGE);
+		auto fontTTF = _resourceManager->LoadExternalResource<FontResource>(ResourceLifeTime::Intro, Raw::FONT_CROM);
+		// Get all internal/object Data needed by the IntroState
+		// auto backgroundData = StoneCold::Resources::Raw::FullscreenBackground;
 
 		// -----------------------------------------------------
 		// ------- INTRO - GAME-OBJECT - Background Image ------
@@ -51,7 +53,7 @@ void SimulationManager::CreateIntroState() {
 		auto label = introECS->CreateEntity();
 		const std::string labelText = "Press any Button to start ...";
 		const std::string labelName = "Label_Intro_Press_Any_Button";
-		auto lbTex = _resourceManager->LoadFontTexture(ResourceLifeTime::Intro, labelName, fontTTF->GetFontBig(), labelText, CL_BLACK);
+		auto lbTex = _resourceManager->CreateFontTexture(ResourceLifeTime::Intro, labelName, fontTTF->GetFontBig(), labelText, CL_BLACK);
 		auto surf = lbTex->SurfaceSize;
 		SDL_Rect srcRect = { 0, 0, surf.X, surf.Y };
 		SDL_FRect destRect = { (WINDOW_WIDTH / 2.f) - (surf.X / 2.f), 500.f, static_cast<float>(surf.X), static_cast<float>(surf.Y) };
@@ -71,17 +73,16 @@ void SimulationManager::CreateIntroState() {
 void SimulationManager::CreateGameState() {
 	try {
 		// First clear the Game Resources
-		_resourceManager->UnloadResources(ResourceLifeTime::Game);
-		_engine->ClearState<GameState>();
+		_resourceManager->UnloadExternalResources(ResourceLifeTime::Game);
+		_engine->RemoveState<GameState>();
 
 		// Create a new GameState
 		auto game = std::make_shared<GameState>(5000, _renderer, _engine);
 		auto gameECS = game->GetECS();
 		game->Initialize();
 
-		// Get all basic Resources needed by the GameState (Player Character, Player GUI, etc.)
-		_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Game, PLAYER_TEXTURE);
-		_resourceManager->LoadResource<AnimationResource>(ResourceLifeTime::Game, PLAYER_ANIMATION);
+		// Get all external Resources needed by the GameState (Player Character, Player GUI, etc.)
+		auto playerTexture = _resourceManager->LoadExternalResource<TextureResource>(ResourceLifeTime::Game, Raw::PLAYER_TEXTURE);
 
 		// -----------------------------------------------------
 		// ----------- GAME - GAME-OBJECT - Map Tiles ----------
@@ -98,9 +99,7 @@ void SimulationManager::CreateGameState() {
 		// -----------------------------------------------------
 		// ------- GAME - GAME-OBJECT - Player Character -------
 		// -----------------------------------------------------
-		auto playerTexture = _resourceManager->GetResource<TextureResource>(PLAYER_TEXTURE);
-		auto playerAnimation = _resourceManager->GetResource<AnimationResource>(PLAYER_ANIMATION);
-		auto playerDefaultAnim = &playerAnimation->Animations->find("idle")->second;
+		auto playerDefaultAnim = &Raw::PLAYER_ANIMATION_FRAMES.find("idle")->second;
 		// Player dimensions
 		uint32 scale = 3;
 		auto position = Vec2();
@@ -115,7 +114,7 @@ void SimulationManager::CreateGameState() {
 		gameECS->AddComponent<VelocityComponent>(player, { Vec2() });
 		gameECS->AddComponent<TransformationComponent>(player, { position, Vec2(), dimension, 250, 250, scale });
 		gameECS->AddComponent<CollisionComponent>(player, { 1, Vec2(14.f, 18.f), defaultDestRect, nullptr });
-		gameECS->AddComponent<AnimationComponent>(player, { playerAnimation->Animations, playerDefaultAnim, 0 });
+		gameECS->AddComponent<AnimationComponent>(player, { &Raw::PLAYER_ANIMATION_FRAMES, playerDefaultAnim, 0 });
 		gameECS->AddComponent<ScreenPositionComponent>(player, { defaultSrcRect, defaultDestRect });
 		gameECS->AddComponent<SpriteComponent>(player, { playerTexture->GetTextureSDL(), SDL_RendererFlip::SDL_FLIP_NONE });
 
@@ -132,20 +131,19 @@ void SimulationManager::CreateGameState() {
 void SimulationManager::CreateMenuState() {
 	try {
 		// First clear the Menu Resources
-		_resourceManager->UnloadResources(ResourceLifeTime::Menu);
-		_engine->ClearState<MenuState>();
+		_resourceManager->UnloadExternalResources(ResourceLifeTime::Menu);
+		_engine->RemoveState<MenuState>();
 
 		// Create a new MenuState
 		auto menu = std::make_shared<MenuState>(10, _renderer, _engine);
 		auto menuECS = menu->GetECS();
 		menu->Initialize();
 
-		// Get all basic Resources needed by the MenuState (Background image, Font, ...)
-		auto backgroundTexture = _resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Menu, BACKGROUND_IMAGE);
-		auto stonecoldTexture = _resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Menu, STONECOLD_LOGO);
-		auto buttonAnimation = _resourceManager->LoadResource<AnimationResource>(ResourceLifeTime::Menu, BUTTON_ANIMATION);
-		auto guiTexture = _resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Menu, GUI_TEXTURE);
-		auto fontTTF = _resourceManager->LoadResource<FontResource>(ResourceLifeTime::Menu, FONT_CROM);
+		// Get all external Resources needed by the MenuState (Background image, Font, ...)
+		auto backgroundTexture = _resourceManager->LoadExternalResource<TextureResource>(ResourceLifeTime::Menu, Raw::BACKGROUND_IMAGE);
+		auto stonecoldTexture = _resourceManager->LoadExternalResource<TextureResource>(ResourceLifeTime::Menu, Raw::STONECOLD_LOGO);
+		auto guiTexture = _resourceManager->LoadExternalResource<TextureResource>(ResourceLifeTime::Menu, Raw::GUI_TEXTURE);
+		auto fontTTF = _resourceManager->LoadExternalResource<FontResource>(ResourceLifeTime::Menu, Raw::FONT_CROM);
 
 		// -----------------------------------------------------
 		// ------- MENU - GAME-OBJECT - Background Image -------
@@ -172,19 +170,19 @@ void SimulationManager::CreateMenuState() {
 		// -----------------------------------------------------
 		auto btnPlay = menuECS->CreateEntity();
 		auto btnFlip = SDL_RendererFlip::SDL_FLIP_NONE;
-		auto btnDefaultAnim = &buttonAnimation->Animations->find("idle")->second;
+		auto btnDefaultAnim = &Raw::BUTTON_ANIMATION_FRAMES.find("idle")->second;
 		auto btnDefaultSrc = btnDefaultAnim->FramePositions.front();
-		auto btnContentPlay = _resourceManager->LoadFontTexture(ResourceLifeTime::Menu, "Button_Menu_Start", fontTTF->GetFontBig(), "Play", CL_BLACK);
+		auto btnContentPlay = _resourceManager->CreateFontTexture(ResourceLifeTime::Menu, "Button_Menu_Start", fontTTF->GetFontBig(), "Play", CL_BLACK);
 		SDL_FRect destPlay = { (WINDOW_WIDTH / 2.f) - 100.f, 300.f, 200.f, 50.f };
 		// Set the Source and Destination of the Content. Dest: Content is always centered within the Button
 		auto centerPlayBtn = Vec2(destPlay.x + (destPlay.w / 2.f), destPlay.y + (destPlay.h / 2.f) - 4.f);
 		SDL_Rect playContentSrc = { 0, 0, static_cast<int>(btnContentPlay->SurfaceSize.X), static_cast<int>(btnContentPlay->SurfaceSize.Y) };
-		SDL_FRect playContentDest = { centerPlayBtn.X - (btnContentPlay->SurfaceSize.X / 2.f), centerPlayBtn.Y - (btnContentPlay->SurfaceSize.Y / 2.f),
+		SDL_FRect playContentDest = { centerPlayBtn.X - (btnContentPlay->SurfaceSize.X / 2.f), centerPlayBtn.Y - (btnContentPlay->SurfaceSize.Y / 2.f) + 1,
 									  static_cast<float>(btnContentPlay->SurfaceSize.X), static_cast<float>(btnContentPlay->SurfaceSize.Y) };
 		// Add the Button Components (Trans, Moving and Animation are the construct for switching Hover/Non-Hover
 		// The SpriteComponentFixed is used to display the content (Text, Image, ...) within the Button 
-		menuECS->AddComponent<AttributeComponentUI>(btnPlay, { UiElementAttribute::UIE_Hover });
-		menuECS->AddComponent<AnimationComponent>(btnPlay, { buttonAnimation->Animations, btnDefaultAnim, 0 });
+		menuECS->AddComponent<AttributeComponentUI>(btnPlay, { UiElementAttribute::UIE_Idle });
+		menuECS->AddComponent<AnimationComponent>(btnPlay, { &Raw::BUTTON_ANIMATION_FRAMES, btnDefaultAnim, 0 });
 		menuECS->AddComponent<ScreenPositionLayeredComponent>(btnPlay, { btnDefaultSrc, destPlay, playContentSrc, playContentDest });
 		menuECS->AddComponent<SpriteLayeredComponent>(btnPlay, { guiTexture->GetTextureSDL(), btnFlip, btnContentPlay->GetTextureSDL(), btnFlip });
 
@@ -192,15 +190,15 @@ void SimulationManager::CreateMenuState() {
 		// ------- MENU - GUI-OBJECT - Button "Options" --------
 		// -----------------------------------------------------
 		auto btnOptions = menuECS->CreateEntity();
-		auto btnContentOptions = _resourceManager->LoadFontTexture(ResourceLifeTime::Menu, "Button_Menu_Options", fontTTF->GetFontBig(), "Options", CL_BLACK);
+		auto btnContentOptions = _resourceManager->CreateFontTexture(ResourceLifeTime::Menu, "Button_Menu_Options", fontTTF->GetFontBig(), "Options", CL_BLACK);
 		SDL_FRect destOptions = { (WINDOW_WIDTH / 2.f) - 100.f, 370.f, 200.f, 50.f };
 		// Set the Source and Destination of the Content. Dest: Content is always centered within the Button
 		auto centerOptionsBtn = Vec2(destOptions.x + (destOptions.w / 2.f), destOptions.y + (destOptions.h / 2.f) - 4.f);
 		SDL_Rect optContentSrc = { 0, 0, static_cast<int>(btnContentOptions->SurfaceSize.X), static_cast<int>(btnContentOptions->SurfaceSize.Y) };
-		SDL_FRect optContentDest = { centerOptionsBtn.X - (btnContentOptions->SurfaceSize.X / 2.f), centerOptionsBtn.Y - (btnContentOptions->SurfaceSize.Y / 2.f),
+		SDL_FRect optContentDest = { centerOptionsBtn.X - (btnContentOptions->SurfaceSize.X / 2.f), centerOptionsBtn.Y - (btnContentOptions->SurfaceSize.Y / 2.f) + 1,
 									 static_cast<float>(btnContentOptions->SurfaceSize.X), static_cast<float>(btnContentOptions->SurfaceSize.Y) };
-		menuECS->AddComponent<AttributeComponentUI>(btnOptions, { UiElementAttribute::UIE_Hover });
-		menuECS->AddComponent<AnimationComponent>(btnOptions, { buttonAnimation->Animations, btnDefaultAnim, 0 });
+		menuECS->AddComponent<AttributeComponentUI>(btnOptions, { UiElementAttribute::UIE_Idle });
+		menuECS->AddComponent<AnimationComponent>(btnOptions, { &Raw::BUTTON_ANIMATION_FRAMES, btnDefaultAnim, 0 });
 		menuECS->AddComponent<ScreenPositionLayeredComponent>(btnOptions, { btnDefaultSrc, destOptions, optContentSrc, optContentDest });
 		menuECS->AddComponent<SpriteLayeredComponent>(btnOptions, { guiTexture->GetTextureSDL(), btnFlip, btnContentOptions->GetTextureSDL(), btnFlip });
 
@@ -208,15 +206,15 @@ void SimulationManager::CreateMenuState() {
 		// ------- MENU - GUI-OBJECT - Button "Credits" --------
 		// -----------------------------------------------------
 		auto btnCredits = menuECS->CreateEntity();
-		auto btnContentCredits = _resourceManager->LoadFontTexture(ResourceLifeTime::Menu, "Button_Menu_Credits", fontTTF->GetFontBig(), "Credits", CL_BLACK);
+		auto btnContentCredits = _resourceManager->CreateFontTexture(ResourceLifeTime::Menu, "Button_Menu_Credits", fontTTF->GetFontBig(), "Credits", CL_BLACK);
 		SDL_FRect destCredits = { (WINDOW_WIDTH / 2.f) - 100.f, 440.f, 200.f, 50.f };
 		// Set the Source and Destination of the Content. Dest: Content is always centered within the Button
 		auto centerCreditsBtn = Vec2(destCredits.x + (destCredits.w / 2.f), destCredits.y + (destCredits.h / 2.f) - 4.f);
 		SDL_Rect creditContentSrc = { 0, 0, static_cast<int>(btnContentCredits->SurfaceSize.X), static_cast<int>(btnContentCredits->SurfaceSize.Y) };
-		SDL_FRect creditContentDest = { centerCreditsBtn.X - (btnContentCredits->SurfaceSize.X / 2.f), centerCreditsBtn.Y - (btnContentCredits->SurfaceSize.Y / 2.f),
+		SDL_FRect creditContentDest = { centerCreditsBtn.X - (btnContentCredits->SurfaceSize.X / 2.f), centerCreditsBtn.Y - (btnContentCredits->SurfaceSize.Y / 2.f) + 1,
 										static_cast<float>(btnContentCredits->SurfaceSize.X), static_cast<float>(btnContentCredits->SurfaceSize.Y) };
-		menuECS->AddComponent<AttributeComponentUI>(btnCredits, { UiElementAttribute::UIE_Hover });
-		menuECS->AddComponent<AnimationComponent>(btnCredits, { buttonAnimation->Animations, btnDefaultAnim, 0 });
+		menuECS->AddComponent<AttributeComponentUI>(btnCredits, { UiElementAttribute::UIE_Idle });
+		menuECS->AddComponent<AnimationComponent>(btnCredits, { &Raw::BUTTON_ANIMATION_FRAMES, btnDefaultAnim, 0 });
 		menuECS->AddComponent<ScreenPositionLayeredComponent>(btnCredits, { btnDefaultSrc, destCredits, creditContentSrc, creditContentDest });
 		menuECS->AddComponent<SpriteLayeredComponent>(btnCredits, { guiTexture->GetTextureSDL(), btnFlip, btnContentCredits->GetTextureSDL(), btnFlip });
 
@@ -224,19 +222,20 @@ void SimulationManager::CreateMenuState() {
 		// --------- MENU - GUI-OBJECT - Button "Quit" ---------
 		// -----------------------------------------------------
 		auto btnQuit = menuECS->CreateEntity();
-		auto btnContentQuit = _resourceManager->LoadFontTexture(ResourceLifeTime::Menu, "Button_Menu_Quit", fontTTF->GetFontBig(), "Quit", CL_BLACK);
+		auto btnContentQuit = _resourceManager->CreateFontTexture(ResourceLifeTime::Menu, "Button_Menu_Quit", fontTTF->GetFontBig(), "Quit", CL_BLACK);
 		SDL_FRect destQuit = { (WINDOW_WIDTH / 2.f) - 100.f, 510.f, 200.f, 50.f };
 		// Set the Source and Destination of the Content. Dest: Content is always centered within the Button
 		auto centerQuitBtn = Vec2(destQuit.x + (destQuit.w / 2.f), destQuit.y + (destQuit.h / 2.f) - 4.f);
 		SDL_Rect quitContentSrc = { 0, 0, static_cast<int>(btnContentQuit->SurfaceSize.X), static_cast<int>(btnContentQuit->SurfaceSize.Y) };
-		SDL_FRect quitontentDest = { centerQuitBtn.X - (btnContentQuit->SurfaceSize.X / 2.f), centerQuitBtn.Y - (btnContentQuit->SurfaceSize.Y / 2.f),
+		SDL_FRect quitontentDest = { centerQuitBtn.X - (btnContentQuit->SurfaceSize.X / 2.f), centerQuitBtn.Y - (btnContentQuit->SurfaceSize.Y / 2.f) + 1,
 									 static_cast<float>(btnContentQuit->SurfaceSize.X), static_cast<float>(btnContentQuit->SurfaceSize.Y) };
-		menuECS->AddComponent<AttributeComponentUI>(btnQuit, { UiElementAttribute::UIE_Hover });
-		menuECS->AddComponent<AnimationComponent>(btnQuit, { buttonAnimation->Animations, btnDefaultAnim, 0 });
+		menuECS->AddComponent<AttributeComponentUI>(btnQuit, { UiElementAttribute::UIE_Idle });
+		menuECS->AddComponent<AnimationComponent>(btnQuit, { &Raw::BUTTON_ANIMATION_FRAMES, btnDefaultAnim, 0 });
 		menuECS->AddComponent<ScreenPositionLayeredComponent>(btnQuit, { btnDefaultSrc, destQuit, quitContentSrc, quitontentDest });
 		menuECS->AddComponent<SpriteLayeredComponent>(btnQuit, { guiTexture->GetTextureSDL(), btnFlip, btnContentQuit->GetTextureSDL(), btnFlip });
 
 		// Finally add the new MenuState to the Engines States
+		menu->SetButtons({ btnPlay, btnOptions, btnCredits, btnQuit });
 		_engine->AddState<MenuState>(menu);
 	}
 	catch (const std::exception & ex) {
@@ -248,7 +247,7 @@ void SimulationManager::CreateMenuState() {
 void SimulationManager::LoadLevel() {
 	try {
 		// First clear the Level Resources and check, if the Engine has a GameState that runs the Level
-		_resourceManager->UnloadResources(ResourceLifeTime::Level);
+		_resourceManager->UnloadExternalResources(ResourceLifeTime::Level);
 		if (_engine->HasState<GameState>()) {
 			auto gameState = _engine->GetState<GameState>();
 			auto gameECS = gameState->GetECS();
@@ -256,8 +255,8 @@ void SimulationManager::LoadLevel() {
 
 			// Get a new, randomly generated Map Texture
 			const auto levelType = (LevelType)(rand() % 5 + 0);
-			std::string texturePath = MAP_TEXTURES.find(levelType)->second;
-			_resourceManager->LoadResource<TextureResource>(ResourceLifeTime::Level, texturePath);
+			std::string texturePath = Raw::MAP_TEXTURES.find(levelType)->second;
+			_resourceManager->LoadExternalResource<TextureResource>(ResourceLifeTime::Level, texturePath);
 
 			// Pre-defined map patterns
 			std::pair<float, float> pattern = { 0.f, 0.f };
@@ -283,7 +282,7 @@ void SimulationManager::LoadLevel() {
 			for (uint64 row = 0; row < mapLayout.size(); row++) {
 				for (uint64 column = 0; column < mapLayout[row].size(); column++) {
 					// Map tile position based on row/column within the mapLayout
-					const auto type = mapFrames.find(mapLayout[row][column]);
+					const auto type = Raw::MAP_TILE_FRAMES.find(mapLayout[row][column]);
 					const auto frame = type->second;
 					// Get the Entity and its Components
 					const auto entityId = mapTiles[row * MAP_SIZE + column];

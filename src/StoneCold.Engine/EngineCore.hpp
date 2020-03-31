@@ -31,7 +31,6 @@ public:
 	void Update(uint32 frameTime);
 	void Render();
 
-	void ChangeState(State* state);
 	void PushState(State* state);
 	void PopState();
 
@@ -50,11 +49,11 @@ public:
 	bool HasState() const { return (_states.find(std::type_index(typeid(T))) != _states.end()); }
 
 	template<typename T>
-	void ClearState() {
+	void RemoveState() {
 		auto state = std::type_index(typeid(T));
 		auto stateIter = _states.find(state);
 		if (stateIter != _states.end()) {
-			stateIter->second->Cleanup();
+			stateIter->second->Stop();
 			_states.erase(state);
 		}
 	}

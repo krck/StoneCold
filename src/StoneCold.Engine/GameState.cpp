@@ -40,37 +40,48 @@ void GameState::Initialize() {
 }
 
 
+bool GameState::HandleSDLEvent(const SDL_Event& sdlEvent) {
+	// Check if any key was pressed ...
+	if (sdlEvent.type == SDL_KEYDOWN) {
+		// In case F5 was pressed: Trigger Level-Refresh
+		if (sdlEvent.key.keysym.sym == SDLK_F5) {
+			_eventManager.PublishEvent(EventCode::ChangeLevel);
+		}
+		// ESC to go back (to the Menu)
+		else if (sdlEvent.key.keysym.sym == SDLK_ESCAPE) {
+			_engine->PopState();
+		}
+
+		return true;
+	}
+	return false;
+}
+
+
 void GameState::HandleInputEvent(const std::vector<uint8>& keyStates) {
-	// In case F5 was pressed: Trigger Level-Refresh
-	if (keyStates[SDL_SCANCODE_F5]) {
-		_eventManager.PublishEvent(EventCode::ChangeLevel);
-	}
-	// Handle the Player input
-	else {
-		// Get the player components
-		auto& a = _ecs.GetComponentArray<AnimationComponent>()->at(_player);
-		auto& t = _ecs.GetComponentArray<TransformationComponent>()->at(_player);
-		auto& v = _ecs.GetComponentArray<VelocityComponent>()->at(_player);
+	// Get the player components
+	auto& a = _ecs.GetComponentArray<AnimationComponent>()->at(_player);
+	auto& t = _ecs.GetComponentArray<TransformationComponent>()->at(_player);
+	auto& v = _ecs.GetComponentArray<VelocityComponent>()->at(_player);
 
-		// For each keykeyStates contains a value of 1 if pressed and a value of 0 if not pressed
-		// Add negative and positive velocity so the sprite doesn't move if both are pressed at the same time
-		v.Velocity.Y = (-1.0f * keyStates[SDL_SCANCODE_W]) + keyStates[SDL_SCANCODE_S];
-		v.Velocity.X = (-1.0f * keyStates[SDL_SCANCODE_A]) + keyStates[SDL_SCANCODE_D];
+	// For each keykeyStates contains a value of 1 if pressed and a value of 0 if not pressed
+	// Add negative and positive velocity so the sprite doesn't move if both are pressed at the same time
+	v.Velocity.Y = (-1.0f * keyStates[SDL_SCANCODE_W]) + keyStates[SDL_SCANCODE_S];
+	v.Velocity.X = (-1.0f * keyStates[SDL_SCANCODE_A]) + keyStates[SDL_SCANCODE_D];
 
-		// Debug "dash"
-		t.Speed = (keyStates[SDL_SCANCODE_RCTRL] ? t.BaseSpeed * 3 : t.BaseSpeed);
+	// Debug "dash"
+	t.Speed = (keyStates[SDL_SCANCODE_RCTRL] ? t.BaseSpeed * 3 : t.BaseSpeed);
 
-		// Update/Play a different Animation, based on the current input
-		if (t.Speed > t.BaseSpeed)
-			// Dash/Dodge movement
-			a.CurrentAnimation = a.GetAnimation("jump");
-		else if (v.Velocity.Y != 0.f || v.Velocity.X != 0.f)
-			// Normal movement
-			a.CurrentAnimation = a.GetAnimation("walk");
-		else
-			// No movement
-			a.CurrentAnimation = a.GetAnimation("idle");
-	}
+	// Update/Play a different Animation, based on the current input
+	if (t.Speed > t.BaseSpeed)
+		// Dash/Dodge movement
+		a.CurrentAnimation = a.GetAnimation("jump");
+	else if (v.Velocity.Y != 0.f || v.Velocity.X != 0.f)
+		// Normal movement
+		a.CurrentAnimation = a.GetAnimation("walk");
+	else
+		// No movement
+		a.CurrentAnimation = a.GetAnimation("idle");
 }
 
 

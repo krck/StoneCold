@@ -2,7 +2,6 @@
 #ifndef STONECOLD_GAMESTATE_H
 #define STONECOLD_GAMESTATE_H
 
-#include "Types.hpp"
 #include "Settings.hpp"
 #include "EngineCore.hpp"
 #include "EventManager.hpp"
@@ -24,7 +23,7 @@ public:
 
 	virtual void Initialize() override;
 
-	virtual bool HandleSDLEvent(const SDL_Event& sdlEvent) override { return false; }
+	virtual bool HandleSDLEvent(const SDL_Event& sdlEvent) override;
 	virtual void HandleInputEvent(const std::vector<uint8>& keyStates) override;
 	virtual void Update(uint32 frameTime) override;
 	virtual void Render() override;
@@ -37,8 +36,8 @@ public:
 	~GameState() = default;
 
 private:
-	EventManager& _eventManager;
 	SDL_FRect _camera;
+	EventManager& _eventManager;
 	// EntityId's for fast access
 	entityId _player;
 	std::vector<entityId> _mapTiles;

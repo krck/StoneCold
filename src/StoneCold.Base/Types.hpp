@@ -59,7 +59,8 @@ enum class ResourceLifeTime {
 //
 enum EventCode {
 	Ping,
-	ChangeLevel
+	ChangeLevel,
+	Quit
 };
 
 //
