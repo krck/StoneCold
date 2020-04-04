@@ -10,7 +10,6 @@
 //
 // OBJECT DATA
 //
-//
 namespace StoneCold::Resources::Raw {
 
 using namespace StoneCold::Base;

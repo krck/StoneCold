@@ -42,5 +42,8 @@
     <ClInclude Include="Data_Animations.hpp">
       <Filter>Raw</Filter>
     </ClInclude>
+    <ClInclude Include="Data_AI.hpp">
+      <Filter>Raw</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

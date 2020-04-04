@@ -12,6 +12,9 @@
     <Filter Include="Math">
       <UniqueIdentifier>{1ac2cf9e-e0d4-4c70-9673-be5b593cdd05}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helper">
+      <UniqueIdentifier>{ba7a29a1-19d1-48a3-a882-2a0e402e5216}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Settings.hpp">
@@ -31,6 +34,9 @@
     </ClInclude>
     <ClInclude Include="Vec4.hpp">
       <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="EnumHelper.hpp">
+      <Filter>Helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

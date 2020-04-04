@@ -157,6 +157,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EnumHelper.hpp" />
     <ClInclude Include="Exception.hpp" />
     <ClInclude Include="SDL_Base.hpp" />
     <ClInclude Include="Settings.hpp" />

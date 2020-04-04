@@ -157,6 +157,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DecisionTee.cpp" />
     <ClCompile Include="EngineCore.cpp" />
     <ClCompile Include="EntityComponentSystem.cpp" />
     <ClCompile Include="GameState.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="CollisionDetectionSystem.hpp" />
     <ClInclude Include="CollisionResolutionSystem.hpp" />
     <ClInclude Include="Components.hpp" />
+    <ClInclude Include="DecisionTee.hpp" />
     <ClInclude Include="EntityComponentSystem.hpp" />
     <ClInclude Include="EntityComponentWorld.hpp" />
     <ClInclude Include="EventManager.hpp" />

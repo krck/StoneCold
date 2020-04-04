@@ -17,6 +17,9 @@
     <Filter Include="Events">
       <UniqueIdentifier>{6dcb609e-eee6-4a32-91bd-ecf21e4b8abb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI">
+      <UniqueIdentifier>{b8984639-5fd9-4aba-8e77-d58b1b20a62b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore.hpp">
@@ -76,6 +79,9 @@
     <ClInclude Include="LayeredRenderSystem.hpp">
       <Filter>ECS\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="DecisionTee.hpp">
+      <Filter>AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
@@ -92,6 +98,9 @@
     </ClCompile>
     <ClCompile Include="EntityComponentSystem.cpp">
       <Filter>ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="DecisionTee.cpp">
+      <Filter>AI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

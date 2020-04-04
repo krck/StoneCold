@@ -56,7 +56,7 @@ public:
 	// Workaround to set a additional Entity mask without a specific Component 
 	// (adding a Component always means adding a full Array of n Components)
 	//
-	void AddAdditionalSystemMask(entityId entityId, mask additionalMask);
+	void AddAdditionalSystemMask(entityId entityId, bitMask64 additionalMask);
 
 	//
 	// Get the statically casted pointer to the ComponentArray of type T
@@ -76,12 +76,12 @@ public:
 	~EntityComponentSystem() = default;
 
 private:
-	void UpdateSystems(entityId entityId, mask entityComponentMask);
+	void UpdateSystems(entityId entityId, bitMask64 entityComponentMask);
 
 private:
 	// Entity variables:
 	std::queue<entityId> _availableEntities;
-	std::vector<mask> _entityComponents;
+	std::vector<bitMask64> _entityComponents;
 	// Component variables:
 	EntityComponentWorld _world;
 	// System variables:

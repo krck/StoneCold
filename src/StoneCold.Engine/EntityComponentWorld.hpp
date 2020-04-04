@@ -16,13 +16,13 @@ using namespace StoneCold::Base;
 // Workaround to set a additional Entity mask without a specific Component 
 // (adding a Component always means adding a full Array of n Components)
 //
-static const mask RENDER_MOTION = 0x4000000000000000;
-static const mask RENDER_STATIC = 0x8000000000000000;
+static const bitMask64 RENDER_MOTION = 0x4000000000000000;
+static const bitMask64 RENDER_STATIC = 0x8000000000000000;
 
 //
 // Component (Bit-)Masks
 //
-static auto ComponentMasks = std::unordered_map<hash, const mask>({
+static auto ComponentMasks = std::unordered_map<hash, const bitMask64>({
 	{ GetTypeHash<AnimationComponent>(),				0x0000000000000001 },
 	{ GetTypeHash<AttributeComponentUI>(),				0x0000000000000002 },
 	{ GetTypeHash<CollisionComponent>(),				0x0000000000000004 },
@@ -35,7 +35,7 @@ static auto ComponentMasks = std::unordered_map<hash, const mask>({
 	});
 
 template<typename T>
-inline const mask GetComponentMask() { return ComponentMasks[GetTypeHash<T>()]; }
+inline const bitMask64 GetComponentMask() { return ComponentMasks[GetTypeHash<T>()]; }
 
 //
 // Entity-Component World

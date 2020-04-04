@@ -161,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationResource.hpp" />
+    <ClInclude Include="Data_AI.hpp" />
     <ClInclude Include="Data_External.hpp" />
     <ClInclude Include="Data_Objects.hpp" />
     <ClInclude Include="FontResource.hpp" />

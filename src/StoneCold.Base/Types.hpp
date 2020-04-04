@@ -18,11 +18,13 @@ using uint8 = std::uint_fast8_t;
 using uint16 = std::uint_fast16_t;
 using uint32 = std::uint_fast32_t;
 using uint64 = std::uint_fast64_t;
+// StoneCold bit-mask typedefs (normal int option, with a width of exactly (!) 32 or 64 bits) 
+using bitMask32 = std::uint32_t;
+using bitMask64 = std::uint64_t;
 // StoneCold custom integer typedefs
 using byte = std::uint_fast8_t;
-using hash = std::uint_fast64_t;
-using mask = std::uint_fast64_t;
 using entityId = std::uint_fast32_t;
+using hash = std::uint_fast64_t;
 
 template<typename T>
 inline hash GetTypeHash() noexcept { return std::type_index(typeid(T)).hash_code(); }
@@ -61,6 +63,28 @@ enum EventCode {
 	Ping,
 	ChangeLevel,
 	Quit
+};
+
+//
+// AI Decision Flags (32-bit masks)
+// AiDecision::PLAYER_VISIBLE	00000000000000000000000000000001
+// AiDecision::PLAYER_CLOSE		00000000000000000000000000000010
+// AiDecision::HEALTH_LOW		00000000000000000000000000000100
+// ...
+// These masks will be OR'd in a DecisionTree to get a unique
+// combination of decisions, that will lead to an AiAction
+//
+enum class AiDecision {
+	NONE = 0x00000000,
+	PLAYER_VISIBLE = 0x00000001,
+	PLAYER_CLOSE = 0x00000002,
+	HEALTH_LOW = 0x00000004
+};
+enum class AiAction {
+	IDLE,
+	MOVE_IN,
+	MOVE_OUT,
+	ATTACK
 };
 
 //

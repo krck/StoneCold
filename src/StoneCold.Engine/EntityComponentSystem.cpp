@@ -5,7 +5,7 @@ using namespace StoneCold::Engine;
 
 EntityComponentSystem::EntityComponentSystem(uint16 maxEntities)
 	: _availableEntities(std::queue<entityId>())
-	, _entityComponents(std::vector<mask>(maxEntities)) // Set vector size (like fixed array)
+	, _entityComponents(std::vector<bitMask64>(maxEntities)) // Set vector size (like fixed array)
 	, _world(EntityComponentWorld(maxEntities))
 	, _systems(std::unordered_map<hash, std::shared_ptr<System>>()) {
 	// Initialize the queue with all possible entity IDs
@@ -40,13 +40,13 @@ void EntityComponentSystem::DestroyEntity(entityId entityId) {
 // Workaround to set a additional Entity mask without a specific Component 
 // (adding a Component always means adding a full Array of n Components)
 //
-void EntityComponentSystem::AddAdditionalSystemMask(entityId entityId, mask additionalMask) {
+void EntityComponentSystem::AddAdditionalSystemMask(entityId entityId, bitMask64 additionalMask) {
 	_entityComponents[entityId] |= additionalMask;
 	UpdateSystems(entityId, _entityComponents[entityId]);
 }
 
 
-void EntityComponentSystem::UpdateSystems(entityId entityId, mask entityComponentMask) {
+void EntityComponentSystem::UpdateSystems(entityId entityId, bitMask64 entityComponentMask) {
 	if (_systems.empty())
 		throw std::out_of_range("Register at least one System before adding or removing Components");
 

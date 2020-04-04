@@ -17,7 +17,7 @@ using namespace StoneCold::Base;
 //
 class System {
 public:
-	System(mask componentMask) : _componentMask(componentMask) { }
+	System(bitMask64 componentMask) : _componentMask(componentMask) { }
 	System(const System&) = delete;
 	System& operator=(const System&) = delete;
 
@@ -25,7 +25,7 @@ public:
 	virtual void Update(uint32 frameTime) { }
 	virtual void Render(SDL_FRect camera) { }
 
-	inline mask GetSystemMask() const { return _componentMask; }
+	inline bitMask64 GetSystemMask() const { return _componentMask; }
 	inline size_t GetEntitiesSize() const { return _entities.size(); }
 
 	inline void AddEntity(entityId entityId) { if (std::find(_entities.begin(), _entities.end(), entityId) == _entities.end()) _entities.push_back(entityId); }
@@ -34,7 +34,7 @@ public:
 	virtual ~System() {}
 
 protected:
-	const mask _componentMask;
+	const bitMask64 _componentMask;
 	std::vector<entityId> _entities;
 };
 
