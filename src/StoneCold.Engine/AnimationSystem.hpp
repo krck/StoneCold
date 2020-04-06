@@ -14,7 +14,7 @@ public:
 	//
 	AnimationSystem(EntityComponentSystem& ecs)
 		: System((GetComponentMask<AnimationComponent>() | GetComponentMask<ScreenPositionComponent>()))
-		, _timeElapsed(0), _ecs(ecs) { }
+		, _ecs(ecs) { }
 
 	AnimationSystem(const AnimationSystem&) = delete;
 	AnimationSystem& operator=(const AnimationSystem&) = delete;
@@ -23,15 +23,15 @@ public:
 		auto& animationComponents = *_ecs.GetComponentArray<AnimationComponent>();
 		auto& positionComponents = *_ecs.GetComponentArray<ScreenPositionComponent>();
 
-		_timeElapsed += frameTime;
 		for (const auto& entityId : _entities) {
 			auto& a = animationComponents[entityId];
 			auto& p = positionComponents[entityId];
 
 			// Udpate the Animation index based on its "play-speed" in case its set to automaticUpdate
 			// FIND SOME WAY TO DO THIS WITHOUT IFs TO NOT DISTURB THE CACHE, OUR LORD AND SAVIOR
-			if (_timeElapsed > a.CurrentAnimation->FrameTime) {
-				_timeElapsed -= a.CurrentAnimation->FrameTime;
+			a.TimeElapsed += frameTime;
+			if (a.TimeElapsed > a.CurrentAnimation->FrameTime) {
+				a.TimeElapsed -= a.CurrentAnimation->FrameTime;
 				a.CurrentFrameIndex = (a.CurrentFrameIndex < a.CurrentAnimation->FrameCount ? a.CurrentFrameIndex + 1 : 0);
 			}
 
@@ -40,7 +40,6 @@ public:
 	}
 
 private:
-	uint32 _timeElapsed;
 	EntityComponentSystem& _ecs;
 };
 

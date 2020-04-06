@@ -114,7 +114,7 @@ void SimulationManager::CreateGameState() {
 		gameECS->AddComponent<VelocityComponent>(player, { Vec2() });
 		gameECS->AddComponent<TransformationComponent>(player, { position, Vec2(), dimension, 250, 250, scale });
 		gameECS->AddComponent<CollisionComponent>(player, { 1, Vec2(14.f, 18.f), defaultDestRect, nullptr });
-		gameECS->AddComponent<AnimationComponent>(player, { &Raw::PLAYER_ANIMATION_FRAMES, playerDefaultAnim, 0 });
+		gameECS->AddComponent<AnimationComponent>(player, { &Raw::PLAYER_ANIMATION_FRAMES, playerDefaultAnim, 0, 0 });
 		gameECS->AddComponent<ScreenPositionComponent>(player, { defaultSrcRect, defaultDestRect });
 		gameECS->AddComponent<SpriteComponent>(player, { playerTexture->GetTextureSDL(), SDL_RendererFlip::SDL_FLIP_NONE });
 
@@ -182,7 +182,7 @@ void SimulationManager::CreateMenuState() {
 		// Add the Button Components (Trans, Moving and Animation are the construct for switching Hover/Non-Hover
 		// The SpriteComponentFixed is used to display the content (Text, Image, ...) within the Button 
 		menuECS->AddComponent<AttributeComponentUI>(btnPlay, { UiElementAttribute::UIE_Idle });
-		menuECS->AddComponent<AnimationComponent>(btnPlay, { &Raw::BUTTON_ANIMATION_FRAMES, btnDefaultAnim, 0 });
+		menuECS->AddComponent<AnimationComponent>(btnPlay, { &Raw::BUTTON_ANIMATION_FRAMES, btnDefaultAnim, 0, 0 });
 		menuECS->AddComponent<ScreenPositionLayeredComponent>(btnPlay, { btnDefaultSrc, destPlay, playContentSrc, playContentDest });
 		menuECS->AddComponent<SpriteLayeredComponent>(btnPlay, { guiTexture->GetTextureSDL(), btnFlip, btnContentPlay->GetTextureSDL(), btnFlip });
 
@@ -198,7 +198,7 @@ void SimulationManager::CreateMenuState() {
 		SDL_FRect optContentDest = { centerOptionsBtn.X - (btnContentOptions->SurfaceSize.X / 2.f), centerOptionsBtn.Y - (btnContentOptions->SurfaceSize.Y / 2.f) + 1,
 									 static_cast<float>(btnContentOptions->SurfaceSize.X), static_cast<float>(btnContentOptions->SurfaceSize.Y) };
 		menuECS->AddComponent<AttributeComponentUI>(btnOptions, { UiElementAttribute::UIE_Idle });
-		menuECS->AddComponent<AnimationComponent>(btnOptions, { &Raw::BUTTON_ANIMATION_FRAMES, btnDefaultAnim, 0 });
+		menuECS->AddComponent<AnimationComponent>(btnOptions, { &Raw::BUTTON_ANIMATION_FRAMES, btnDefaultAnim, 0, 0 });
 		menuECS->AddComponent<ScreenPositionLayeredComponent>(btnOptions, { btnDefaultSrc, destOptions, optContentSrc, optContentDest });
 		menuECS->AddComponent<SpriteLayeredComponent>(btnOptions, { guiTexture->GetTextureSDL(), btnFlip, btnContentOptions->GetTextureSDL(), btnFlip });
 
@@ -214,7 +214,7 @@ void SimulationManager::CreateMenuState() {
 		SDL_FRect creditContentDest = { centerCreditsBtn.X - (btnContentCredits->SurfaceSize.X / 2.f), centerCreditsBtn.Y - (btnContentCredits->SurfaceSize.Y / 2.f) + 1,
 										static_cast<float>(btnContentCredits->SurfaceSize.X), static_cast<float>(btnContentCredits->SurfaceSize.Y) };
 		menuECS->AddComponent<AttributeComponentUI>(btnCredits, { UiElementAttribute::UIE_Idle });
-		menuECS->AddComponent<AnimationComponent>(btnCredits, { &Raw::BUTTON_ANIMATION_FRAMES, btnDefaultAnim, 0 });
+		menuECS->AddComponent<AnimationComponent>(btnCredits, { &Raw::BUTTON_ANIMATION_FRAMES, btnDefaultAnim, 0, 0 });
 		menuECS->AddComponent<ScreenPositionLayeredComponent>(btnCredits, { btnDefaultSrc, destCredits, creditContentSrc, creditContentDest });
 		menuECS->AddComponent<SpriteLayeredComponent>(btnCredits, { guiTexture->GetTextureSDL(), btnFlip, btnContentCredits->GetTextureSDL(), btnFlip });
 
@@ -230,7 +230,7 @@ void SimulationManager::CreateMenuState() {
 		SDL_FRect quitontentDest = { centerQuitBtn.X - (btnContentQuit->SurfaceSize.X / 2.f), centerQuitBtn.Y - (btnContentQuit->SurfaceSize.Y / 2.f) + 1,
 									 static_cast<float>(btnContentQuit->SurfaceSize.X), static_cast<float>(btnContentQuit->SurfaceSize.Y) };
 		menuECS->AddComponent<AttributeComponentUI>(btnQuit, { UiElementAttribute::UIE_Idle });
-		menuECS->AddComponent<AnimationComponent>(btnQuit, { &Raw::BUTTON_ANIMATION_FRAMES, btnDefaultAnim, 0 });
+		menuECS->AddComponent<AnimationComponent>(btnQuit, { &Raw::BUTTON_ANIMATION_FRAMES, btnDefaultAnim, 0, 0 });
 		menuECS->AddComponent<ScreenPositionLayeredComponent>(btnQuit, { btnDefaultSrc, destQuit, quitContentSrc, quitontentDest });
 		menuECS->AddComponent<SpriteLayeredComponent>(btnQuit, { guiTexture->GetTextureSDL(), btnFlip, btnContentQuit->GetTextureSDL(), btnFlip });
 
@@ -256,7 +256,8 @@ void SimulationManager::LoadLevel() {
 			// Get a new, randomly generated Map Texture
 			const auto levelType = (LevelType)(rand() % 5 + 0);
 			std::string texturePath = Raw::MAP_TEXTURES.find(levelType)->second;
-			_resourceManager->LoadExternalResource<TextureResource>(ResourceLifeTime::Level, texturePath);
+			auto mapTexture = _resourceManager->LoadExternalResource<TextureResource>(ResourceLifeTime::Level, texturePath);
+			auto skeletonTexture = _resourceManager->LoadExternalResource<TextureResource>(ResourceLifeTime::Level, Raw::SKELETON_TEXTURE);
 
 			// Pre-defined map patterns
 			std::pair<float, float> pattern = { 0.f, 0.f };
@@ -274,7 +275,6 @@ void SimulationManager::LoadLevel() {
 			// Get a new, procedurally generated Map Layout
 			auto mapLayout = _mapManager.GenerateMap(Vec2i(MAP_SIZE, MAP_SIZE), pattern.first, pattern.second);
 			auto spawnPos = _mapManager.GetStartEndPositions().first;
-			auto texture = _resourceManager->GetResource<TextureResource>(texturePath);
 
 			// Create the actual MapTiles, based on the Layout and the loaded MapTexture
 			auto& _positionComponents = *gameECS->GetComponentArray<ScreenPositionComponent>();
@@ -294,7 +294,7 @@ void SimulationManager::LoadLevel() {
 					pos.SrcRect = frame.first;
 					pos.DestRect = { column * 96.f, row * 96.f, static_cast<float>(pos.SrcRect.w * 3), static_cast<float>(pos.SrcRect.h * 3) };
 					// Update the MapTile Texture (and texture flip)
-					spr.Texture = texture->GetTextureSDL();
+					spr.Texture = mapTexture->GetTextureSDL();
 					spr.Flip = frame.second;
 
 					// Add the CollisionComponent in case its a Wall-Tile
@@ -306,6 +306,24 @@ void SimulationManager::LoadLevel() {
 			}
 
 			// ...
+			// Skeleton dimensions
+			uint32 scale = 3;
+			auto position = Vec2(spawnPos.X * 96, spawnPos.Y * 96);
+			auto dimension = Vec2(32, 32);
+			auto skeletonDefaultAnim = &Raw::SKELETON_ANIMATION_FRAMES.find("idle")->second;
+			// Set the Source rectange frame inside the texture (Pixels to take, from the .png)
+			// Set the Destination rectangle with the actual position on screen with scaling (Where to put the Pixels)
+			SDL_Rect defaultSrcRect = { 0, 0, static_cast<int>(dimension.X), static_cast<int>(dimension.Y) };
+			SDL_FRect defaultDestRect = { position.X, position.Y, dimension.X * scale, dimension.Y * scale };
+			auto skeleton = gameECS->CreateEntity();
+			gameECS->AddAdditionalSystemMask(skeleton, RENDER_MOTION);
+			gameECS->AddComponent<VelocityComponent>(skeleton, { Vec2() });
+			gameECS->AddComponent<TransformationComponent>(skeleton, { position, Vec2(), dimension, 250, 250, scale });
+			gameECS->AddComponent<CollisionComponent>(skeleton, { 1, Vec2(14.f, 18.f), defaultDestRect, nullptr });
+			gameECS->AddComponent<AnimationComponent>(skeleton, { &Raw::SKELETON_ANIMATION_FRAMES, skeletonDefaultAnim, 0, 0 });
+			gameECS->AddComponent<ScreenPositionComponent>(skeleton, { defaultSrcRect, defaultDestRect });
+			gameECS->AddComponent<SpriteComponent>(skeleton, { skeletonTexture->GetTextureSDL(), SDL_RendererFlip::SDL_FLIP_NONE });
+
 
 			// Set Players new spawn position within the Level
 			gameState->SetSpawnPosition({ spawnPos.X * 96, spawnPos.Y * 96 });

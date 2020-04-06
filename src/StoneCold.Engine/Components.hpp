@@ -18,6 +18,8 @@ struct AnimationComponent {
 	const std::unordered_map<std::string, Animation>* Animations;
 	const Animation* CurrentAnimation;
 	uint32 CurrentFrameIndex;
+	uint32 TimeElapsed;
+
 	inline const Animation* GetAnimation(std::string name) {
 		auto anim = &Animations->find(name)->second;
 		// Reset the FrameIndex if the requested FrameCount is lower
