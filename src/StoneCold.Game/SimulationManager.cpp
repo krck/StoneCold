@@ -7,11 +7,12 @@ using namespace StoneCold::Resources;
 using namespace StoneCold::Game;
 
 
-bool StoneCold::Game::SimulationManager::Initialize(EngineCore* engine, ResourceManager* resourceManager, SDL_Renderer* renderer) {
-	if (engine != nullptr && resourceManager != nullptr && renderer != nullptr) {
+bool StoneCold::Game::SimulationManager::Initialize(EngineCore* engine, SDL_Renderer* renderer, ResourceManager* resourceManager, MapManager* mapManager) {
+	if (engine != nullptr && renderer != nullptr && resourceManager != nullptr && mapManager != nullptr) {
 		_engine = engine;
-		_resourceManager = resourceManager;
 		_renderer = renderer;
+		_resourceManager = resourceManager;
+		_mapManager = mapManager;
 		return true;
 	}
 	else {
@@ -253,12 +254,14 @@ void SimulationManager::LoadLevel() {
 			auto gameECS = gameState->GetECS();
 			auto mapTiles = gameState->GetMapTiles();
 
-			// Get a new, randomly generated Map Texture
+			// -----------------------------------------------------
+			// ---------- PROCEDURALLY GENERATE A NEW MAP ----------
+			// -----------------------------------------------------
+			// Get a new, random Map Texture
 			const auto levelType = (LevelType)(rand() % 5 + 0);
 			std::string texturePath = Raw::MAP_TEXTURES.find(levelType)->second;
 			auto mapTexture = _resourceManager->LoadExternalResource<TextureResource>(ResourceLifeTime::Level, texturePath);
 			auto skeletonTexture = _resourceManager->LoadExternalResource<TextureResource>(ResourceLifeTime::Level, Raw::SKELETON_TEXTURE);
-
 			// Pre-defined map patterns
 			std::pair<float, float> pattern = { 0.f, 0.f };
 			const std::vector<std::pair<float, float>> mapPatterns = {
@@ -266,17 +269,17 @@ void SimulationManager::LoadLevel() {
 				{ 0.75f, 0.1f }, // 2) MIXED: Map with bigger open spaces, some jagged edges and few obstacles
 				{ 0.95f, 0.2f }	 // 3) FLAT: Map with one massive, open space, smoothe-ish edges and no corridors/obstacles
 			};
-
 			// Grassland and Arctic can be FLAT or MIXED, Highlands or Desert can be ROCKY or MIXED, Castle can only be ROCKY
 			if (levelType == LevelType::Grassland || levelType == LevelType::Arctic) { pattern = mapPatterns[(rand() & 1) + 1]; }
 			else if (levelType == LevelType::Highlands || levelType == LevelType::Desert) { pattern = mapPatterns[(rand() & 1)]; }
 			else { pattern = mapPatterns[0]; }
-
 			// Get a new, procedurally generated Map Layout
-			auto mapLayout = _mapManager.GenerateMap(Vec2i(MAP_SIZE, MAP_SIZE), pattern.first, pattern.second);
-			auto spawnPos = _mapManager.GetStartEndPositions().first;
+			auto mapLayout = _mapManager->GenerateMap(Vec2i(MAP_SIZE, MAP_SIZE), pattern.first, pattern.second);
+			auto spawnPos = _mapManager->GetStartEndPositions().first;
 
-			// Create the actual MapTiles, based on the Layout and the loaded MapTexture
+			// -----------------------------------------------------
+			// --------------- CREATE THE MAP TILES ----------------
+			// -----------------------------------------------------
 			auto& _positionComponents = *gameECS->GetComponentArray<ScreenPositionComponent>();
 			auto& _spriteComponents = *gameECS->GetComponentArray<SpriteComponent>();
 			for (uint64 row = 0; row < mapLayout.size(); row++) {
@@ -305,10 +308,13 @@ void SimulationManager::LoadLevel() {
 				}
 			}
 
+			// -----------------------------------------------------
+			// ---------------- SPAWN THE MONSTERS -----------------
+			// -----------------------------------------------------
 			// ...
 			// Skeleton dimensions
 			uint32 scale = 3;
-			auto position = Vec2(spawnPos.X * 96, spawnPos.Y * 96);
+			auto position = Vec2(spawnPos.X * 96.f, spawnPos.Y * 96.f);
 			auto dimension = Vec2(32, 32);
 			auto skeletonDefaultAnim = &Raw::SKELETON_ANIMATION_FRAMES.find("idle")->second;
 			// Set the Source rectange frame inside the texture (Pixels to take, from the .png)

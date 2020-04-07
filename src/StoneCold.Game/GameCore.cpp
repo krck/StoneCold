@@ -8,6 +8,7 @@ using namespace StoneCold::Resources;
 GameCore::GameCore()
 	: _sdl(SDLManager())
 	, _engine(EngineCore())
+	, _mapManager(MapManager())
 	, _eventManager(EventManager::GetInstance())
 	, _resources(ResourceManager())
 	, _simulation(SimulationManager()) { };
@@ -22,7 +23,7 @@ bool GameCore::Initialize(const std::string& windowName) {
 			_engine.Initialize(rendererPtr);
 			// Setup all the additional Managers in the correct order
 			_resources.Initialize(rendererPtr);
-			_simulation.Initialize(&_engine, &_resources, rendererPtr);
+			_simulation.Initialize(&_engine, rendererPtr, &_resources, &_mapManager);
 
 			// Setup the randomizer with a seed
 			std::srand(RNG_SEED);

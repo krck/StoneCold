@@ -6,6 +6,9 @@
 #include <typeindex>
 #include <typeinfo>
 
+// Macro to get the name of a variable
+#define GET_VARIABLE_NAME(Variable) (#Variable)
+
 namespace StoneCold::Base {
 
 // StoneCold signed integer typedefs (fastest option, with a width of at least (!) 8, 16, 32 and 64 bits) 

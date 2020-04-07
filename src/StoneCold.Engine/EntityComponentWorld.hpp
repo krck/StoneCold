@@ -31,7 +31,8 @@ static auto ComponentMasks = std::unordered_map<hash, const bitMask64>({
 	{ GetTypeHash<TransformationComponent>(),			0x0000000000000020 },
 	{ GetTypeHash<VelocityComponent>(),					0x0000000000000040 },
 	{ GetTypeHash<ScreenPositionComponent>(),			0x0000000000000080 },
-	{ GetTypeHash<ScreenPositionLayeredComponent>(),	0x0000000000000100 }
+	{ GetTypeHash<ScreenPositionLayeredComponent>(),	0x0000000000000100 },
+	{ GetTypeHash<EnemyStateComponent>(),				0x0000000000000200 }
 	});
 
 template<typename T>
@@ -58,6 +59,7 @@ public:
 		_world.insert({ GetTypeHash<VelocityComponent>(), std::make_shared<EntityComponentArray<VelocityComponent>>(maxEntities) });
 		_world.insert({ GetTypeHash<ScreenPositionComponent>(), std::make_shared<EntityComponentArray<ScreenPositionComponent>>(maxEntities) });
 		_world.insert({ GetTypeHash<ScreenPositionLayeredComponent>(), std::make_shared<EntityComponentArray<ScreenPositionLayeredComponent>>(maxEntities) });
+		_world.insert({ GetTypeHash<EnemyStateComponent>(), std::make_shared<EntityComponentArray<EnemyStateComponent>>(maxEntities) });
 	}
 
 	EntityComponentWorld(const EntityComponentWorld&) = delete;

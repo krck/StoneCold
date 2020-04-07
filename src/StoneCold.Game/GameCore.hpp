@@ -3,8 +3,10 @@
 #define STONECOLD_GAMECORE_H
 
 #include "Settings.hpp"
+#include "AiManager.hpp"
 #include "SDLManager.hpp"
 #include "EngineCore.hpp"
+#include "MapManager.hpp"
 #include "EventManager.hpp"
 #include "ResourceManager.hpp"
 #include "SimulationManager.hpp"
@@ -44,6 +46,8 @@ private:
 	ResourceManager _resources;
 	SimulationManager _simulation;
 	EventManager& _eventManager;
+	MapManager _mapManager;
+	AiManager _aiManager;
 };
 
 }

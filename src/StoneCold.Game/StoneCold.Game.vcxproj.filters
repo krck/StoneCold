@@ -25,6 +25,9 @@
     <ClCompile Include="SDLManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="AiManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCore.hpp">
@@ -37,6 +40,9 @@
       <Filter>Managers</Filter>
     </ClInclude>
     <ClInclude Include="SDLManager.hpp">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="AiManager.hpp">
       <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>

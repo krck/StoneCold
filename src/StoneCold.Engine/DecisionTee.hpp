@@ -57,7 +57,7 @@ class DecisionTee {
 public:
 	DecisionTee(std::string ai);
 
-	const std::unordered_map<bitMask32, AiAction>& GetActions() const { return _actions; }
+	std::unordered_map<bitMask32, AiAction> GetActions() const { return _actions; }
 
 private:
 	void CreateNodesFromString(std::string str, bitMask32 decisions);

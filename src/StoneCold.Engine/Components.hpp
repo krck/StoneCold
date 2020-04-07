@@ -78,6 +78,11 @@ struct ScreenPositionLayeredComponent {
 	SDL_FRect DestRectTop;
 };
 
+struct EnemyStateComponent {
+	const std::unordered_map<bitMask32, AiAction>* AiActions;
+	bitMask32 AiDecisions;
+};
+
 }
 
 #endif
