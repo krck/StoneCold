@@ -106,30 +106,34 @@ Some of the Textures are hand drawn (thanks MS Paint and Gimp) but all the nice 
 
 ### 5.1 Current tasks
 
-- [x] Add a common Color-Palette
+- [ ] Update the Skeleton Texture (Weapon and colors)
+- [ ] Pre-defined Monster/Player/MapTile/... data
+- [ ] AI-Systems in the ECS (Check if Player is visible, close, ... and set flags)
+- [ ] Player and Monster Actions: Melee Attack, Dodge, Special-Attack
+- [ ] Player and Monster Status Components and Systems (Health, Damage, Armor, ...)
+- [ ] Pathfinding AI (A*)
+
+### 5.2 Backlog, cleanup and housekeeping
+
+- [ ] Unit Tests ECS classes
+- [ ] Unit Tests Vec2/Vec4 classes
+- [ ] Unit Tests DecisionTree
+- [ ] Render only Tiles visible by the Camera
 - [ ] Map Texture overhaul (Use Color Palette, get the Walls and Wall-Tops right)
-- [x] Map Generator overhaul (Code cleanup)
-- [x] Add some basic GameStates (Intro, Game, Menu)
-- [x] Add User Events to the SDL Event-System
-- [x] Allow switching between the basic states
-- [x] Add some basic GUI Elements (Label to the Intro, Buttons to the Menu)
-- [ ] Replace old "oo-style" ECS with an actual ECS (!!!) 
-- [ ] Finish ECS Unit Tests
 - [ ] Move States to the Game Project (and Managers to the Engine Project)
 - [ ] Replace all SDL_Rects with Vec2/Vec4
-- [ ] Create UnitTests for Vec2/Vec4
-- [ ] Add Button Selection / Button Press logic to the Menu-State
-- [ ] Bugfix: libpng warning: iCCP: CRC error
-- [ ] Render only Tiles visible by the Camera
-- [ ] Add Controller Support
-- [ ] Add a basic Options Menu with a default Keybinding images for Keyboard and Controller
-- [ ] Automatically check if Controller is available / otherwise use Keyboard input
-- [ ] Test, Cleanup, Fix, Optimize
+- [ ] Static code analysis with "-Wall" "-Wextra"
 
-### 5.2 Backlog items
+### 5.3 Known Bugs
 
-- Code fixes: -Wall -Wextra
-- Add NPCs (Enemies with simple AI)
-- Add Pickups and Buffs (Gold, Items, Chests)
-- Add Player Actions (Dodge, Attack, Special-Attack)
+- [ ] libpng warning: iCCP: CRC error (On Texture loading)
+
+### 5.4 Future features
+
+- Add different Map-Generation algorithms (Rooms/Indoor, Caves)
+- Add Portals and automatic Level-Loading (maybe Loading-Screen or transition effect)
 - Add Player GUI (Lifebar, Action-Bar, Skill/Stat Window)
+- Add Pickups and Buffs (Gold, Items, Chests)
+- Add Controller Support (with automatic check if Controller is available)
+- Add a basic Options Menu and Save/Load functionality 
+- Add Sound and Music
